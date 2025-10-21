@@ -1,0 +1,580 @@
+@startuml Chat System Flow Diagrams
+
+title Chat Rendszer Folyamatábra - Teljes Áttekintés
+
+/'
+================================================================================
+1. VENDÉG CHAT INDÍTÁS FOLYAMATA
+================================================================================
+'/
+
+@startuml 01-chat-initiation
+title 1. Vendég Chat Indítás Folyamata
+
+actor "Vendég\n(Customer)" as Customer
+participant "ChatWidget\n(Livewire)" as Widget
+participant "ChatService" as Service
+database "Database" as DB
+participant "Laravel\nReverb" as Reverb
+actor "Admin\nUser" as Admin
+
+note over Customer,Admin: 1. CHAT KEZDEMÉNYEZÉS
+
+Customer -> Widget: Kattint a chat gombra
+activate Widget
+Widget -> Widget: mount(customerId)
+Widget -> DB: Ellenőrzi aktív\nsession létezését
+activate DB
+DB --> Widget: session vagy null
+deactivate DB
+
+alt Nincs aktív session
+    Widget -> Customer: "Start Chat" gomb megjelenítése
+    Customer -> Widget: Kattint "Start Chat"
+    Widget -> Service: startSession(customer)
+    activate Service
+    Service -> DB: ChatSession::create()
+    activate DB
+    DB --> Service: Új session létrehozva
+    deactivate DB
+    Service --> Widget: session object
+    deactivate Service
+    Widget -> Widget: isOpen = true
+    Widget -> Customer: Chat ablak megnyílik
+else Van aktív session
+    Widget -> Widget: Betölti a session-t
+    Widget -> Customer: Chat ablak készen áll
+end
+
+deactivate Widget
+
+@enduml
+
+/'
+================================================================================
+2. ÜZENET KÜLDÉSI FOLYAMAT
+================================================================================
+'/
+
+@startuml 02-message-sending
+title 2. Üzenet Küldési Folyamat
+
+actor "Vendég" as Customer
+participant "ChatMessageInput\n(Livewire)" as Input
+participant "ChatService" as Service
+database "Database" as DB
+participant "Laravel\nReverb" as Reverb
+participant "ChatMessageList\n(Livewire)" as List
+actor "Admin\nUser" as Admin
+
+note over Customer,Admin: 2. ÜZENET KÜLDÉS
+
+Customer -> Input: Gépel üzenetet
+activate Input
+Input -> Reverb: broadcast\nUserTyping(isTyping=true)
+activate Reverb
+Reverb --> Admin: "Vendég gépel..."\njelzés
+deactivate Reverb
+
+Customer -> Input: Elküldi az üzenetet
+Input -> Input: validate()
+Input -> Service: sendMessage(session,\nmessage, Customer,\ncustomerId)
+activate Service
+
+Service -> DB: ChatMessage::create()
+activate DB
+Service -> DB: session.update(\nlast_message_at,\nunread_count++)
+DB --> Service: Üzenet létrehozva
+deactivate DB
+
+Service -> Reverb: broadcast\nMessageSent(message)
+activate Reverb
+Reverb --> Admin: Új üzenet érkezett
+Reverb --> List: Új üzenet érkezett
+deactivate Reverb
+
+Service --> Input: message object
+deactivate Service
+
+Input -> Input: message = ''
+Input -> Input: dispatch('message-sent')
+Input -> Reverb: broadcast\nUserTyping(isTyping=false)
+activate Reverb
+deactivate Reverb
+
+Input -> List: refresh üzenetek
+deactivate Input
+activate List
+List -> DB: messages()->oldest()->get()
+activate DB
+DB --> List: üzenetek listája
+deactivate DB
+List -> Customer: Frissült üzenetlista
+deactivate List
+
+@enduml
+
+/'
+================================================================================
+3. ADMIN VÁLASZADÁS FOLYAMATA
+================================================================================
+'/
+
+@startuml 03-admin-response
+title 3. Admin Válaszadás Folyamata
+
+actor "Admin\nUser" as Admin
+participant "Filament\nWidget" as Filament
+participant "ChatService" as Service
+database "Database" as DB
+participant "Laravel\nReverb" as Reverb
+participant "ChatMessageList\n(Livewire)" as List
+actor "Vendég" as Customer
+
+note over Admin,Customer: 3. ADMIN VÁLASZ
+
+Admin -> Filament: Lát új üzenetet\n(unread_count > 0)
+activate Filament
+Admin -> Filament: Megnyitja a\nchat session-t
+Filament -> Service: assignSession(session, admin)
+activate Service
+Service -> DB: session.update(\nuser_id = admin.id)
+activate DB
+deactivate DB
+deactivate Service
+
+Admin -> Filament: Írja a választ
+Admin -> Filament: Küldi az üzenetet
+Filament -> Service: sendMessage(session,\nmessage, User, userId)
+activate Service
+
+Service -> DB: ChatMessage::create(\nsender_type='user')
+activate DB
+Service -> DB: session.update(\nlast_message_at)
+DB --> Service: Üzenet létrehozva
+deactivate DB
+
+Service -> Reverb: broadcast\nMessageSent(message)
+activate Reverb
+Reverb --> Customer: Új üzenet az Admin-tól
+Reverb --> List: Frissítés
+deactivate Reverb
+
+deactivate Service
+deactivate Filament
+
+activate List
+List -> Service: markMessagesAsRead()
+activate Service
+Service -> DB: messages.update(\nis_read=true,\nread_at=now())
+activate DB
+Service -> DB: session.decrement(\nunread_count)
+deactivate DB
+deactivate Service
+
+List -> Customer: Admin üzenet megjelenik
+deactivate List
+
+@enduml
+
+/'
+================================================================================
+4. OLVASÁSI NYUGTA FOLYAMAT
+================================================================================
+'/
+
+@startuml 04-read-receipts
+title 4. Olvasási Nyugta Folyamat
+
+actor "Vendég" as Customer
+participant "ChatMessageList\n(Livewire)" as List
+participant "ChatService" as Service
+database "Database" as DB
+participant "Laravel\nReverb" as Reverb
+actor "Admin\nUser" as Admin
+
+note over Customer,Admin: 4. OLVASÁSI NYUGTA
+
+Customer -> List: Megnyitja a chat-et
+activate List
+List -> List: mount(session)
+List -> Service: markMessagesAsRead()
+activate Service
+
+loop Minden olvasatlan Admin üzenet
+    Service -> DB: message.update(\nis_read=true, read_at)
+    activate DB
+    Service -> DB: session.decrement(\nunread_count)
+    deactivate DB
+end
+
+DB --> Service: Frissítve
+Service --> List: Kész
+deactivate Service
+
+List -> Customer: Üzenetek láthatók
+note right of Customer: Kék pipa jelenik meg\naz Admin üzeneteinél
+
+opt Real-time frissítés Admin számára
+    List -> Reverb: broadcast\nMessageRead
+    activate Reverb
+    Reverb --> Admin: Üzenet elolvasva
+    deactivate Reverb
+end
+
+deactivate List
+
+@enduml
+
+/'
+================================================================================
+5. SESSION LEZÁRÁS ÉS ÉRTÉKELÉS
+================================================================================
+'/
+
+@startuml 05-session-closure
+title 5. Session Lezárás és Értékelés
+
+actor "Vendég" as Customer
+participant "ChatWidget\n(Livewire)" as Widget
+participant "ChatService" as Service
+database "Database" as DB
+participant "Laravel\nReverb" as Reverb
+actor "Admin\nUser" as Admin
+
+note over Customer,Admin: 5. CHAT LEZÁRÁS
+
+Customer -> Widget: Kattint "Close Chat"
+activate Widget
+Widget -> Service: closeSession(session)
+activate Service
+Service -> DB: session.update(\nstatus='closed',\nended_at)
+activate DB
+DB --> Service: Session lezárva
+deactivate DB
+Service --> Widget: Kész
+deactivate Service
+
+Widget -> Widget: isOpen = false
+Widget -> Widget: session = null
+Widget -> Widget: dispatch('chat-closed')
+
+opt Értékelés
+    Widget -> Customer: "Értékeld a beszélgetést"\n(1-5 csillag)
+    Customer -> Widget: Választ értékelést\n(pl. 5)
+    Widget -> Service: rateSession(session, 5)
+    activate Service
+    Service -> DB: session.update(rating=5)
+    activate DB
+    deactivate DB
+    deactivate Service
+    Widget -> Customer: "Köszönjük az értékelést!"
+end
+
+Widget -> Reverb: broadcast\nSessionClosed
+activate Reverb
+Reverb --> Admin: Session lezárult\nértesítés
+deactivate Reverb
+
+deactivate Widget
+
+@enduml
+
+/'
+================================================================================
+6. REAL-TIME GÉPELÉS JELZÉS
+================================================================================
+'/
+
+@startuml 06-typing-indicator
+title 6. Real-time Gépelés Jelzés
+
+actor "Vendég" as Customer
+participant "ChatMessageInput\n(Livewire)" as Input
+participant "Laravel\nReverb" as Reverb
+actor "Admin\n(Filament)" as Admin
+
+note over Customer,Admin: 6. GÉPELÉS JELZÉS
+
+Customer -> Input: Elkezd gépelni
+activate Input
+Input -> Input: updatedMessage()
+
+alt Első karakter
+    Input -> Reverb: broadcast\nUserTyping(isTyping=true)
+    activate Reverb
+    Reverb --> Admin: "{Customer.name}\ngépel..."
+    deactivate Reverb
+    Admin -> Admin: Jelzés megjelenik
+end
+
+note over Customer: Gépelés folytatódik...
+
+alt Üzenet törölve
+    Customer -> Input: Töröl mindent
+    Input -> Reverb: broadcast\nUserTyping(isTyping=false)
+    activate Reverb
+    Reverb --> Admin: Gépelés jelzés eltűnik
+    deactivate Reverb
+end
+
+alt Üzenet elküldve
+    Customer -> Input: Elküldi
+    Input -> Reverb: broadcast\nUserTyping(isTyping=false)
+    activate Reverb
+    Reverb --> Admin: Gépelés jelzés eltűnik
+    deactivate Reverb
+end
+
+deactivate Input
+
+@enduml
+
+/'
+================================================================================
+7. ONLINE/OFFLINE STATUS
+================================================================================
+'/
+
+@startuml 07-online-status
+title 7. Online/Offline Status Tracking
+
+actor "Admin\nUser" as Admin
+participant "OnlineStatus\nMiddleware" as Middleware
+database "Database" as DB
+participant "Laravel\nReverb" as Reverb
+actor "Vendég" as Customer
+
+note over Admin,Customer: 7. ONLINE ÁLLAPOT
+
+Admin -> Middleware: Bejelentkezik / Aktív
+activate Middleware
+Middleware -> DB: user.update(\nis_online=true,\nlast_seen_at)
+activate DB
+deactivate DB
+Middleware -> Reverb: broadcast\nUserOnlineStatusChanged(\nisOnline=true)
+activate Reverb
+Reverb --> Customer: Admin online jelzés
+deactivate Reverb
+deactivate Middleware
+
+note over Admin: Admin aktív...
+
+Admin -> Middleware: Kijelentkezik / Inaktív
+activate Middleware
+Middleware -> DB: user.update(\nis_online=false,\nlast_seen_at)
+activate DB
+deactivate DB
+Middleware -> Reverb: broadcast\nUserOnlineStatusChanged(\nisOnline=false)
+activate Reverb
+Reverb --> Customer: Admin offline jelzés
+deactivate Reverb
+deactivate Middleware
+
+Customer -> Customer: Látja: "Jelenleg nincs\nelérhető agent"
+
+@enduml
+
+/'
+================================================================================
+8. SESSION ÁTIRÁNYÍTÁS (TRANSFER)
+================================================================================
+'/
+
+@startuml 08-session-transfer
+title 8. Session Átirányítás (Transfer)
+
+actor "Vendég" as Customer
+actor "Admin 1" as Admin1
+participant "Filament\nPanel" as Filament
+participant "ChatService" as Service
+database "Database" as DB
+participant "Laravel\nReverb" as Reverb
+actor "Admin 2" as Admin2
+
+note over Customer,Admin2: 8. SESSION ÁTIRÁNYÍTÁS
+
+Admin1 -> Filament: Látja a session-t
+activate Filament
+Admin1 -> Filament: "Transfer to Admin 2"
+Filament -> Service: transferSession(\nsession, admin2)
+activate Service
+
+Service -> DB: session.update(\nuser_id=admin2.id,\nstatus='transferred')
+activate DB
+DB --> Service: Frissítve
+deactivate DB
+
+Service -> Reverb: broadcast\nSessionTransferred
+activate Reverb
+Reverb --> Admin1: "Session átirányítva"
+Reverb --> Admin2: "Új session\nhozzárendelve"
+Reverb --> Customer: "Új agent vette át"
+deactivate Reverb
+
+deactivate Service
+deactivate Filament
+
+Admin2 -> Filament: Látja az új session-t
+activate Filament
+Admin2 -> Customer: Üdvözli a vendéget
+deactivate Filament
+
+@enduml
+
+/'
+================================================================================
+9. TELJES CHAT LIFECYCLE
+================================================================================
+'/
+
+@startuml 09-full-lifecycle
+title 9. Teljes Chat Lifecycle
+
+start
+
+:Vendég érkezik\na weboldalra;
+
+if (Van Customer rekord?) then (Nincs)
+  :Customer létrehozás\nsession-ből;
+else (Van)
+endif
+
+:Chat gomb megjelenik;
+
+if (Vendég kattint\nchat gombra?) then (Nem)
+  stop
+else (Igen)
+endif
+
+if (Van aktív session?) then (Nincs)
+  :ChatService:\nstartSession;
+else (Van)
+  :Session betöltése;
+endif
+
+:Chat ablak nyitva;
+
+if (Van hozzárendelt admin?) then (Nincs)
+  :Várakozási üzenet\nvendégnek;
+  if (Auto-assign\nelérhető admin?) then (Igen)
+    :Admin assigned;
+  else (Nincs)
+    :Manuális\nhozzárendelés várása;
+    :Admin assigned;
+  endif
+else (Van)
+  :Admin látja;
+endif
+
+repeat
+  :Üzenetváltás\nvalós időben;
+  :Gépelés jelzés;
+  :Olvasási nyugta;
+  :Értesítések;
+repeat while (Chat folytatódik?) is (Igen)
+->Vendég/Admin bezárja\nvagy Timeout;
+
+:ChatService:\ncloseSession;
+
+if (Értékelés kérése?) then (Igen)
+  :Vendég értékel\n1-5 csillag;
+else (Nem)
+endif
+
+:Session\nstatus = 'closed';
+
+:Archiválás\nadatbázisban;
+
+stop
+
+@enduml
+
+/'
+================================================================================
+10. KOMPONENS KAPCSOLATOK
+================================================================================
+'/
+
+@startuml 10-component-relationships
+title 10. Komponens Kapcsolatok és Architektúra
+
+package "Frontend - Vendég Oldal" {
+  [ChatWidget\nLivewire Component] as CW
+  [ChatMessageList\nLivewire Component] as CML
+  [ChatMessageInput\nLivewire Component] as CMI
+}
+
+package "Frontend - Admin Oldal (Filament)" {
+  [Filament Widget\nActive Chats] as FW
+  [Relation Manager\nMessages] as FRM
+}
+
+package "Backend Services" {
+  [ChatService] as CS
+  [Broadcasting Events\nMessageSent\nUserTyping\nOnlineStatusChanged] as Events
+}
+
+package "Real-time Infrastructure" {
+  [Laravel Reverb\nWebSocket Server] as LR
+  [Laravel Echo\nClient Library] as LE
+}
+
+database "Database" {
+  [chat_sessions] as DBSession
+  [chat_messages] as DBMessage
+  [users] as DBUser
+  [customers] as DBCustomer
+}
+
+' Vendég oldal kapcsolatok
+CW .down.> CML : tartalmazza
+CW .down.> CMI : tartalmazza
+CML -down-> CS : üzenetek lekérése
+CMI -down-> CS : üzenet küldés
+
+' Admin oldal kapcsolatok
+FW -down-> CS : session műveletek
+FRM -down-> CS : üzenetek kezelése
+
+' Service kapcsolatok
+CS -down-> DBSession : CRUD
+CS -down-> DBMessage : CRUD
+CS -right-> Events : broadcast
+
+' Real-time kapcsolatok
+Events -down-> LR : push
+LR -down-> LE : subscribe
+LE -up-> CML : frissítés
+LE -up-> CMI : frissítés
+LE -up-> FW : frissítés
+
+' Database kapcsolatok
+DBSession -right-> DBCustomer : FK
+DBSession -left-> DBUser : FK
+DBMessage -up-> DBSession : FK
+DBMessage -right-> DBUser : Polymorphic
+DBMessage -right-> DBCustomer : Polymorphic
+
+note right of CS
+  **ChatService**
+  Központi üzleti logika:
+  - startSession()
+  - sendMessage()
+  - closeSession()
+  - transferSession()
+  - markAsRead()
+  - rateSession()
+end note
+
+note right of LR
+  **Laravel Reverb**
+  WebSocket Server
+  Real-time kommunikáció
+  Private és Presence
+  Channel-ek
+end note
+
+@enduml
+
+@enduml

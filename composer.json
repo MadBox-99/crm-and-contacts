@@ -11,6 +11,8 @@
     "require": {
         "php": "^8.3",
         "filament/filament": "^4.1.10",
+        "google/apiclient": "^2.18",
+        "googleads/google-ads-php": "^31.1",
         "laravel/framework": "^12.34",
         "laravel/reverb": "^1.6",
         "laravel/sanctum": "^4.2",

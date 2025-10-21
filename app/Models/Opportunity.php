@@ -24,6 +24,7 @@ final class Opportunity extends Model
 
     protected $fillable = [
         'customer_id',
+        'campaign_id',
         'title',
         'description',
         'value',
@@ -36,6 +37,11 @@ final class Opportunity extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function campaign(): BelongsTo
+    {
+        return $this->belongsTo(Campaign::class);
     }
 
     public function assignedUser(): BelongsTo
@@ -51,7 +57,7 @@ final class Opportunity extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['title', 'description', 'value', 'probability', 'stage', 'expected_close_date', 'assigned_to']);
+            ->logOnly(['title', 'description', 'value', 'probability', 'stage', 'expected_close_date', 'assigned_to', 'campaign_id']);
 
     }
 

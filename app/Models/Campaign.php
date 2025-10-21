@@ -58,6 +58,11 @@ final class Campaign extends Model
         return $this->hasMany(Opportunity::class);
     }
 
+    public function googleAdsReports(): HasMany
+    {
+        return $this->hasMany(GoogleAdsReport::class);
+    }
+
     /**
      * Calculate Cost Per Conversion (CPC)
      */

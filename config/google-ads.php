@@ -25,6 +25,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Credentials Path
+    |--------------------------------------------------------------------------
+    |
+    | Path to the credentials JSON file in the storage disk.
+    | If not set, defaults to 'credentials/google_ads.json'
+    |
+    */
+
+    'credentials_path' => env('GOOGLE_ADS_CREDENTIALS_PATH', 'credentials/google_ads.json'),
+
+    /*
+    |--------------------------------------------------------------------------
     | API Version
     |--------------------------------------------------------------------------
     |

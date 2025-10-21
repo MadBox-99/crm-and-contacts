@@ -9,7 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "filament/filament": "^4.1.10",
         "laravel/framework": "^12.34",
         "laravel/reverb": "^1.6",
@@ -25,7 +25,7 @@
         "driftingly/rector-laravel": "^2.1.0",
         "fakerphp/faker": "^1.24.1",
         "filament/upgrade": "^4.1.10",
-        "laravel/boost": "^1.4.0",
+        "laravel/boost": "^1.4",
         "laravel/pail": "^1.2.3",
         "laravel/pint": "^1.25.1",
         "laravel/sail": "^1.46",

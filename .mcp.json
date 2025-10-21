@@ -13,7 +13,7 @@
                 "/Applications/Herd.app/Contents/Resources/herd-mcp.phar"
             ],
             "env": {
-                "SITE_PATH": "/Users/szabozoltan/Herd/crm"
+                "SITE_PATH": "/Users/szabozoltan/Herd/crm-and-contacts"
             }
         }
     }

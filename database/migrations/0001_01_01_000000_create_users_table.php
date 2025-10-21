@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->boolean('is_online')->default(false)->after('remember_token');
-            $table->timestamp('last_seen_at')->nullable()->after('is_online');
             $table->rememberToken();
             $table->timestamps();
+            $table->boolean('is_online')->default(false);
+            $table->timestamp('last_seen_at')->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table): void {

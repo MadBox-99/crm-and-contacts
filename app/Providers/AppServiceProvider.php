@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Filament\Commands\FileGenerators\Resources\ResourceClassGenerator;
+use App\Models\Campaign;
 use App\Models\Customer;
 use App\Models\Opportunity;
 use App\Models\User;
@@ -34,6 +35,7 @@ final class AppServiceProvider extends ServiceProvider
             'user' => User::class,
             'customer' => Customer::class,
             'opportunity' => Opportunity::class,
+            'campaign' => Campaign::class,
         ]);
     }
 }

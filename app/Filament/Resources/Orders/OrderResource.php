@@ -39,6 +39,7 @@ final class OrderResource extends Resource
     {
         return [
             ItemsRelationManager::class,
+            RelationManagers\ShipmentsRelationManager::class,
         ];
     }
 

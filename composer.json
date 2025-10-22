@@ -23,6 +23,7 @@
         "typesense/typesense-php": "^5.1"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.6",
         "driftingly/rector-laravel": "^2.1.0",
         "fakerphp/faker": "^1.24.1",
         "filament/upgrade": "^4.1.10",

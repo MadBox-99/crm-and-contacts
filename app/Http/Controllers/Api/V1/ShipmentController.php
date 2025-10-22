@@ -26,7 +26,7 @@ final class ShipmentController extends Controller
                 }
 
                 // Generate unique shipment number
-                $shipmentNumber = $this->generateShipmentNumber();
+                $shipmentNumber = Shipment::generateShipmentNumber();
 
                 // Create shipment
                 $shipment = Shipment::create([
@@ -82,17 +82,5 @@ final class ShipmentController extends Controller
                 'message' => 'Shipment not found',
             ], 404);
         }
-    }
-
-    private function generateShipmentNumber(): string
-    {
-        $year = now()->format('Y');
-        $lastShipment = Shipment::whereYear('created_at', $year)
-            ->orderBy('id', 'desc')
-            ->first();
-
-        $nextNumber = $lastShipment ? ((int) mb_substr((string) $lastShipment->shipment_number, -4)) + 1 : 1;
-
-        return 'SHP-'.$year.'-'.mb_str_pad((string) $nextNumber, 4, '0', STR_PAD_LEFT);
     }
 }

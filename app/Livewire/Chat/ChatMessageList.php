@@ -7,6 +7,7 @@ namespace App\Livewire\Chat;
 use App\Models\ChatSession;
 use App\Services\ChatService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\App;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -39,7 +40,7 @@ final class ChatMessageList extends Component
 
     public function markMessagesAsRead(): void
     {
-        $chatService = app(ChatService::class);
+        $chatService = App::make(ChatService::class);
 
         $unreadMessages = $this->session->messages()
             ->where('sender_type', 'user')

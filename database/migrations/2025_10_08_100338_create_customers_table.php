@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('unique_identifier')->unique();
             $table->string('name');
-            $table->string('type')->default('B2C');
+            $table->string('type')->default('Individual');
             $table->string('tax_number')->nullable();
             $table->string('registration_number')->nullable();
             $table->string('email')->nullable();

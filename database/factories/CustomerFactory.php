@@ -35,7 +35,7 @@ final class CustomerFactory extends Factory
         ];
     }
 
-    public function b2b(): static
+    public function company(): static
     {
         return $this->state(fn (array $attributes): array => [
             'type' => CustomerType::Company,
@@ -45,7 +45,7 @@ final class CustomerFactory extends Factory
         ]);
     }
 
-    public function b2c(): static
+    public function individual(): static
     {
         return $this->state(fn (array $attributes): array => [
             'type' => CustomerType::Individual,

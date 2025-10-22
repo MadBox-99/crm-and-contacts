@@ -5,7 +5,7 @@ A modern, full-featured Customer Relationship Management (CRM) system built with
 ## Features
 
 ### Customer Management
-- **Customer Profiles**: Comprehensive Company and B2C customer management
+- **Customer Profiles**: Comprehensive Company and Individual customer management
 - **Contact Management**: Multiple contacts per customer
 - **Address Management**: Multiple addresses (billing, shipping, etc.)
 - **Custom Attributes**: Flexible customer attributes system

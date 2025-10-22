@@ -13,6 +13,7 @@ use Filament\Forms\Components\Select;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Facades\App as AppFacade;
 use Illuminate\Support\Facades\Auth;
 
 final class ViewChatSession extends ViewRecord
@@ -35,7 +36,7 @@ final class ViewChatSession extends ViewRecord
                 ->visible(fn (): bool => $this->record->user_id === null)
                 ->requiresConfirmation()
                 ->action(function (): void {
-                    $chatService = app(ChatService::class);
+                    $chatService = AppFacade::make(ChatService::class);
                     $chatService->assignSession($this->record, Auth::user());
 
                     Notification::make()
@@ -58,7 +59,7 @@ final class ViewChatSession extends ViewRecord
                         ->required(),
                 ])
                 ->action(function (array $data): void {
-                    $chatService = app(ChatService::class);
+                    $chatService = AppFacade::make(ChatService::class);
                     $newUser = User::query()->find($data['new_user_id']);
                     $chatService->transferSession($this->record, $newUser);
 
@@ -77,7 +78,7 @@ final class ViewChatSession extends ViewRecord
                 ->requiresConfirmation()
                 ->modalDescription('Are you sure you want to close this chat session?')
                 ->action(function (): void {
-                    $chatService = app(ChatService::class);
+                    $chatService = AppFacade::make(ChatService::class);
                     $chatService->closeSession($this->record);
 
                     Notification::make()

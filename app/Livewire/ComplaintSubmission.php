@@ -55,7 +55,7 @@ final class ComplaintSubmission extends Component
                 'name' => $this->name,
                 'email' => $this->email,
                 'phone' => $this->phone,
-                'type' => CustomerType::B2C,
+                'type' => CustomerType::Individual,
                 'is_active' => true,
             ]);
         }

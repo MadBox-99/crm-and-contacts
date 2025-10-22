@@ -10,6 +10,7 @@ use App\Models\ChatSession;
 use App\Models\Customer;
 use App\Services\ChatService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\App;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -56,7 +57,7 @@ final class ChatMessageInput extends Component
             return;
         }
 
-        $chatService = app(ChatService::class);
+        $chatService = App::make(ChatService::class);
 
         $chatService->sendMessage(
             session: $this->session,

@@ -9,6 +9,7 @@ use App\Models\ChatSession;
 use App\Services\ChatService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -36,7 +37,7 @@ final class AdminChatInterface extends Component
             return;
         }
 
-        $chatService = app(ChatService::class);
+        $chatService = App::make(ChatService::class);
 
         $chatService->sendMessage(
             $this->session,
@@ -67,7 +68,7 @@ final class AdminChatInterface extends Component
 
     public function markAllAsRead(): void
     {
-        $chatService = app(ChatService::class);
+        $chatService = App::make(ChatService::class);
         $chatService->markAllMessagesAsRead($this->session, ChatMessageSenderType::Customer);
 
         $this->session->refresh();

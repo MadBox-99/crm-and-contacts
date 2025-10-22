@@ -100,6 +100,11 @@ final class Customer extends Model
         return $this->hasMany(ChatSession::class);
     }
 
+    public function shipments(): HasMany
+    {
+        return $this->hasMany(Shipment::class);
+    }
+
     public function getPriceForProduct(int $productId): float
     {
         $product = Product::query()->find($productId);

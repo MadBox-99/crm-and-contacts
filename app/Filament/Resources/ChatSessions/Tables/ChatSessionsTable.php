@@ -18,6 +18,7 @@ use Filament\Support\Colors\Color;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\App as AppFacade;
 use Illuminate\Support\Facades\Auth;
 
 final class ChatSessionsTable
@@ -144,7 +145,7 @@ final class ChatSessionsTable
                     ->visible(fn ($record): bool => $record->user_id === null)
                     ->requiresConfirmation()
                     ->action(function ($record): void {
-                        $chatService = app(ChatService::class);
+                        $chatService = AppFacade::make(ChatService::class);
                         $chatService->assignSession($record, Auth::user());
 
                         Notification::make()
@@ -165,7 +166,7 @@ final class ChatSessionsTable
                             ->required(),
                     ])
                     ->action(function ($record, array $data): void {
-                        $chatService = app(ChatService::class);
+                        $chatService = AppFacade::make(ChatService::class);
                         $newUser = User::query()->find($data['new_user_id']);
                         $chatService->transferSession($record, $newUser);
 
@@ -182,7 +183,7 @@ final class ChatSessionsTable
                     ->requiresConfirmation()
                     ->modalDescription('Are you sure you want to close this chat session?')
                     ->action(function ($record): void {
-                        $chatService = app(ChatService::class);
+                        $chatService = AppFacade::make(ChatService::class);
                         $chatService->closeSession($record);
 
                         Notification::make()

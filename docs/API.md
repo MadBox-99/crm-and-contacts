@@ -114,11 +114,11 @@ Authorization: Bearer YOUR_TOKEN
 - `page` (integer, optional): Page number (default: 1)
 - `per_page` (integer, optional): Items per page (default: 15, max: 100)
 - `search` (string, optional): Search by name, email, or unique identifier
-- `type` (string, optional): Filter by customer type (B2B or B2C)
+- `type` (string, optional): Filter by customer type (Company or Individual)
 
 **Example Request**:
 ```bash
-GET /api/v1/customers?page=1&per_page=20&search=acme&type=B2B
+GET /api/v1/customers?page=1&per_page=20&search=acme&type=Company
 ```
 
 **Response** (200 OK):
@@ -226,12 +226,12 @@ Content-Type: application/json
 }
 ```
 
-**Request Body** (B2C Customer):
+**Request Body** (Individual Customer):
 ```json
 {
   "unique_identifier": "CUST-003",
   "name": "John Smith",
-  "type": "B2C",
+  "type": "Individual",
   "email": "john.smith@example.com",
   "phone": "+36301234569",
   "date_of_birth": "1985-05-15",
@@ -500,15 +500,15 @@ Searches in: name, email, unique_identifier
 Filter customers by type:
 
 ```
-GET /api/v1/customers?type=B2B
+GET /api/v1/customers?type=Company
 ```
 
-Valid values: `B2B`, `B2C`
+Valid values: `Company`, `Individual`
 
 ### Combining Filters
 
 ```
-GET /api/v1/customers?search=tech&type=B2B&per_page=25&page=2
+GET /api/v1/customers?search=tech&type=Company&per_page=25&page=2
 ```
 
 ## Date Formats

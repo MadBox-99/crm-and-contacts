@@ -13,16 +13,16 @@ it('can create a customer using factory', function (): void {
     expect($customer->name)->not->toBeNull();
 });
 
-it('can create B2B customer', function (): void {
-    $customer = Customer::factory()->b2b()->create();
+it('can create company customer', function (): void {
+    $customer = Customer::factory()->company()->create();
 
     expect($customer->type)->toBe(CustomerType::Company);
     expect($customer->tax_number)->not->toBeNull();
     expect($customer->registration_number)->not->toBeNull();
 });
 
-it('can create B2C customer', function (): void {
-    $customer = Customer::factory()->b2c()->create();
+it('can create individual customer', function (): void {
+    $customer = Customer::factory()->individual()->create();
 
     expect($customer->type)->toBe(CustomerType::Individual);
 });

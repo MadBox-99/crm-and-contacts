@@ -52,7 +52,7 @@ Laravel 12 alapú CRM rendszer fejlesztése, amely megfelel a GINOP PLUSZ-1.2.4-
   - id
   - unique_identifier (egyedi azonosító, unique)
   - name
-  - type (B2B/B2C, default: B2C)
+  - type (Company/Individual, default: Individual)
   - tax_number (nullable)
   - registration_number (nullable)
   - email (nullable)

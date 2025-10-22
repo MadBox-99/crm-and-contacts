@@ -8,6 +8,7 @@ use App\Models\ChatSession;
 use App\Models\Customer;
 use App\Services\ChatService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\App as AppFacade;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -43,7 +44,7 @@ final class ChatWidget extends Component
             return;
         }
 
-        $chatService = app(ChatService::class);
+        $chatService = AppFacade::make(ChatService::class);
         $this->session = $chatService->startSession($this->customer);
 
         $this->isOpen = true;
@@ -67,7 +68,7 @@ final class ChatWidget extends Component
     public function closeChat(): void
     {
         if ($this->session instanceof ChatSession) {
-            $chatService = app(ChatService::class);
+            $chatService = AppFacade::make(ChatService::class);
             $chatService->closeSession($this->session);
         }
 

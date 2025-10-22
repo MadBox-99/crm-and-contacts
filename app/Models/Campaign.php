@@ -9,6 +9,7 @@ use Database\Factories\CampaignFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
@@ -61,6 +62,14 @@ final class Campaign extends Model
     public function googleAdsReports(): HasMany
     {
         return $this->hasMany(GoogleAdsReport::class);
+    }
+
+    public function targetAudience(): BelongsToMany
+    {
+        return $this->belongsToMany(Customer::class)
+            ->withPivot(['added_at', 'added_by', 'notes'])
+            ->withTimestamps()
+            ->using(CampaignCustomer::class);
     }
 
     /**

@@ -10,6 +10,7 @@ use App\Filament\Resources\Campaigns\Pages\EditCampaign;
 use App\Filament\Resources\Campaigns\Pages\ListCampaigns;
 use App\Filament\Resources\Campaigns\Pages\ViewCampaign;
 use App\Filament\Resources\Campaigns\RelationManagers\ResponsesRelationManager;
+use App\Filament\Resources\Campaigns\RelationManagers\TargetAudienceRelationManager;
 use App\Filament\Resources\Campaigns\Schemas\CampaignForm;
 use App\Filament\Resources\Campaigns\Schemas\CampaignInfolist;
 use App\Filament\Resources\Campaigns\Tables\CampaignsTable;
@@ -45,6 +46,7 @@ final class CampaignResource extends Resource
     public static function getRelations(): array
     {
         return [
+            TargetAudienceRelationManager::class,
             ResponsesRelationManager::class,
         ];
     }

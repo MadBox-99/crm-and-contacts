@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
+arch()
+    ->expect('App')
+    ->toUseStrictTypes()
+    ->not->toUse(['die', 'dd', 'dump']);
+
 arch('models are final')
     ->expect('App\Models')
     ->toBeFinal();
@@ -22,7 +27,8 @@ arch('models extend Model')
 
 arch('User model extends Authenticatable')
     ->expect(User::class)
-    ->toExtend(Illuminate\Foundation\Auth\User::class);
+    ->toExtend(Illuminate\Foundation\Auth\User::class)
+    ->toImp;
 
 arch('models have proper namespace')
     ->expect('App\Models')

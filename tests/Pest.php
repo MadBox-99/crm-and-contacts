@@ -28,7 +28,7 @@ pest()->extend(TestCase::class)
 
         $this->freezeTime();
     })
-    ->in('Feature', 'Unit');
+    ->in('Feature', 'Unit', 'Browser', 'Architecture');
 /*
 |--------------------------------------------------------------------------
 | Expectations

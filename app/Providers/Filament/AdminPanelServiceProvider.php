@@ -12,7 +12,6 @@ use App\Http\Middleware\ApplyTenantScopes;
 use App\Models\Team;
 use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
-use Madbox99\UserTeamSync\Receiver\Http\Middleware\EnsureUserHasActiveSubscription;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -31,9 +30,11 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Madbox99\FilamentChatWidget\FilamentChatWidgetPlugin;
 use MadBox\FilamentSpatiePermissions\FilamentSpatiePermissionsPlugin;
 use MadBox\LocaleSwitcher\SetLocale;
+use Madbox99\FilamentChatWidget\FilamentChatWidgetPlugin;
+use Madbox99\FilamentWooCommerce\FilamentWooCommercePlugin;
+use Madbox99\UserTeamSync\Receiver\Http\Middleware\EnsureUserHasActiveSubscription;
 
 final class AdminPanelServiceProvider extends PanelProvider
 {
@@ -91,6 +92,7 @@ final class AdminPanelServiceProvider extends PanelProvider
                     ->canAccessUsing(fn ($user) => $user?->hasRole(\App\Enums\Role::Admin) ?? false)
             )
             ->plugin(FilamentChatWidgetPlugin::make())
+            ->plugin(FilamentWooCommercePlugin::make())
             ->databaseNotifications()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

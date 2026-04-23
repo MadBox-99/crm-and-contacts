@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Madbox99\FilamentWooCommerce\Concerns\HasWooMapping;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -18,6 +19,7 @@ final class Customer extends Model
 {
     use BelongsToTeam;
     use HasFactory;
+    use HasWooMapping;
     use LogsActivity;
     use SoftDeletes;
 

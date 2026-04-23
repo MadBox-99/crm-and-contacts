@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Madbox99\FilamentWooCommerce\Concerns\HasWooMapping;
 
 final class ProductCategory extends Model
 {
@@ -17,6 +18,8 @@ final class ProductCategory extends Model
 
     /** @use HasFactory<ProductCategoryFactory> */
     use HasFactory;
+
+    use HasWooMapping;
 
     protected $fillable = [
         'team_id',

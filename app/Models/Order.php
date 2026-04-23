@@ -13,12 +13,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Madbox99\FilamentWooCommerce\Concerns\HasWooMapping;
 
 #[ObservedBy(OrderObserver::class)]
 final class Order extends Model
 {
     use BelongsToTeam;
     use HasFactory;
+    use HasWooMapping;
     use SoftDeletes;
 
     protected $fillable = [

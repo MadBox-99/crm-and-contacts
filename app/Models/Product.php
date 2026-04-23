@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Madbox99\FilamentWooCommerce\Concerns\HasWooMapping;
 
 final class Product extends Model
 {
     use BelongsToTeam;
     use HasFactory;
+    use HasWooMapping;
     use SoftDeletes;
 
     protected $fillable = [

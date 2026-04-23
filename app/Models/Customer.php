@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Madbox99\FilamentWooCommerce\Concerns\HasWooMapping;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -161,6 +162,15 @@ final class Customer extends Model
             ->logOnly(['name', 'type', 'email', 'phone', 'is_active', 'loyalty_points', 'loyalty_level_id'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
+    }
+
+    protected static function booted(): void
+    {
+        self::creating(function (self $customer): void {
+            if (blank($customer->unique_identifier)) {
+                $customer->unique_identifier = 'CUST-'.Str::upper(Str::random(8));
+            }
+        });
     }
 
     protected function casts(): array

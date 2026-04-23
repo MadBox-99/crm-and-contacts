@@ -33,6 +33,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use MadBox\FilamentSpatiePermissions\FilamentSpatiePermissionsPlugin;
 use MadBox\LocaleSwitcher\SetLocale;
 use Madbox99\FilamentChatWidget\FilamentChatWidgetPlugin;
+use Madbox99\FilamentFormBuilder\FilamentFormBuilderPlugin;
 use Madbox99\FilamentWooCommerce\FilamentWooCommercePlugin;
 use Madbox99\UserTeamSync\Receiver\Http\Middleware\EnsureUserHasActiveSubscription;
 
@@ -92,6 +93,7 @@ final class AdminPanelServiceProvider extends PanelProvider
                     ->canAccessUsing(fn ($user) => $user?->hasRole(\App\Enums\Role::Admin) ?? false)
             )
             ->plugin(FilamentChatWidgetPlugin::make())
+            ->plugin(FilamentFormBuilderPlugin::make())
             ->plugin(FilamentWooCommercePlugin::make())
             ->databaseNotifications()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

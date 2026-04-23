@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6128f76b906f7779275645083337c9a2",
+    "content-hash": "27c26964a024d248f9106465de93d07d",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -4230,6 +4230,72 @@
                 "source": "https://github.com/MadBox-99/filament-chat-widget/tree/v0.3.6"
             },
             "time": "2026-04-20T13:35:56+00:00"
+        },
+        {
+            "name": "madbox-99/filament-form-builder",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Cegem-360/filament-form-builder.git",
+                "reference": "64b17e5e32a938959595973ededa67bfaa5803a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Cegem-360/filament-form-builder/zipball/64b17e5e32a938959595973ededa67bfaa5803a1",
+                "reference": "64b17e5e32a938959595973ededa67bfaa5803a1",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^4.0 || ^5.0",
+                "laravel/framework": "^11.0 || ^12.0 || ^13.0",
+                "livewire/livewire": "^3.0 || ^4.0",
+                "php": "^8.3"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "orchestra/testbench": "^9.0 || ^10.0 || ^11.0",
+                "pestphp/pest": "^3.0 || ^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Madbox99\\FilamentFormBuilder\\FilamentFormBuilderServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Madbox99\\FilamentFormBuilder\\": "src/",
+                    "Madbox99\\FilamentFormBuilder\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Zoltán Tamás Szabó",
+                    "email": "zoli.szabok@gmail.com"
+                }
+            ],
+            "description": "Embeddable form builder for Laravel with a Filament v5 admin panel. Drop a JS snippet into any HTML page and collect form submissions through the Filament admin.",
+            "keywords": [
+                "Forms",
+                "embeddable",
+                "filament",
+                "filament-plugin",
+                "form-builder",
+                "laravel",
+                "lead-generation",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/Cegem-360/filament-form-builder/issues",
+                "source": "https://github.com/Cegem-360/filament-form-builder/tree/v0.2.0"
+            },
+            "time": "2026-04-23T08:26:49+00:00"
         },
         {
             "name": "madbox-99/filament-spatie-permissions",

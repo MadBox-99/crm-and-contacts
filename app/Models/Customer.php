@@ -170,6 +170,16 @@ final class Customer extends Model
             if (blank($customer->unique_identifier)) {
                 $customer->unique_identifier = 'CUST-'.Str::upper(Str::random(8));
             }
+
+            if (blank($customer->type)) {
+                $customer->type = CustomerType::Individual;
+            }
+
+            if (blank($customer->name)) {
+                $customer->name = $customer->email
+                    ? Str::before($customer->email, '@')
+                    : ('Customer '.$customer->unique_identifier);
+            }
         });
     }
 

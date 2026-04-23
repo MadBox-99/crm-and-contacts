@@ -49,6 +49,7 @@ return [
             'model' => App\Models\Customer::class,
             'syncer' => CustomerSyncer::class,
             'field_map' => [
+                'full_name' => 'name',
                 'email' => 'email',
                 'phone' => 'phone',
             ],

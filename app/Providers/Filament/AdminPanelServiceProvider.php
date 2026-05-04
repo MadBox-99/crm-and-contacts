@@ -31,7 +31,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use MadBox\FilamentSpatiePermissions\FilamentSpatiePermissionsPlugin;
-use MadBox\LocaleSwitcher\SetLocale;
+use MadBox\LocaleSwitcher\Middleware\SetLocale;
 use Madbox99\FilamentChatWidget\FilamentChatWidgetPlugin;
 use Madbox99\FilamentFormBuilder\FilamentFormBuilderPlugin;
 use Madbox99\FilamentWooCommerce\FilamentWooCommercePlugin;

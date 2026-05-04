@@ -4437,12 +4437,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/MadBox-99/laravel-locale-switcher.git",
-                "reference": "c0ba798d62ea85649e610e2998a7fb364da2bd2b"
+                "reference": "96e96110c182503831ed463dc943ebcd67c60b78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MadBox-99/laravel-locale-switcher/zipball/c0ba798d62ea85649e610e2998a7fb364da2bd2b",
-                "reference": "c0ba798d62ea85649e610e2998a7fb364da2bd2b",
+                "url": "https://api.github.com/repos/MadBox-99/laravel-locale-switcher/zipball/96e96110c182503831ed463dc943ebcd67c60b78",
+                "reference": "96e96110c182503831ed463dc943ebcd67c60b78",
                 "shasum": ""
             },
             "require": {
@@ -4481,9 +4481,9 @@
             "description": "Simple locale switcher for Laravel applications using cookies.",
             "support": {
                 "issues": "https://github.com/MadBox-99/laravel-locale-switcher/issues",
-                "source": "https://github.com/MadBox-99/laravel-locale-switcher/tree/main"
+                "source": "https://github.com/MadBox-99/laravel-locale-switcher/tree/v1.1.1"
             },
-            "time": "2026-03-23T08:43:32+00:00"
+            "time": "2026-05-04T13:11:39+00:00"
         },
         {
             "name": "madbox-99/laravel-user-team-sync",

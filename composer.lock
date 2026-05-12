@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2a0bcebbe8118bb7ef60728b1d63bf5",
+    "content-hash": "cc9dac2c278fb9133c7e32119c205a97",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -4233,16 +4233,16 @@
         },
         {
             "name": "madbox-99/filament-form-builder",
-            "version": "v0.3.0",
+            "version": "v0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cegem-360-Kft/filament-form-builder.git",
-                "reference": "ff26fb333707b02ac576b4d8fe9c75309cacef01"
+                "reference": "9ef9e8140f047f7ec70f8028cf7c4a4bf407ddf7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cegem-360-Kft/filament-form-builder/zipball/ff26fb333707b02ac576b4d8fe9c75309cacef01",
-                "reference": "ff26fb333707b02ac576b4d8fe9c75309cacef01",
+                "url": "https://api.github.com/repos/Cegem-360-Kft/filament-form-builder/zipball/9ef9e8140f047f7ec70f8028cf7c4a4bf407ddf7",
+                "reference": "9ef9e8140f047f7ec70f8028cf7c4a4bf407ddf7",
                 "shasum": ""
             },
             "require": {
@@ -4293,9 +4293,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Cegem-360-Kft/filament-form-builder/issues",
-                "source": "https://github.com/Cegem-360-Kft/filament-form-builder/tree/v0.3.0"
+                "source": "https://github.com/Cegem-360-Kft/filament-form-builder/tree/v0.3.1"
             },
-            "time": "2026-05-12T13:03:34+00:00"
+            "time": "2026-05-12T13:08:50+00:00"
         },
         {
             "name": "madbox-99/filament-spatie-permissions",

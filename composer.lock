@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a2967d8287ca6df8450aa7b55c7aeac",
+    "content-hash": "a2a0bcebbe8118bb7ef60728b1d63bf5",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -4233,16 +4233,16 @@
         },
         {
             "name": "madbox-99/filament-form-builder",
-            "version": "v0.2.1",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Cegem-360/filament-form-builder.git",
-                "reference": "78c5179c309bfc58874fc30f9ea2407773d24f5c"
+                "url": "https://github.com/Cegem-360-Kft/filament-form-builder.git",
+                "reference": "ff26fb333707b02ac576b4d8fe9c75309cacef01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cegem-360/filament-form-builder/zipball/78c5179c309bfc58874fc30f9ea2407773d24f5c",
-                "reference": "78c5179c309bfc58874fc30f9ea2407773d24f5c",
+                "url": "https://api.github.com/repos/Cegem-360-Kft/filament-form-builder/zipball/ff26fb333707b02ac576b4d8fe9c75309cacef01",
+                "reference": "ff26fb333707b02ac576b4d8fe9c75309cacef01",
                 "shasum": ""
             },
             "require": {
@@ -4292,10 +4292,10 @@
                 "wordpress"
             ],
             "support": {
-                "issues": "https://github.com/Cegem-360/filament-form-builder/issues",
-                "source": "https://github.com/Cegem-360/filament-form-builder/tree/v0.2.1"
+                "issues": "https://github.com/Cegem-360-Kft/filament-form-builder/issues",
+                "source": "https://github.com/Cegem-360-Kft/filament-form-builder/tree/v0.3.0"
             },
-            "time": "2026-04-23T13:52:27+00:00"
+            "time": "2026-05-12T13:03:34+00:00"
         },
         {
             "name": "madbox-99/filament-spatie-permissions",

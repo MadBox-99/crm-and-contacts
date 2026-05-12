@@ -20,7 +20,7 @@
         "laravel/tinker": "^3.0.2",
         "livewire/livewire": "^4.2.4",
         "madbox-99/filament-chat-widget": "^0.3.6",
-        "madbox-99/filament-form-builder": "^0.2.1",
+        "madbox-99/filament-form-builder": "^0.3.0",
         "madbox-99/filament-spatie-permissions": "^2.1",
         "madbox-99/filament-woocommerce": "^0.2.2",
         "madbox-99/laravel-locale-switcher": "dev-main",

@@ -266,12 +266,15 @@
                             </svg>
                             {{ __('Partial and final invoicing') }}
                         </li>
+                        {{-- Content audit: payment integration hidden until confirmed live --}}
+                        @if(false)
                         <li class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-red-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
                             {{ __('Payment tracking') }}
                         </li>
+                        @endif
                     </ul>
                 </div>
 
@@ -463,6 +466,7 @@
                     <div class="text-sm text-gray-600">{{ __('Administrative work') }}</div>
                 </div>
             </div>
+            <p class="mt-8 text-center text-xs text-gray-400">* {{ __('Illustrative examples') }}</p>
         </div>
     </section>
 
@@ -489,6 +493,8 @@
                     <p class="text-gray-600 text-sm">Billingo, Számlázz.hu, NAV</p>
                 </div>
 
+                {{-- Content audit: webshop / courier / payment integrations hidden until confirmed live --}}
+                @if(false)
                 {{-- Webshopok --}}
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                     <div class="flex items-center gap-3 mb-4">
@@ -527,6 +533,7 @@
                     </div>
                     <p class="text-gray-600 text-sm">Barion, SimplePay, OTP</p>
                 </div>
+                @endif
 
                 {{-- Könyvelőprogram --}}
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
@@ -1009,6 +1016,25 @@
     </section>
 
     {{-- Footer --}}
+    {{-- Content audit: legal disclaimer + central cegem360.eu legal links --}}
+    <section class="border-t border-gray-200 bg-white py-12">
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <div class="rounded-2xl bg-gray-50 p-6 text-sm leading-relaxed text-gray-500 sm:p-8">
+                <p class="mb-3 text-base font-semibold text-gray-700">{{ __('Legal information') }}</p>
+                <div class="space-y-2">
+                    <p>{{ __('Invoicing complies with the applicable VAT Act and NAV (Hungarian Tax Authority) requirements; the user is responsible for the accuracy of the data content.') }}</p>
+                    <p>{{ __('The module can be connected to the Cégem360 Invoicing module.') }}</p>
+                    <p>{{ __('The figures and results shown on this page are illustrative examples and not guaranteed.') }}</p>
+                </div>
+                <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
+                    <a href="https://cegem360.eu/adatvedelmi-tajekoztato" class="font-medium text-gray-700 underline underline-offset-2 hover:text-gray-900">{{ __('Privacy notice') }}</a>
+                    <a href="https://cegem360.eu/adatfeldolgozoi-tajekoztato" class="font-medium text-gray-700 underline underline-offset-2 hover:text-gray-900">{{ __('Data Processing Agreement') }}</a>
+                    <a href="https://cegem360.eu/szolgaltatasi-feltetelek" class="font-medium text-gray-700 underline underline-offset-2 hover:text-gray-900">{{ __('Terms of service') }}</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer class="bg-white border-t border-gray-200" x-data="{ openSection: null }">
         <!-- Main Footer -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">

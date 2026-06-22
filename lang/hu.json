@@ -1,4 +1,12 @@
 {
+    "Legal information": "Jogi tájékoztatás",
+    "Illustrative examples": "Illusztratív példák",
+    "Privacy notice": "Adatvédelmi tájékoztató",
+    "Data Processing Agreement": "Adatfeldolgozási tájékoztató",
+    "Terms of service": "Szolgáltatási feltételek",
+    "The figures and results shown on this page are illustrative examples and not guaranteed.": "Az oldalon feltüntetett számok és eredmények illusztratív példák, nem garantáltak.",
+    "Invoicing complies with the applicable VAT Act and NAV (Hungarian Tax Authority) requirements; the user is responsible for the accuracy of the data content.": "A számlázás megfelel a hatályos Áfa törvénynek és a NAV előírásainak; az adattartalom helyességéért a felhasználó felel.",
+    "The module can be connected to the Cégem360 Invoicing module.": "A modul összekapcsolható a Cégem360 Számlázó modullal.",
     "14-day free trial": "14 napos ingyenes próba",
     "A complaint has exceeded its SLA deadline by :hours hours.": "Egy reklamáció :hours órával túllépte az SLA határidejét.",
     "A high-scoring lead has been assigned to you.": "Egy magas pontszámú érdeklődő lett Önhöz rendelve.",

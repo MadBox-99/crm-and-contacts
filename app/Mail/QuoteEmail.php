@@ -27,7 +27,7 @@ final class QuoteEmail extends Mailable implements ShouldQueue
 
     public function envelope(): Envelope
     {
-        $subject = $this->emailTemplate
+        $subject = $this->emailTemplate instanceof EmailTemplate
             ? $this->replaceVariables($this->emailTemplate->subject)
             : 'Árajánlat / Quote '.$this->quote->quote_number;
 
@@ -36,7 +36,7 @@ final class QuoteEmail extends Mailable implements ShouldQueue
 
     public function content(): Content
     {
-        if ($this->emailTemplate) {
+        if ($this->emailTemplate instanceof EmailTemplate) {
             return new Content(htmlString: $this->replaceVariables($this->emailTemplate->body));
         }
 

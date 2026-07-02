@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Notification;
 uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
-    $this->service = app(NotificationWorkflowService::class);
+    $this->service = resolve(NotificationWorkflowService::class);
     $this->team = Team::factory()->create();
     $this->user = User::factory()->create();
     $this->user->teams()->attach($this->team);

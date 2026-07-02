@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Override;
 
 #[ObservedBy(TaskNotificationObserver::class)]
 final class Task extends Model
@@ -48,6 +49,7 @@ final class Task extends Model
         return $this->belongsTo(User::class, 'assigned_by');
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

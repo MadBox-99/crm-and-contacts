@@ -7,6 +7,7 @@ namespace App\Filament\Widgets;
 use App\Filament\Resources\Customers\CustomerResource;
 use App\Filament\Resources\LeadOpportunities\LeadOpportunitiesResource;
 use Filament\Widgets\Widget;
+use Override;
 
 final class QuickActionsWidget extends Widget
 {
@@ -19,6 +20,7 @@ final class QuickActionsWidget extends Widget
     /**
      * @return array<string, string>
      */
+    #[Override]
     protected function getViewData(): array
     {
         return [

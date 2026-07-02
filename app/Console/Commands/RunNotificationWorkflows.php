@@ -19,10 +19,10 @@ final class RunNotificationWorkflows extends Command
 
         $results = $service->runAll();
 
-        $this->info("Expiring quotes notified: {$results['quotes']}");
-        $this->info("Approaching task deadlines notified: {$results['tasks']}");
-        $this->info("Inactive leads notified: {$results['leads']}");
-        $this->info("SLA breaches notified: {$results['complaints']}");
+        $this->info('Expiring quotes notified: '.$results['quotes']);
+        $this->info('Approaching task deadlines notified: '.$results['tasks']);
+        $this->info('Inactive leads notified: '.$results['leads']);
+        $this->info('SLA breaches notified: '.$results['complaints']);
 
         return self::SUCCESS;
     }

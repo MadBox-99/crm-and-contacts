@@ -109,7 +109,7 @@ final class InvoiceService
 
         // Customer info
         $customerInfo = $head->addChild('customerInfo');
-        $customerInfo->addChild('customerName', htmlspecialchars($customer->name));
+        $customerInfo->addChild('customerName', htmlspecialchars((string) $customer->name));
 
         if ($customer->tax_number) {
             $taxNumber = $customerInfo->addChild('customerTaxNumber');

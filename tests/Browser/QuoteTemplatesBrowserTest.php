@@ -62,5 +62,5 @@ it('renders the quote template edit page', function (): void {
 
     $page->assertSee('Edit Quote Template')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('quote-templates/edit'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('quote-templates/edit'));
 });

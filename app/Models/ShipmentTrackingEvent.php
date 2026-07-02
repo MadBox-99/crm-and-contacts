@@ -8,6 +8,7 @@ use Database\Factories\ShipmentTrackingEventFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Override;
 
 final class ShipmentTrackingEvent extends Model
 {
@@ -28,6 +29,7 @@ final class ShipmentTrackingEvent extends Model
         return $this->belongsTo(Shipment::class);
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

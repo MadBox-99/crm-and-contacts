@@ -16,7 +16,7 @@ beforeEach(function (): void {
         'team_id' => $this->team->id,
         'loyalty_points' => 0,
     ]);
-    $this->service = app(LoyaltyService::class);
+    $this->service = resolve(LoyaltyService::class);
 });
 
 it('awards points to a customer', function (): void {

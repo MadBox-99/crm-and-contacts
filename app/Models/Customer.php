@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Madbox99\FilamentWooCommerce\Concerns\HasWooMapping;
+use Override;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -164,6 +165,7 @@ final class Customer extends Model
             ->dontSubmitEmptyLogs();
     }
 
+    #[Override]
     protected static function booted(): void
     {
         self::creating(function (self $customer): void {
@@ -183,6 +185,7 @@ final class Customer extends Model
         });
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

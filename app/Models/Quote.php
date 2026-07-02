@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Override;
 
 #[ObservedBy(QuoteObserver::class)]
 final class Quote extends Model
@@ -68,6 +69,7 @@ final class Quote extends Model
         return $this->hasMany(QuoteVersion::class);
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

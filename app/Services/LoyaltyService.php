@@ -31,7 +31,7 @@ final class LoyaltyService
             'type' => LoyaltyTransactionType::Earned,
             'source' => $source,
             'description' => $description,
-            'reference_type' => $reference ? $reference->getMorphClass() : null,
+            'reference_type' => $reference instanceof Model ? $reference->getMorphClass() : null,
             'reference_id' => $reference?->getKey(),
             'balance_after' => $newBalance,
         ]);
@@ -61,7 +61,7 @@ final class LoyaltyService
             'type' => LoyaltyTransactionType::Spent,
             'source' => $source,
             'description' => $description,
-            'reference_type' => $reference ? $reference->getMorphClass() : null,
+            'reference_type' => $reference instanceof Model ? $reference->getMorphClass() : null,
             'reference_id' => $reference?->getKey(),
             'balance_after' => $newBalance,
         ]);

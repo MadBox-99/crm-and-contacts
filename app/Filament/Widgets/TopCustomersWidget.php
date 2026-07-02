@@ -8,6 +8,7 @@ use App\Models\Customer;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
+use Override;
 
 final class TopCustomersWidget extends TableWidget
 {
@@ -15,6 +16,7 @@ final class TopCustomersWidget extends TableWidget
 
     protected int|string|array $columnSpan = 'full';
 
+    #[Override]
     public function table(Table $table): Table
     {
         return $table

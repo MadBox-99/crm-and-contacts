@@ -13,6 +13,7 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
+use Override;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /** @property Invoice $record */
@@ -20,6 +21,7 @@ final class EditInvoice extends EditRecord
 {
     protected static string $resource = InvoiceResource::class;
 
+    #[Override]
     protected function getHeaderActions(): array
     {
         return [

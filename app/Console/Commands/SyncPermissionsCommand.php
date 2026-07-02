@@ -34,7 +34,7 @@ final class SyncPermissionsCommand extends Command
         foreach (RoleEnum::cases() as $roleEnum) {
             $role = Role::query()->firstOrCreate(['name' => $roleEnum]);
             $role->syncPermissions($roleEnum->permissions());
-            $this->components->twoColumnDetail("Role [{$roleEnum->value}]", count($roleEnum->permissions()).' permissions');
+            $this->components->twoColumnDetail(sprintf('Role [%s]', $roleEnum->value), count($roleEnum->permissions()).' permissions');
         }
 
         app()->make(PermissionRegistrar::class)->forgetCachedPermissions();

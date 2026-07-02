@@ -15,16 +15,19 @@ use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Colors\Color;
 use Illuminate\Support\Facades\App as AppFacade;
 use Illuminate\Support\Facades\Auth;
+use Override;
 
 final class ViewChatSession extends ViewRecord
 {
     protected static string $resource = ChatSessionResource::class;
 
+    #[Override]
     public function getView(): string
     {
         return 'filament.resources.chat-sessions.pages.view-chat-session';
     }
 
+    #[Override]
     protected function getHeaderActions(): array
     {
         return [

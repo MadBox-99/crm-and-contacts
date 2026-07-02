@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
-    $this->shipmentService = app(ShipmentService::class);
+    $this->shipmentService = resolve(ShipmentService::class);
     $this->customer = Customer::factory()->create();
 });
 

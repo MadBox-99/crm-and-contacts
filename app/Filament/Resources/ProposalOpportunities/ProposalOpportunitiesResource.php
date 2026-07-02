@@ -12,6 +12,7 @@ use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
 use UnitEnum;
 
 final class ProposalOpportunitiesResource extends Resource
@@ -30,16 +31,19 @@ final class ProposalOpportunitiesResource extends Resource
 
     protected static ?int $navigationSort = 12;
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Proposals');
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return ProposalOpportunitiesTable::configure($table);
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [

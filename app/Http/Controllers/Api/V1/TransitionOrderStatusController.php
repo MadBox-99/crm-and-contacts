@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Services\OrderService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use InvalidArgumentException;
@@ -17,10 +18,10 @@ use Symfony\Component\HttpFoundation\Response;
 final class TransitionOrderStatusController extends Controller
 {
     public function __construct(
-        private OrderService $orderService,
+        private readonly OrderService $orderService,
     ) {}
 
-    public function __invoke(Request $request, Order $order): OrderResource|\Illuminate\Http\JsonResponse
+    public function __invoke(Request $request, Order $order): OrderResource|JsonResponse
     {
         $this->authorize('update', $order);
 
@@ -35,8 +36,8 @@ final class TransitionOrderStatusController extends Controller
             );
 
             return new OrderResource($order);
-        } catch (InvalidArgumentException $e) {
-            return response()->json(['message' => $e->getMessage()], Response::HTTP_UNPROCESSABLE_ENTITY);
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            return response()->json(['message' => $invalidArgumentException->getMessage()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 }

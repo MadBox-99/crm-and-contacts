@@ -112,10 +112,10 @@ final class SalesIntegrationService implements SalesIntegrationInterface
             }
 
             return ['available' => false, 'quantity' => 0, 'warehouse' => null];
-        } catch (Throwable $e) {
+        } catch (Throwable $throwable) {
             Log::error('SalesIntegration: Inventory check failed', [
                 'product_id' => $product->id,
-                'error' => $e->getMessage(),
+                'error' => $throwable->getMessage(),
             ]);
 
             return ['available' => false, 'quantity' => 0, 'warehouse' => null];
@@ -162,16 +162,16 @@ final class SalesIntegrationService implements SalesIntegrationInterface
                 'reservation_id' => null,
                 'message' => 'Reservation failed: '.$response->body(),
             ];
-        } catch (Throwable $e) {
+        } catch (Throwable $throwable) {
             Log::error('SalesIntegration: Stock reservation failed', [
                 'order_id' => $order->id,
-                'error' => $e->getMessage(),
+                'error' => $throwable->getMessage(),
             ]);
 
             return [
                 'success' => false,
                 'reservation_id' => null,
-                'message' => $e->getMessage(),
+                'message' => $throwable->getMessage(),
             ];
         }
     }
@@ -183,15 +183,15 @@ final class SalesIntegrationService implements SalesIntegrationInterface
      */
     private function sendToExternalSystem(string $url, array $payload, string $operation, string $reference): array
     {
-        if (! $url) {
-            Log::info("SalesIntegration: {$operation} skipped (no URL configured)", [
+        if ($url === '' || $url === '0') {
+            Log::info(sprintf('SalesIntegration: %s skipped (no URL configured)', $operation), [
                 'reference' => $reference,
             ]);
 
             return [
                 'success' => true,
                 'reference_id' => null,
-                'message' => "{$operation} skipped (no external system configured)",
+                'message' => $operation.' skipped (no external system configured)',
             ];
         }
 
@@ -203,7 +203,7 @@ final class SalesIntegrationService implements SalesIntegrationInterface
             if ($response->successful()) {
                 $data = $response->json();
 
-                Log::info("SalesIntegration: {$operation} succeeded", [
+                Log::info(sprintf('SalesIntegration: %s succeeded', $operation), [
                     'reference' => $reference,
                     'external_id' => $data['reference_id'] ?? null,
                 ]);
@@ -215,7 +215,7 @@ final class SalesIntegrationService implements SalesIntegrationInterface
                 ];
             }
 
-            Log::warning("SalesIntegration: {$operation} failed", [
+            Log::warning(sprintf('SalesIntegration: %s failed', $operation), [
                 'reference' => $reference,
                 'status' => $response->status(),
                 'body' => $response->body(),
@@ -224,18 +224,18 @@ final class SalesIntegrationService implements SalesIntegrationInterface
             return [
                 'success' => false,
                 'reference_id' => null,
-                'message' => "External system returned {$response->status()}",
+                'message' => 'External system returned '.$response->status(),
             ];
-        } catch (Throwable $e) {
-            Log::error("SalesIntegration: {$operation} exception", [
+        } catch (Throwable $throwable) {
+            Log::error(sprintf('SalesIntegration: %s exception', $operation), [
                 'reference' => $reference,
-                'error' => $e->getMessage(),
+                'error' => $throwable->getMessage(),
             ]);
 
             return [
                 'success' => false,
                 'reference_id' => null,
-                'message' => $e->getMessage(),
+                'message' => $throwable->getMessage(),
             ];
         }
     }

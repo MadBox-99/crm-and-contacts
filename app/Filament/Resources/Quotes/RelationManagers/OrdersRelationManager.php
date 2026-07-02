@@ -13,11 +13,13 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Override;
 
 final class OrdersRelationManager extends RelationManager
 {
     protected static string $relationship = 'orders';
 
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema

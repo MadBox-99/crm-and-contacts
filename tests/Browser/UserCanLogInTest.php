@@ -6,7 +6,7 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-it('can sign in the user', function () {
+it('can sign in the user', function (): void {
     $team = Team::factory()->create();
     $user = User::factory()->create([
         'email' => 'test@example.com',
@@ -25,12 +25,12 @@ it('can sign in the user', function () {
         ->assertPathIs('/app/'.$team->slug)
         ->assertSee($user->name)
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('auth/login-success'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('auth/login-success'));
 
     $this->assertAuthenticated();
 });
 
-it('cannot sign in with invalid credentials', function () {
+it('cannot sign in with invalid credentials', function (): void {
     $team = Team::factory()->create();
     $user = User::factory()->create([
         'email' => 'test@example.com',
@@ -49,7 +49,7 @@ it('cannot sign in with invalid credentials', function () {
         ->assertPathIs('/app/login')
         ->assertSee('Sign in')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('auth/login-failed'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('auth/login-failed'));
 
     $this->assertGuest();
 });

@@ -13,9 +13,7 @@ it('notifies assignee when a task is created with assigned_to', function (): voi
     $assignee = User::factory()->create();
     $task = Task::factory()->create(['assigned_to' => $assignee->id]);
 
-    Notification::assertSentTo($assignee, TaskAssignedNotification::class, function (TaskAssignedNotification $notification) use ($task): bool {
-        return $notification->task->id === $task->id;
-    });
+    Notification::assertSentTo($assignee, TaskAssignedNotification::class, fn (TaskAssignedNotification $notification): bool => $notification->task->id === $task->id);
 });
 
 it('notifies new assignee when assigned_to changes', function (): void {

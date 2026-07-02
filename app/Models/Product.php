@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Madbox99\FilamentWooCommerce\Concerns\HasWooMapping;
+use Override;
 
 final class Product extends Model
 {
@@ -35,6 +36,7 @@ final class Product extends Model
         return $this->belongsTo(ProductCategory::class, 'category_id');
     }
 
+    #[Override]
     protected static function booted(): void
     {
         self::creating(function (self $product): void {
@@ -44,6 +46,7 @@ final class Product extends Model
         });
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

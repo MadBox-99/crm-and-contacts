@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Override;
 
 final class Communication extends Model
 {
@@ -56,6 +57,7 @@ final class Communication extends Model
         return $this->hasMany(self::class, 'thread_id', 'thread_id');
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

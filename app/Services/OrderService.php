@@ -88,7 +88,7 @@ final class OrderService
     {
         if (! $order->status->canTransitionTo($newStatus)) {
             throw new InvalidArgumentException(
-                "Cannot transition order from {$order->status->value} to {$newStatus->value}."
+                sprintf('Cannot transition order from %s to %s.', $order->status->value, $newStatus->value)
             );
         }
 
@@ -99,9 +99,7 @@ final class OrderService
 
     public function createFromQuote(Quote $quote): Order
     {
-        if ($quote->status !== QuoteStatus::Accepted) {
-            throw new InvalidArgumentException('Only accepted quotes can be converted to orders.');
-        }
+        throw_if($quote->status !== QuoteStatus::Accepted, InvalidArgumentException::class, 'Only accepted quotes can be converted to orders.');
 
         return DB::transaction(function () use ($quote): Order {
             $quote->load('items');
@@ -139,9 +137,9 @@ final class OrderService
     {
         $items = $order->orderItems;
 
-        $subtotal = $items->sum(fn ($item) => (float) $item->unit_price * (float) $item->quantity);
-        $discountAmount = $items->sum(fn ($item) => (float) $item->discount_amount);
-        $taxAmount = $items->sum(function ($item) {
+        $subtotal = $items->sum(fn ($item): float => (float) $item->unit_price * (float) $item->quantity);
+        $discountAmount = $items->sum(fn ($item): float => (float) $item->discount_amount);
+        $taxAmount = $items->sum(function ($item): float {
             $afterDiscount = ((float) $item->unit_price * (float) $item->quantity) - (float) $item->discount_amount;
 
             return $afterDiscount * ((float) $item->tax_rate / 100);

@@ -14,11 +14,13 @@ use Filament\Actions\RestoreAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Override;
 
 final class EditCustomer extends EditRecord
 {
     protected static string $resource = CustomerResource::class;
 
+    #[Override]
     protected function getHeaderActions(): array
     {
         return [
@@ -40,7 +42,7 @@ final class EditCustomer extends EditRecord
                     /** @var Customer $customer */
                     $customer = $this->record;
 
-                    app(LoyaltyService::class)->adjustPoints(
+                    resolve(LoyaltyService::class)->adjustPoints(
                         customer: $customer,
                         points: (int) $data['points'],
                         description: $data['description'] ?? null,
@@ -71,7 +73,7 @@ final class EditCustomer extends EditRecord
                     /** @var Customer $customer */
                     $customer = $this->record;
 
-                    app(LoyaltyService::class)->adjustPoints(
+                    resolve(LoyaltyService::class)->adjustPoints(
                         customer: $customer,
                         points: -((int) $data['points']),
                         description: $data['description'] ?? null,

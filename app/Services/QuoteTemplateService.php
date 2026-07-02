@@ -28,11 +28,9 @@ final class QuoteTemplateService
     {
         $quote->load(['customer.addresses', 'items.product']);
 
-        $template = $template ?? $this->getDefaultTemplate($quote->team_id);
+        $template ??= $this->getDefaultTemplate($quote->team_id);
 
-        if (! $template) {
-            throw new InvalidArgumentException('No template specified and no default template found.');
-        }
+        throw_unless($template, InvalidArgumentException::class, 'No template specified and no default template found.');
 
         $html = Blade::render($template->body, [
             'quote' => $quote,

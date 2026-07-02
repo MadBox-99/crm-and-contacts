@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Override;
 
 final class LoyaltyPoint extends Model
 {
@@ -39,6 +40,7 @@ final class LoyaltyPoint extends Model
         return $this->morphTo();
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

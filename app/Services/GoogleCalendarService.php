@@ -22,7 +22,7 @@ final class GoogleCalendarService
      */
     public function getClient(): GoogleCalendar
     {
-        if ($this->calendarService) {
+        if ($this->calendarService instanceof GoogleCalendar) {
             return $this->calendarService;
         }
 
@@ -71,10 +71,10 @@ final class GoogleCalendarService
             $createdEvent = $calendar->events->insert($calendarId, $event);
 
             return $createdEvent->getId();
-        } catch (Throwable $e) {
+        } catch (Throwable $throwable) {
             Log::error('GoogleCalendar: Failed to sync task', [
                 'task_id' => $task->id,
-                'error' => $e->getMessage(),
+                'error' => $throwable->getMessage(),
             ]);
 
             return null;
@@ -109,10 +109,10 @@ final class GoogleCalendarService
             $createdEvent = $calendar->events->insert($calendarId, $event);
 
             return $createdEvent->getId();
-        } catch (Throwable $e) {
+        } catch (Throwable $throwable) {
             Log::error('GoogleCalendar: Failed to create follow-up', [
                 'title' => $title,
-                'error' => $e->getMessage(),
+                'error' => $throwable->getMessage(),
             ]);
 
             return null;
@@ -129,10 +129,10 @@ final class GoogleCalendarService
             $calendar->events->delete($calendarId, $eventId);
 
             return true;
-        } catch (Throwable $e) {
+        } catch (Throwable $throwable) {
             Log::error('GoogleCalendar: Failed to delete event', [
                 'event_id' => $eventId,
-                'error' => $e->getMessage(),
+                'error' => $throwable->getMessage(),
             ]);
 
             return false;

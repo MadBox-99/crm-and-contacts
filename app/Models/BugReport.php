@@ -11,6 +11,7 @@ use Database\Factories\BugReportFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Override;
 
 final class BugReport extends Model
 {
@@ -41,6 +42,7 @@ final class BugReport extends Model
         return $this->belongsTo(User::class, 'assigned_to');
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

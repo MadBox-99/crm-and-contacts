@@ -47,7 +47,7 @@ final class ComplaintsTable
                     ->label(__('SLA Deadline'))
                     ->dateTime()
                     ->sortable()
-                    ->color(fn ($record) => $record->sla_deadline_at && $record->sla_deadline_at->isPast() && ! in_array($record->status->value, ['resolved', 'closed']) ? 'danger' : null),
+                    ->color(fn ($record): ?string => $record->sla_deadline_at && $record->sla_deadline_at->isPast() && ! in_array($record->status->value, ['resolved', 'closed']) ? 'danger' : null),
                 TextColumn::make('reported_at')
                     ->dateTime()
                     ->sortable(),

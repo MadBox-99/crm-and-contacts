@@ -9,11 +9,13 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Resources\Pages\EditRecord;
+use Override;
 
 final class EditProduct extends EditRecord
 {
     protected static string $resource = ProductResource::class;
 
+    #[Override]
     protected function getHeaderActions(): array
     {
         return [

@@ -14,7 +14,7 @@ use App\Models\Order;
 use App\Models\Quote;
 use Illuminate\Support\Facades\Date;
 
-final class SalesDashboardService
+final readonly class SalesDashboardService
 {
     public function __construct(
         private CrmReportingService $reportingService,

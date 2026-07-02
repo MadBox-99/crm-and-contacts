@@ -19,16 +19,13 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Override;
 
 final class ChatSessionsRelationManager extends RelationManager
 {
     protected static string $relationship = 'chatSessions';
 
-    public static function getModelLabel(): string
-    {
-        return __('Chat Session');
-    }
-
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -97,5 +94,11 @@ final class ChatSessionsRelationManager extends RelationManager
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    #[Override]
+    protected static function getModelLabel(): string
+    {
+        return __('Chat Session');
     }
 }

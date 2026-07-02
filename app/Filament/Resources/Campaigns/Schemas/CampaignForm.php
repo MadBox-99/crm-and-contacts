@@ -89,7 +89,7 @@ final class CampaignForm
                             ->maxLength(255)
                             ->placeholder('Enter Google Ads Campaign ID'),
                     ])
-                    ->visible(fn ($get) => $get('campaign_type') === CampaignType::GoogleAds->value)
+                    ->visible(fn ($get): bool => $get('campaign_type') === CampaignType::GoogleAds->value)
                     ->collapsed(),
 
                 Section::make(__('Targeting'))

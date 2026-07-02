@@ -10,6 +10,7 @@ use App\Models\Complaint;
 use App\Models\ComplaintEscalation;
 use App\Models\Customer;
 use App\Models\User;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -101,7 +102,7 @@ final class ComplaintService
             ->toArray();
     }
 
-    public function getSlaDeadline(ComplaintSeverity $severity): \Carbon\CarbonInterface
+    public function getSlaDeadline(ComplaintSeverity $severity): CarbonInterface
     {
         $hours = match ($severity) {
             ComplaintSeverity::Critical => 4,

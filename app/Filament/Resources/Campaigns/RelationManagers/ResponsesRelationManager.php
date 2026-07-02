@@ -23,16 +23,13 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Override;
 
 final class ResponsesRelationManager extends RelationManager
 {
     protected static string $relationship = 'responses';
 
-    public static function getModelLabel(): string
-    {
-        return __('Response');
-    }
-
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -100,11 +97,9 @@ final class ResponsesRelationManager extends RelationManager
                         DatePicker::make('until')
                             ->label(__('Until')),
                     ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when($data['from'], fn (Builder $query, $date): Builder => $query->where('responded_at', '>=', $date))
-                            ->when($data['until'], fn (Builder $query, $date): Builder => $query->where('responded_at', '<=', $date));
-                    }),
+                    ->query(fn (Builder $query, array $data): Builder => $query
+                        ->when($data['from'], fn (Builder $query, $date): Builder => $query->where('responded_at', '>=', $date))
+                        ->when($data['until'], fn (Builder $query, $date): Builder => $query->where('responded_at', '<=', $date))),
             ])
             ->headerActions([
                 ImportAction::make('Import Responses')->importer(CampaignResponseImporter::class),
@@ -119,5 +114,11 @@ final class ResponsesRelationManager extends RelationManager
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    #[Override]
+    protected static function getModelLabel(): string
+    {
+        return __('Response');
     }
 }

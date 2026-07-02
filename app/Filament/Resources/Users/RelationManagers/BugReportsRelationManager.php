@@ -22,16 +22,13 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Override;
 
 final class BugReportsRelationManager extends RelationManager
 {
     protected static string $relationship = 'bugReports';
 
-    public static function getModelLabel(): string
-    {
-        return __('Bug Report');
-    }
-
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -113,5 +110,11 @@ final class BugReportsRelationManager extends RelationManager
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    #[Override]
+    protected static function getModelLabel(): string
+    {
+        return __('Bug Report');
     }
 }

@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\ShipmentStatus;
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\Shipment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Shipment>
+ * @extends Factory<Shipment>
  */
 final class ShipmentFactory extends Factory
 {
@@ -19,14 +23,14 @@ final class ShipmentFactory extends Factory
     public function definition(): array
     {
         return [
-            'customer_id' => \App\Models\Customer::factory(),
-            'order_id' => \App\Models\Order::factory(),
+            'customer_id' => Customer::factory(),
+            'order_id' => Order::factory(),
             'external_customer_id' => $this->faker->optional()->bothify('EXT-CUST-####'),
             'external_order_id' => $this->faker->optional()->bothify('EXT-ORD-####'),
             'shipment_number' => 'SHP-'.now()->format('Y').'-'.mb_str_pad((string) $this->faker->unique()->numberBetween(1, 9999), 4, '0', STR_PAD_LEFT),
             'carrier' => $this->faker->randomElement(['GLS', 'DPD', 'FoxPost', 'Magyar Posta', 'UPS', 'DHL']),
             'tracking_number' => $this->faker->optional()->bothify('??########'),
-            'status' => $this->faker->randomElement(\App\Enums\ShipmentStatus::cases()),
+            'status' => $this->faker->randomElement(ShipmentStatus::cases()),
             'shipping_address' => [
                 'name' => $this->faker->name(),
                 'country' => $this->faker->country(),
@@ -45,8 +49,8 @@ final class ShipmentFactory extends Factory
 
     public function pending(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'status' => \App\Enums\ShipmentStatus::Pending,
+        return $this->state(fn (array $attributes): array => [
+            'status' => ShipmentStatus::Pending,
             'shipped_at' => null,
             'estimated_delivery_at' => null,
             'delivered_at' => null,
@@ -55,8 +59,8 @@ final class ShipmentFactory extends Factory
 
     public function delivered(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'status' => \App\Enums\ShipmentStatus::Delivered,
+        return $this->state(fn (array $attributes): array => [
+            'status' => ShipmentStatus::Delivered,
             'shipped_at' => now()->subDays(5),
             'estimated_delivery_at' => now()->subDays(2),
             'delivered_at' => now()->subDay(),

@@ -18,11 +18,11 @@ final class WebhookController extends Controller
     public function inventoryChanged(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'event' => 'required|string',
-            'product_sku' => 'required|string',
-            'quantity' => 'required|integer',
-            'warehouse' => 'nullable|string',
-            'timestamp' => 'nullable|string',
+            'event' => ['required', 'string'],
+            'product_sku' => ['required', 'string'],
+            'quantity' => ['required', 'integer'],
+            'warehouse' => ['nullable', 'string'],
+            'timestamp' => ['nullable', 'string'],
         ]);
 
         Log::info('Webhook: Inventory change received', $validated);
@@ -45,7 +45,7 @@ final class WebhookController extends Controller
                 'warehouse' => $validated['warehouse'] ?? null,
             ])
             ->event('inventory_changed')
-            ->log("Inventory {$validated['event']}: {$validated['quantity']} units for {$product->name}");
+            ->log(sprintf('Inventory %s: %s units for %s', $validated['event'], $validated['quantity'], $product->name));
 
         return response()->json([
             'status' => 'processed',

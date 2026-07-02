@@ -8,6 +8,7 @@ use App\Models\Concerns\BelongsToTeam;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Override;
 
 final class LoyaltyLevel extends Model
 {
@@ -29,6 +30,7 @@ final class LoyaltyLevel extends Model
         return $this->hasMany(Customer::class);
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('google_ads_reports', function (Blueprint $table) {
+        Schema::create('google_ads_reports', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('team_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('campaign_id')->constrained()->cascadeOnDelete();

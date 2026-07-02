@@ -18,6 +18,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
 use UnitEnum;
 
 final class ChatMessageResource extends Resource
@@ -30,26 +31,31 @@ final class ChatMessageResource extends Resource
 
     protected static bool $shouldRegisterNavigation = false;
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Chat Messages');
     }
 
+    #[Override]
     public static function form(Schema $schema): Schema
     {
         return ChatMessageForm::configure($schema);
     }
 
+    #[Override]
     public static function infolist(Schema $schema): Schema
     {
         return ChatMessageInfolist::configure($schema);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return ChatMessagesTable::configure($table);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -57,6 +63,7 @@ final class ChatMessageResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [

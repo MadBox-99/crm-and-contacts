@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
 use Spatie\Activitylog\Models\Activity;
 use UnitEnum;
 
@@ -35,21 +36,25 @@ final class ActivityLogResource extends Resource
 
     protected static bool $isScopedToTenant = false;
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Activity Log');
     }
 
+    #[Override]
     public static function infolist(Schema $schema): Schema
     {
         return ActivityLogInfolist::configure($schema);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return ActivityLogsTable::configure($table);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -57,6 +62,7 @@ final class ActivityLogResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [
@@ -65,16 +71,19 @@ final class ActivityLogResource extends Resource
         ];
     }
 
+    #[Override]
     public static function canCreate(): bool
     {
         return false;
     }
 
+    #[Override]
     public static function canEdit($record): bool
     {
         return false;
     }
 
+    #[Override]
     public static function canDelete($record): bool
     {
         return false;

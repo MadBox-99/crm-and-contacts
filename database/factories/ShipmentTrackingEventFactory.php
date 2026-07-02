@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\Shipment;
+use App\Models\ShipmentTrackingEvent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ShipmentTrackingEvent>
+ * @extends Factory<ShipmentTrackingEvent>
  */
 final class ShipmentTrackingEventFactory extends Factory
 {
@@ -19,7 +21,7 @@ final class ShipmentTrackingEventFactory extends Factory
     public function definition(): array
     {
         return [
-            'shipment_id' => \App\Models\Shipment::factory(),
+            'shipment_id' => Shipment::factory(),
             'status_code' => $this->faker->randomElement([
                 'PICKED_UP',
                 'IN_TRANSIT',

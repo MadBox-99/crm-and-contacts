@@ -14,10 +14,8 @@ it('dispatches QuoteStatusChanged event when status changes', function (): void 
 
     $quote->update(['status' => QuoteStatus::Sent]);
 
-    Event::assertDispatched(QuoteStatusChanged::class, function (QuoteStatusChanged $event) use ($quote): bool {
-        return $event->quote->id === $quote->id
-            && $event->previousStatus === QuoteStatus::Draft->value;
-    });
+    Event::assertDispatched(QuoteStatusChanged::class, fn (QuoteStatusChanged $event): bool => $event->quote->id === $quote->id
+        && $event->previousStatus === QuoteStatus::Draft->value);
 });
 
 it('does not dispatch QuoteStatusChanged when other fields change', function (): void {

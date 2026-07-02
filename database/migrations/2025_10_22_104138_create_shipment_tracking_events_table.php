@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shipment_tracking_events', function (Blueprint $table) {
+        Schema::create('shipment_tracking_events', function (Blueprint $table): void {
             $table->id();
 
             // Relationship

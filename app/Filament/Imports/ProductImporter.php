@@ -9,6 +9,7 @@ use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
 use Illuminate\Support\Number;
+use Override;
 
 final class ProductImporter extends Importer
 {
@@ -53,6 +54,7 @@ final class ProductImporter extends Importer
         return $body;
     }
 
+    #[Override]
     public function resolveRecord(): Product
     {
         return Product::query()->firstOrNew([

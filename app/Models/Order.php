@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Madbox99\FilamentWooCommerce\Concerns\HasWooMapping;
+use Override;
 
 #[ObservedBy(OrderObserver::class)]
 final class Order extends Model
@@ -81,6 +82,7 @@ final class Order extends Model
         $this->save();
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

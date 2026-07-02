@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Providers\Filament;
 
 use App\Enums\NavigationGroup;
+use App\Enums\Permission;
+use App\Enums\Role;
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\EditTeamProfile;
 use App\Filament\Pages\RegisterTeam;
@@ -87,10 +89,10 @@ final class AdminPanelServiceProvider extends PanelProvider
             ])
             ->plugin(
                 FilamentSpatiePermissionsPlugin::make()
-                    ->permissionEnum(\App\Enums\Permission::class)
-                    ->roleEnum(\App\Enums\Role::class)
+                    ->permissionEnum(Permission::class)
+                    ->roleEnum(Role::class)
                     ->navigationGroup('System')
-                    ->canAccessUsing(fn ($user) => $user?->hasRole(\App\Enums\Role::Admin) ?? false)
+                    ->canAccessUsing(fn ($user) => $user?->hasRole(Role::Admin) ?? false)
             )
             ->plugin(FilamentChatWidgetPlugin::make())
             ->plugin(FilamentFormBuilderPlugin::make())

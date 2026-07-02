@@ -79,9 +79,9 @@ final class EmailIntegrationService
             }
 
             $client->disconnect();
-        } catch (Throwable $e) {
+        } catch (Throwable $throwable) {
             Log::error('EmailIntegration: Failed to fetch emails', [
-                'error' => $e->getMessage(),
+                'error' => $throwable->getMessage(),
                 'account' => $account,
             ]);
         }
@@ -144,8 +144,7 @@ final class EmailIntegrationService
     {
         return Communication::query()
             ->where('team_id', $teamId)
-            ->where('thread_id', $threadId)
-            ->orderBy('created_at')
+            ->where('thread_id', $threadId)->oldest()
             ->get();
     }
 
@@ -163,7 +162,7 @@ final class EmailIntegrationService
             ->whereNotNull('thread_id')
             ->selectRaw('thread_id, MIN(subject) as subject, COUNT(*) as message_count, MAX(created_at) as last_at')
             ->groupBy('thread_id')
-            ->orderByDesc('last_at')
+            ->latest('last_at')
             ->get();
     }
 

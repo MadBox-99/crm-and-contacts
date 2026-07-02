@@ -29,16 +29,19 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Override;
 
 final class OrdersRelationManager extends RelationManager
 {
     protected static string $relationship = 'orders';
 
+    #[Override]
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('Orders');
     }
 
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -46,7 +49,7 @@ final class OrdersRelationManager extends RelationManager
                 Select::make('quote_id')
                     ->label(__('Quote'))
                     ->relationship('quote', 'quote_number')
-                    ->getOptionLabelFromRecordUsing(fn ($record): string => "#{$record->quote_number} — {$record->customer?->name}"),
+                    ->getOptionLabelFromRecordUsing(fn ($record): string => sprintf('#%s — %s', $record->quote_number, $record->customer?->name)),
                 TextInput::make('order_number')
                     ->label(__('Order Number'))
                     ->required(),

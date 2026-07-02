@@ -70,7 +70,7 @@ it('renders the order view page', function (): void {
     $page->assertSee('ORD-VIEW-001')
         ->assertSee('Order details')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('orders/view'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('orders/view'));
 });
 
 it('renders the order edit page', function (): void {
@@ -84,5 +84,5 @@ it('renders the order edit page', function (): void {
 
     $page->assertSee('Edit Order')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('orders/edit'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('orders/edit'));
 });

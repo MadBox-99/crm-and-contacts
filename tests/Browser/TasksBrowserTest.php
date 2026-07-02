@@ -71,7 +71,7 @@ it('renders the task view page', function (): void {
     $page->assertSee('View Test Task')
         ->assertSee('Task details')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('tasks/view'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('tasks/view'));
 });
 
 it('renders the task edit page', function (): void {
@@ -88,5 +88,5 @@ it('renders the task edit page', function (): void {
 
     $page->assertSee('Edit Task')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('tasks/edit'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('tasks/edit'));
 });

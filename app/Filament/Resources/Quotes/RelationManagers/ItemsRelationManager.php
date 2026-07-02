@@ -18,16 +18,13 @@ use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Override;
 
 final class ItemsRelationManager extends RelationManager
 {
     protected static string $relationship = 'items';
 
-    public static function getModelLabel(): string
-    {
-        return __('Item');
-    }
-
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -193,5 +190,11 @@ final class ItemsRelationManager extends RelationManager
 
         $set('discount_amount', number_format($discountAmount, 2, '.', ''));
         $set('total', number_format($total, 2, '.', ''));
+    }
+
+    #[Override]
+    protected static function getModelLabel(): string
+    {
+        return __('Item');
     }
 }

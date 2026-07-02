@@ -7,7 +7,7 @@ namespace App\Listeners;
 use App\Contracts\SalesIntegrationInterface;
 use App\Events\OrderCreated;
 
-final class PushOrderToAccounting
+final readonly class PushOrderToAccounting
 {
     public function __construct(
         private SalesIntegrationInterface $integration,

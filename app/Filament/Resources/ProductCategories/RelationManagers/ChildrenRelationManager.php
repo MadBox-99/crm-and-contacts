@@ -16,21 +16,19 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 final class ChildrenRelationManager extends RelationManager
 {
     protected static string $relationship = 'children';
 
+    #[Override]
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('Subcategories');
     }
 
-    public static function getModelLabel(): string
-    {
-        return __('Subcategory');
-    }
-
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -89,5 +87,11 @@ final class ChildrenRelationManager extends RelationManager
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    #[Override]
+    protected static function getModelLabel(): string
+    {
+        return __('Subcategory');
     }
 }

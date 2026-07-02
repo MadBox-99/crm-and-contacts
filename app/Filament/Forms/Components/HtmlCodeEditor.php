@@ -10,7 +10,7 @@ final class HtmlCodeEditor extends Field
 {
     protected string $view = 'filament.forms.components.html-code-editor';
 
-    protected int $rows = 20;
+    private int $rows = 20;
 
     public function rows(int $rows): static
     {

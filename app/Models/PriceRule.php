@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Date;
+use Override;
 
 final class PriceRule extends Model
 {
@@ -87,6 +89,7 @@ final class PriceRule extends Model
         return $this->conditions ?? [];
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [
@@ -131,17 +134,13 @@ final class PriceRule extends Model
         $conditions = $this->getConditions();
         $now = now();
 
-        $validFrom = isset($conditions['valid_from']) ? \Carbon\Carbon::parse($conditions['valid_from']) : null;
-        $validTo = isset($conditions['valid_to']) ? \Carbon\Carbon::parse($conditions['valid_to']) : null;
+        $validFrom = isset($conditions['valid_from']) ? Date::parse($conditions['valid_from']) : null;
+        $validTo = isset($conditions['valid_to']) ? Date::parse($conditions['valid_to']) : null;
 
         if ($validFrom && $now->lt($validFrom)) {
             return false;
         }
 
-        if ($validTo && $now->gt($validTo)) {
-            return false;
-        }
-
-        return true;
+        return ! ($validTo && $now->gt($validTo));
     }
 }

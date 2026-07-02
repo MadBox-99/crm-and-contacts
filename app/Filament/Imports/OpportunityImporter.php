@@ -17,6 +17,7 @@ use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
 use Illuminate\Support\Number;
+use Override;
 
 final class OpportunityImporter extends Importer
 {
@@ -108,6 +109,7 @@ final class OpportunityImporter extends Importer
         return $body;
     }
 
+    #[Override]
     public function resolveRecord(): Opportunity
     {
         // First, try to find existing customer by any of the identifying fields

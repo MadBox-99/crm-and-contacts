@@ -19,22 +19,20 @@ use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Override;
 
 /** @property Order $ownerRecord */
 final class ItemsRelationManager extends RelationManager
 {
     protected static string $relationship = 'orderItems';
 
+    #[Override]
     public static function getTitle(mixed $ownerRecord, string $pageClass): string
     {
         return __('Order Items');
     }
 
-    public static function getModelLabel(): string
-    {
-        return __('Item');
-    }
-
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -144,5 +142,11 @@ final class ItemsRelationManager extends RelationManager
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    #[Override]
+    protected static function getModelLabel(): string
+    {
+        return __('Item');
     }
 }

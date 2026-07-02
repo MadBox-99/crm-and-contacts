@@ -18,7 +18,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 final class InvoiceController extends Controller
 {
     public function __construct(
-        private InvoiceService $invoiceService,
+        private readonly InvoiceService $invoiceService,
     ) {}
 
     public function index(Request $request): AnonymousResourceCollection

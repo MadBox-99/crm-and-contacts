@@ -21,7 +21,6 @@ use Laravel\Ai\Contracts\HasTools;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Enums\Lab;
 use Laravel\Ai\Promptable;
-use Stringable;
 
 #[Provider(Lab::Gemini)]
 #[Model('gemini-2.5-flash')]
@@ -31,12 +30,13 @@ use Stringable;
 #[Timeout(120)]
 final class CrmAssistant implements Agent, Conversational, HasTools
 {
-    use Promptable, RemembersConversations;
+    use Promptable;
+    use RemembersConversations;
 
     /**
      * Get the instructions that the agent should follow.
      */
-    public function instructions(): Stringable|string
+    public function instructions(): string
     {
         return <<<'INSTRUCTIONS'
         You are a CRM assistant for a Sales and Customer Relationship Management system.

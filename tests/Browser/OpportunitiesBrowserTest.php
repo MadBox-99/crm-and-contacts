@@ -68,5 +68,5 @@ it('renders the opportunity edit page', function (): void {
 
     $page->assertSee('Edit Opportunity')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('opportunities/edit'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('opportunities/edit'));
 });

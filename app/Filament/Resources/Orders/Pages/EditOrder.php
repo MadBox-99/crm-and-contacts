@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Orders\Pages;
 
 use App\Enums\OrderStatus;
+use App\Filament\Resources\Invoices\InvoiceResource;
 use App\Filament\Resources\Orders\OrderResource;
+use App\Filament\Resources\Shipments\ShipmentResource;
+use App\Models\Carrier;
 use App\Models\Order;
 use App\Services\InvoiceService;
 use App\Services\OrderService;
@@ -17,12 +20,14 @@ use Filament\Actions\RestoreAction;
 use Filament\Forms\Components\Select;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Override;
 
 /** @property Order $record */
 final class EditOrder extends EditRecord
 {
     protected static string $resource = OrderResource::class;
 
+    #[Override]
     protected function getHeaderActions(): array
     {
         return [
@@ -81,7 +86,7 @@ final class EditOrder extends EditRecord
                         ->body(__('Invoice :number created with :count items.', ['number' => $invoice->invoice_number, 'count' => $invoice->invoiceItems->count()]))
                         ->send();
 
-                    $this->redirect(\App\Filament\Resources\Invoices\InvoiceResource::getUrl('edit', ['record' => $invoice]));
+                    $this->redirect(InvoiceResource::getUrl('edit', ['record' => $invoice]));
                 })
                 ->visible(fn (Order $record): bool => ! $record->invoices()->exists()),
 
@@ -92,7 +97,7 @@ final class EditOrder extends EditRecord
                 ->schema([
                     Select::make('carrier')
                         ->label(__('Carrier'))
-                        ->options(fn (): array => \App\Models\Carrier::query()
+                        ->options(fn (): array => Carrier::query()
                             ->where('is_active', true)
                             ->pluck('name', 'name')
                             ->toArray())
@@ -108,7 +113,7 @@ final class EditOrder extends EditRecord
                         ->body(__('Shipment :number created with carrier :carrier.', ['number' => $shipment->shipment_number, 'carrier' => $shipment->carrier]))
                         ->send();
 
-                    $this->redirect(\App\Filament\Resources\Shipments\ShipmentResource::getUrl('edit', ['record' => $shipment]));
+                    $this->redirect(ShipmentResource::getUrl('edit', ['record' => $shipment]));
                 }),
 
             DeleteAction::make(),

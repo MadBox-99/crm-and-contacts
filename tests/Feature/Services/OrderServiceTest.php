@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Enums\OrderStatus;
 use App\Enums\QuoteStatus;
 use App\Models\Customer;
+use App\Models\Order;
 use App\Models\Quote;
 use App\Models\QuoteItem;
 use App\Services\OrderService;
@@ -13,7 +14,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
-    $this->orderService = app(OrderService::class);
+    $this->orderService = resolve(OrderService::class);
     $this->customer = Customer::factory()->create();
 });
 
@@ -41,7 +42,7 @@ it('generates unique order numbers', function (): void {
 });
 
 it('allows valid status transitions', function (OrderStatus $from, OrderStatus $to): void {
-    $order = App\Models\Order::factory()->create(['status' => $from]);
+    $order = Order::factory()->create(['status' => $from]);
 
     $updated = $this->orderService->transitionStatus($order, $to);
 
@@ -55,7 +56,7 @@ it('allows valid status transitions', function (OrderStatus $from, OrderStatus $
 ]);
 
 it('rejects invalid status transitions', function (): void {
-    $order = App\Models\Order::factory()->create(['status' => OrderStatus::Delivered]);
+    $order = Order::factory()->create(['status' => OrderStatus::Delivered]);
 
     $this->orderService->transitionStatus($order, OrderStatus::Processing);
 })->throws(InvalidArgumentException::class);

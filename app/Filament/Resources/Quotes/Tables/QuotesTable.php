@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Quotes\Tables;
 
+use App\Filament\Resources\Quotes\QuoteResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -103,7 +104,7 @@ final class QuotesTable
             ])
             ->recordActions([
                 EditAction::make()
-                    ->url(fn ($record): string => \App\Filament\Resources\Quotes\QuoteResource::getUrl('edit', ['record' => $record])),
+                    ->url(fn ($record): string => QuoteResource::getUrl('edit', ['record' => $record])),
             ])
             ->defaultSort('issue_date', 'desc')
             ->paginated([10, 25, 50, 100]);

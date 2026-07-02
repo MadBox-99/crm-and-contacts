@@ -8,6 +8,7 @@ use App\Models\Concerns\BelongsToTeam;
 use Database\Factories\CarrierFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 final class Carrier extends Model
 {
@@ -22,6 +23,7 @@ final class Carrier extends Model
         'is_active',
     ];
 
+    #[Override]
     protected function casts(): array
     {
         return [

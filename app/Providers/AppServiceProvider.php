@@ -54,12 +54,14 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Madbox99\UserTeamSync\Events\TeamCreatedFromSync;
 use Madbox99\UserTeamSync\Events\UserCreatedFromSync;
+use Override;
 
 final class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
+    #[Override]
     public function register(): void
     {
         $this->app->singleton(LoginResponseContract::class, LoginResponse::class);
@@ -120,15 +122,15 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureFilamentTranslations(): void
     {
-        Field::configureUsing(fn (Field $c) => $c->translateLabel());
-        Column::configureUsing(fn (Column $c) => $c->translateLabel());
-        Entry::configureUsing(fn (Entry $c) => $c->translateLabel());
-        Filter::configureUsing(fn (Filter $c) => $c->translateLabel());
-        SelectFilter::configureUsing(fn (SelectFilter $c) => $c->translateLabel());
-        Tab::configureUsing(fn (Tab $c) => $c->translateLabel());
-        Section::configureUsing(fn (Section $c) => $c->translateLabel());
-        Action::configureUsing(fn (Action $c) => $c->translateLabel());
-        Wizard::configureUsing(fn (Wizard $c) => $c->translateLabel());
+        Field::configureUsing(fn (Field $c): Field => $c->translateLabel());
+        Column::configureUsing(fn (Column $c): Column => $c->translateLabel());
+        Entry::configureUsing(fn (Entry $c): Entry => $c->translateLabel());
+        Filter::configureUsing(fn (Filter $c): Filter => $c->translateLabel());
+        SelectFilter::configureUsing(fn (SelectFilter $c): SelectFilter => $c->translateLabel());
+        Tab::configureUsing(fn (Tab $c): Tab => $c->translateLabel());
+        Section::configureUsing(fn (Section $c): Section => $c->translateLabel());
+        Action::configureUsing(fn (Action $c): Action => $c->translateLabel());
+        Wizard::configureUsing(fn (Wizard $c): Wizard => $c->translateLabel());
     }
 
     private function registerSyncListeners(): void

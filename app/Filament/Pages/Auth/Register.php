@@ -8,6 +8,7 @@ use Filament\Auth\Pages\Register as BaseRegister;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Schema;
+use Override;
 
 final class Register extends BaseRegister
 {
@@ -15,6 +16,7 @@ final class Register extends BaseRegister
 
     protected static string $layout = 'filament.layouts.auth-split';
 
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -28,6 +30,7 @@ final class Register extends BaseRegister
             ->columns(2);
     }
 
+    #[Override]
     protected function getNameFormComponent(): TextInput
     {
         return TextInput::make('name')
@@ -38,6 +41,7 @@ final class Register extends BaseRegister
             ->columnSpanFull();
     }
 
+    #[Override]
     protected function getEmailFormComponent(): TextInput
     {
         return TextInput::make('email')
@@ -49,6 +53,7 @@ final class Register extends BaseRegister
             ->columnSpanFull();
     }
 
+    #[Override]
     protected function getPasswordFormComponent(): TextInput
     {
         return TextInput::make('password')
@@ -61,6 +66,7 @@ final class Register extends BaseRegister
             ->validationAttribute(__('password'));
     }
 
+    #[Override]
     protected function getPasswordConfirmationFormComponent(): TextInput
     {
         return TextInput::make('passwordConfirmation')

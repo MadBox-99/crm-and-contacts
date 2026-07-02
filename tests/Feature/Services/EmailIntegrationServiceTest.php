@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
-    $this->service = app(EmailIntegrationService::class);
+    $this->service = resolve(EmailIntegrationService::class);
     $this->team = Team::factory()->create();
     $this->customer = Customer::factory()->for($this->team)->create(['email' => 'customer@example.com']);
 });

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Mail;
 uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
-    $this->service = app(QuoteTemplateService::class);
+    $this->service = resolve(QuoteTemplateService::class);
     $this->customer = Customer::factory()->create();
     $this->template = QuoteTemplate::factory()->default()->create();
     $this->quote = Quote::factory()->draft()->create([
@@ -101,10 +101,8 @@ it('sends a quote email with PDF attachment', function (): void {
         $this->template,
     );
 
-    Mail::assertQueued(QuoteEmail::class, function (QuoteEmail $mail): bool {
-        return $mail->hasTo('customer@example.com')
-            && $mail->quote->id === $this->quote->id;
-    });
+    Mail::assertQueued(QuoteEmail::class, fn (QuoteEmail $mail): bool => $mail->hasTo('customer@example.com')
+        && $mail->quote->id === $this->quote->id);
 });
 
 it('updates status to Sent when sending', function (): void {

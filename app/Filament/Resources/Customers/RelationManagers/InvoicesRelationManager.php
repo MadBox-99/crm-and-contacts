@@ -31,16 +31,19 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Override;
 
 final class InvoicesRelationManager extends RelationManager
 {
     protected static string $relationship = 'invoices';
 
+    #[Override]
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('Invoices');
     }
 
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -48,7 +51,7 @@ final class InvoicesRelationManager extends RelationManager
                 Select::make('order_id')
                     ->label(__('Order'))
                     ->relationship('order', 'order_number')
-                    ->getOptionLabelFromRecordUsing(fn ($record): string => "#{$record->order_number} — {$record->customer?->name}"),
+                    ->getOptionLabelFromRecordUsing(fn ($record): string => sprintf('#%s — %s', $record->order_number, $record->customer?->name)),
                 TextInput::make('invoice_number')
                     ->label(__('Invoice Number'))
                     ->required(),

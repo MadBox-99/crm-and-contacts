@@ -17,6 +17,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
 use UnitEnum;
 
 final class LeadOpportunitiesResource extends Resource
@@ -29,31 +30,37 @@ final class LeadOpportunitiesResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Leads / Opportunities');
     }
 
+    #[Override]
     public static function getModelLabel(): string
     {
         return __('Lead');
     }
 
+    #[Override]
     public static function getPluralModelLabel(): string
     {
         return __('Leads');
     }
 
+    #[Override]
     public static function form(Schema $schema): Schema
     {
         return LeadOpportunityForm::configure($schema);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return LeadOpportunitiesTable::configure($table);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -61,6 +68,7 @@ final class LeadOpportunitiesResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [

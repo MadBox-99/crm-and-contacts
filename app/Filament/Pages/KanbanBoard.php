@@ -16,6 +16,7 @@ use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Livewire\Attributes\Url;
+use Override;
 use UnitEnum;
 
 final class KanbanBoard extends Page
@@ -44,11 +45,13 @@ final class KanbanBoard extends Page
 
     protected static ?int $navigationSort = 3;
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Kanban Board');
     }
 
+    #[Override]
     public function getTitle(): string
     {
         return __('Pipeline Kanban');
@@ -167,7 +170,7 @@ final class KanbanBoard extends Page
             'probability' => $opp->probability,
             'assignee_name' => $opp->assignedUser?->name ?? '—',
             'assignee_initials' => $opp->assignedUser
-                ? mb_strtoupper(mb_substr($opp->assignedUser->name, 0, 1))
+                ? mb_strtoupper(mb_substr((string) $opp->assignedUser->name, 0, 1))
                 : '?',
             'expected_close_date' => $opp->expected_close_date?->format('Y-m-d'),
         ]);

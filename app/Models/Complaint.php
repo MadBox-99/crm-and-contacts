@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Override;
 
 final class Complaint extends Model
 {
@@ -44,7 +45,7 @@ final class Complaint extends Model
     public static function generateComplaintNumber(): string
     {
         $year = now()->format('Y');
-        $lastComplaint = self::withoutGlobalScopes()
+        $lastComplaint = self::query()->withoutGlobalScopes()
             ->whereYear('created_at', $year)
             ->whereNotNull('complaint_number')
             ->orderBy('id', 'desc')
@@ -82,6 +83,7 @@ final class Complaint extends Model
         return $this->hasMany(ComplaintEscalation::class);
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

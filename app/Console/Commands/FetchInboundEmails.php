@@ -19,22 +19,18 @@ final class FetchInboundEmails extends Command
         $teamId = $this->option('team');
         $account = (string) $this->option('account');
 
-        if ($teamId) {
-            $teams = Team::query()->where('id', $teamId)->get();
-        } else {
-            $teams = Team::all();
-        }
+        $teams = $teamId ? Team::query()->where('id', $teamId)->get() : Team::all();
 
         $totalFetched = 0;
 
         foreach ($teams as $team) {
-            $this->info("Fetching emails for team: {$team->name}");
+            $this->info('Fetching emails for team: '.$team->name);
             $emails = $service->fetchInboundEmails($team->id, $account);
             $totalFetched += $emails->count();
-            $this->info("  Fetched {$emails->count()} new emails.");
+            $this->info(sprintf('  Fetched %d new emails.', $emails->count()));
         }
 
-        $this->info("Total emails fetched: {$totalFetched}");
+        $this->info('Total emails fetched: '.$totalFetched);
 
         return self::SUCCESS;
     }

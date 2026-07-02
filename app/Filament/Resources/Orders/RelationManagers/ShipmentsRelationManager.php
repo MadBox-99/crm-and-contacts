@@ -17,6 +17,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 final class ShipmentsRelationManager extends RelationManager
 {
@@ -24,11 +25,13 @@ final class ShipmentsRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'shipment_number';
 
+    #[Override]
     public static function getTitle(mixed $ownerRecord, string $pageClass): string
     {
         return __('Shipments');
     }
 
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return ShipmentResource::form($schema);
@@ -44,7 +47,7 @@ final class ShipmentsRelationManager extends RelationManager
                     ->searchable()
                     ->sortable()
                     ->copyable()
-                    ->url(fn ($record) => $this->getShipmentEditUrl($record)),
+                    ->url(fn (Model $record): ?string => $this->getShipmentEditUrl($record)),
 
                 TextColumn::make('carrier')
                     ->label(__('Carrier'))
@@ -99,7 +102,7 @@ final class ShipmentsRelationManager extends RelationManager
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->url(fn ($record) => $this->getShipmentEditUrl($record)),
+                    ->url(fn (Model $record): ?string => $this->getShipmentEditUrl($record)),
                 EditAction::make(),
             ])
             ->toolbarActions([

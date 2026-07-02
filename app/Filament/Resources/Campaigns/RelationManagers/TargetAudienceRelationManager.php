@@ -6,6 +6,8 @@ namespace App\Filament\Resources\Campaigns\RelationManagers;
 
 use App\Enums\CustomerType;
 use App\Filament\Exports\CampaignAudienceExporter;
+use App\Models\Customer;
+use App\Models\CustomerAddress;
 use Filament\Actions\AttachAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DetachAction;
@@ -25,6 +27,7 @@ use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Override;
 
 final class TargetAudienceRelationManager extends RelationManager
 {
@@ -34,11 +37,7 @@ final class TargetAudienceRelationManager extends RelationManager
 
     protected static ?string $title = null;
 
-    public static function getModelLabel(): string
-    {
-        return __('Target Customer');
-    }
-
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -115,62 +114,52 @@ final class TargetAudienceRelationManager extends RelationManager
                         Select::make('city')
                             ->label(__('City'))
                             ->searchable()
-                            ->options(function (): array {
-                                return \App\Models\CustomerAddress::query()
-                                    ->distinct()
-                                    ->pluck('city', 'city')
-                                    ->filter()
-                                    ->toArray();
-                            }),
+                            ->options(fn (): array => CustomerAddress::query()
+                                ->distinct()
+                                ->pluck('city', 'city')
+                                ->filter()
+                                ->toArray()),
                     ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query->when(
-                            $data['city'],
-                            fn (Builder $query, $city): Builder => $query->whereHas(
-                                'addresses',
-                                fn (Builder $query) => $query->where('city', $city)
-                            )
-                        );
-                    }),
+                    ->query(fn (Builder $query, array $data): Builder => $query->when(
+                        $data['city'],
+                        fn (Builder $query, $city): Builder => $query->whereHas(
+                            'addresses',
+                            fn (Builder $query) => $query->where('city', $city)
+                        )
+                    )),
                 Filter::make('industry')
                     ->form([
                         Select::make('industry')
                             ->label(__('Industry'))
                             ->searchable()
-                            ->options(function (): array {
-                                return \App\Models\Customer::query()
-                                    ->whereNotNull('industry')
-                                    ->distinct()
-                                    ->pluck('industry', 'industry')
-                                    ->toArray();
-                            }),
+                            ->options(fn (): array => Customer::query()
+                                ->whereNotNull('industry')
+                                ->distinct()
+                                ->pluck('industry', 'industry')
+                                ->toArray()),
                     ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query->when(
-                            $data['industry'],
-                            fn (Builder $query, $industry): Builder => $query->where('industry', $industry)
-                        );
-                    }),
+                    ->query(fn (Builder $query, array $data): Builder => $query->when(
+                        $data['industry'],
+                        fn (Builder $query, $industry): Builder => $query->where('industry', $industry)
+                    )),
                 Filter::make('last_purchase')
                     ->form([
                         DatePicker::make('purchased_since')
                             ->label(__('Purchased since')),
                     ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query->when(
-                            $data['purchased_since'],
-                            fn (Builder $query, $date): Builder => $query->whereHas(
-                                'orders',
-                                fn (Builder $query) => $query->where('order_date', '>=', $date)
-                            )
-                        );
-                    }),
+                    ->query(fn (Builder $query, array $data): Builder => $query->when(
+                        $data['purchased_since'],
+                        fn (Builder $query, $date): Builder => $query->whereHas(
+                            'orders',
+                            fn (Builder $query) => $query->where('order_date', '>=', $date)
+                        )
+                    )),
             ])
             ->headerActions([
                 AttachAction::make()
                     ->label('Add Customers')
                     ->modalHeading('Add Customers to Target Audience')
-                    ->modalDescription('Select customers to add to this campaign\'s target audience.')
+                    ->modalDescription("Select customers to add to this campaign's target audience.")
                     ->multiple()
                     ->preloadRecordSelect()
                     ->recordSelectSearchColumns(['name', 'email', 'phone'])
@@ -218,5 +207,11 @@ final class TargetAudienceRelationManager extends RelationManager
             ->emptyStateHeading('No target audience selected')
             ->emptyStateDescription('Start building your target audience by adding customers to this campaign.')
             ->emptyStateIcon('heroicon-o-user-group');
+    }
+
+    #[Override]
+    protected static function getModelLabel(): string
+    {
+        return __('Target Customer');
     }
 }

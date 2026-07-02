@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\UpdateShipmentStatusRequest;
 use App\Models\Shipment;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
 final class UpdateShipmentStatusController extends Controller
@@ -15,7 +16,7 @@ final class UpdateShipmentStatusController extends Controller
     public function __invoke(UpdateShipmentStatusRequest $request, string $trackingNumber): JsonResponse
     {
         try {
-            $shipment = Shipment::where('tracking_number', $trackingNumber)->firstOrFail();
+            $shipment = Shipment::query()->where('tracking_number', $trackingNumber)->firstOrFail();
 
             $shipment->update([
                 'status' => $request->status,
@@ -29,7 +30,7 @@ final class UpdateShipmentStatusController extends Controller
                 'message' => 'Shipment status updated successfully',
                 'data' => $shipment->fresh(),
             ]);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException) {
             return response()->json([
                 'message' => 'Shipment not found',
             ], 404);

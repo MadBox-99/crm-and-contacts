@@ -6,18 +6,18 @@ namespace App\Ai\Tools;
 
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
-use Stringable;
 
 final class AggregateModel implements Tool
 {
-    public function description(): Stringable|string
+    public function description(): string
     {
         return 'Perform aggregate operations (count, sum, avg, min, max) on a model. Useful for statistics and reports.';
     }
 
-    public function handle(Request $request): Stringable|string
+    public function handle(Request $request): string
     {
         $modelKey = (string) $request->string('model');
         $operation = (string) $request->string('operation');
@@ -28,7 +28,7 @@ final class AggregateModel implements Tool
         $models = ListModels::AVAILABLE_MODELS;
 
         if (! isset($models[$modelKey])) {
-            return json_encode(['error' => "Unknown model '{$modelKey}'."], JSON_THROW_ON_ERROR);
+            return json_encode(['error' => sprintf("Unknown model '%s'.", $modelKey)], JSON_THROW_ON_ERROR);
         }
 
         $allowedOperations = ['count', 'sum', 'avg', 'min', 'max'];
@@ -38,7 +38,7 @@ final class AggregateModel implements Tool
 
         $modelClass = $models[$modelKey]['model'];
 
-        /** @var Builder<\Illuminate\Database\Eloquent\Model> $query */
+        /** @var Builder<Model> $query */
         $query = $modelClass::query();
 
         foreach ((array) $filters as $field => $value) {
@@ -50,7 +50,7 @@ final class AggregateModel implements Tool
         if ($groupBy !== null && $groupBy !== '') {
             $results = $query
                 ->groupBy($groupBy)
-                ->selectRaw("{$groupBy}, {$operation}({$column}) as result")
+                ->selectRaw(sprintf('%s, %s(%s) as result', $groupBy, $operation, $column))
                 ->get()
                 ->toArray();
 

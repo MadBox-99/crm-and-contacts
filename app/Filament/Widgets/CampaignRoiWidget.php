@@ -6,6 +6,7 @@ namespace App\Filament\Widgets;
 
 use App\Services\SalesDashboardService;
 use Filament\Widgets\ChartWidget;
+use Override;
 
 final class CampaignRoiWidget extends ChartWidget
 {
@@ -15,11 +16,13 @@ final class CampaignRoiWidget extends ChartWidget
 
     protected ?string $pollingInterval = '30s';
 
+    #[Override]
     public function getHeading(): string
     {
         return __('Campaign ROI');
     }
 
+    #[Override]
     protected function getData(): array
     {
         $service = resolve(SalesDashboardService::class);
@@ -49,6 +52,7 @@ final class CampaignRoiWidget extends ChartWidget
         return 'bar';
     }
 
+    #[Override]
     protected function getOptions(): array
     {
         return [

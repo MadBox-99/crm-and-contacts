@@ -7,11 +7,13 @@ namespace App\Filament\Resources\Campaigns\Pages;
 use App\Filament\Resources\Campaigns\CampaignResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Override;
 
 final class ViewCampaign extends ViewRecord
 {
     protected static string $resource = CampaignResource::class;
 
+    #[Override]
     protected function getHeaderActions(): array
     {
         return [

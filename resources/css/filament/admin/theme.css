@@ -1,4 +1,4 @@
-@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@import "../../../../vendor/filament/filament/resources/css/theme.css";
 
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/filament/**/*';
@@ -162,8 +162,12 @@
     @apply hover:bg-white/5! focus-visible:bg-white/5!;
 }
 
-.fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:hover > .fi-sidebar-item-label,
-.fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:focus-visible > .fi-sidebar-item-label {
+.fi-sidebar-item.fi-sidebar-item-has-url
+    > .fi-sidebar-item-btn:hover
+    > .fi-sidebar-item-label,
+.fi-sidebar-item.fi-sidebar-item-has-url
+    > .fi-sidebar-item-btn:focus-visible
+    > .fi-sidebar-item-label {
     @apply text-white!;
 }
 
@@ -177,7 +181,10 @@
 }
 
 /* Active grouped border dot */
-.fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-sidebar-item-grouped-border > .fi-sidebar-item-grouped-border-part {
+.fi-sidebar-item.fi-active
+    > .fi-sidebar-item-btn
+    > .fi-sidebar-item-grouped-border
+    > .fi-sidebar-item-grouped-border-part {
     @apply bg-white!;
 }
 
@@ -198,23 +205,45 @@
    Complaints, Products, Reports, System
    ============================================ */
 
-.fi-nav-group-campaigns .fi-sidebar-item-btn > .fi-icon { @apply text-purple-400!; }
-.fi-nav-group-sales .fi-sidebar-item-btn > .fi-icon { @apply text-blue-400!; }
-.fi-nav-group-discounts .fi-sidebar-item-btn > .fi-icon { @apply text-orange-400!; }
-.fi-nav-group-customers .fi-sidebar-item-btn > .fi-icon { @apply text-red-400!; }
-.fi-nav-group-loyalty .fi-sidebar-item-btn > .fi-icon { @apply text-amber-400!; }
-.fi-nav-group-complaints .fi-sidebar-item-btn > .fi-icon { @apply text-yellow-400!; }
-.fi-nav-group-products .fi-sidebar-item-btn > .fi-icon { @apply text-teal-400!; }
-.fi-nav-group-reports .fi-sidebar-item-btn > .fi-icon { @apply text-emerald-400!; }
-.fi-nav-group-system .fi-sidebar-item-btn > .fi-icon { @apply text-gray-500!; }
+.fi-nav-group-campaigns .fi-sidebar-item-btn > .fi-icon {
+    @apply text-purple-400!;
+}
+.fi-nav-group-sales .fi-sidebar-item-btn > .fi-icon {
+    @apply text-blue-400!;
+}
+.fi-nav-group-discounts .fi-sidebar-item-btn > .fi-icon {
+    @apply text-orange-400!;
+}
+.fi-nav-group-customers .fi-sidebar-item-btn > .fi-icon {
+    @apply text-red-400!;
+}
+.fi-nav-group-loyalty .fi-sidebar-item-btn > .fi-icon {
+    @apply text-amber-400!;
+}
+.fi-nav-group-complaints .fi-sidebar-item-btn > .fi-icon {
+    @apply text-yellow-400!;
+}
+.fi-nav-group-products .fi-sidebar-item-btn > .fi-icon {
+    @apply text-teal-400!;
+}
+.fi-nav-group-reports .fi-sidebar-item-btn > .fi-icon {
+    @apply text-emerald-400!;
+}
+.fi-nav-group-system .fi-sidebar-item-btn > .fi-icon {
+    @apply text-gray-500!;
+}
 
 /* Override: active/hover icons always white regardless of group */
 .fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-icon {
     @apply text-white!;
 }
 
-.fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:hover > .fi-icon,
-.fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:focus-visible > .fi-icon {
+.fi-sidebar-item.fi-sidebar-item-has-url
+    > .fi-sidebar-item-btn:hover
+    > .fi-icon,
+.fi-sidebar-item.fi-sidebar-item-has-url
+    > .fi-sidebar-item-btn:focus-visible
+    > .fi-icon {
     @apply text-white!;
 }
 
@@ -248,7 +277,8 @@
     @apply text-gray-400!;
 }
 
-.fi-sidebar-database-notifications-btn > .fi-sidebar-database-notifications-btn-label {
+.fi-sidebar-database-notifications-btn
+    > .fi-sidebar-database-notifications-btn-label {
     @apply text-gray-300!;
 }
 

@@ -70,7 +70,7 @@ it('renders the quote view page', function (): void {
     $page->assertSee('QT-VIEW-001')
         ->assertSee('Quote details')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('quotes/view'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('quotes/view'));
 });
 
 it('renders the quote edit page', function (): void {
@@ -84,5 +84,5 @@ it('renders the quote edit page', function (): void {
 
     $page->assertSee('Edit Quote')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('quotes/edit'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('quotes/edit'));
 });

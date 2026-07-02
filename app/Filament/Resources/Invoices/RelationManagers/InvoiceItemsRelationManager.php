@@ -18,16 +18,13 @@ use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Override;
 
 final class InvoiceItemsRelationManager extends RelationManager
 {
     protected static string $relationship = 'invoiceItems';
 
-    public static function getModelLabel(): string
-    {
-        return __('Item');
-    }
-
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -119,5 +116,11 @@ final class InvoiceItemsRelationManager extends RelationManager
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    #[Override]
+    protected static function getModelLabel(): string
+    {
+        return __('Item');
     }
 }

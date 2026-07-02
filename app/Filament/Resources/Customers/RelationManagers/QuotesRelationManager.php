@@ -31,16 +31,19 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Override;
 
 final class QuotesRelationManager extends RelationManager
 {
     protected static string $relationship = 'quotes';
 
+    #[Override]
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('Quotes');
     }
 
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema

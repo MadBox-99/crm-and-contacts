@@ -14,7 +14,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
-    $this->service = app(ComplaintService::class);
+    $this->service = resolve(ComplaintService::class);
     $this->customer = Customer::factory()->create();
 });
 

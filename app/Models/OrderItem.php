@@ -8,6 +8,7 @@ use App\Models\Concerns\BelongsToTeam;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Override;
 
 final class OrderItem extends Model
 {
@@ -56,6 +57,7 @@ final class OrderItem extends Model
         ];
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

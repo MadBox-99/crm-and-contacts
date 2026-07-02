@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Validate;
+use Override;
 use Throwable;
 use UnitEnum;
 
@@ -37,11 +38,13 @@ final class CrmAssistantChat extends Page
 
     protected static ?int $navigationSort = 100;
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('AI Assistant');
     }
 
+    #[Override]
     public function getTitle(): string
     {
         return __('CRM AI Assistant');
@@ -54,7 +57,7 @@ final class CrmAssistantChat extends Page
     {
         return DB::table('agent_conversations')
             ->where('user_id', Auth::id())
-            ->orderByDesc('updated_at')
+            ->latest('updated_at')
             ->limit(50)
             ->get(['id', 'title', 'created_at', 'updated_at']);
     }
@@ -64,13 +67,12 @@ final class CrmAssistantChat extends Page
         $this->conversationId = $id;
 
         $messages = DB::table('agent_conversation_messages')
-            ->where('conversation_id', $id)
-            ->orderBy('created_at')
+            ->where('conversation_id', $id)->oldest()
             ->get(['role', 'content']);
 
         $this->chatHistory = $messages
-            ->filter(fn ($msg) => in_array($msg->role, ['user', 'assistant'], true))
-            ->map(fn ($msg) => [
+            ->filter(fn ($msg): bool => in_array($msg->role, ['user', 'assistant'], true))
+            ->map(fn ($msg): array => [
                 'role' => $msg->role,
                 'content' => $msg->content,
             ])
@@ -140,7 +142,7 @@ final class CrmAssistantChat extends Page
                 'role' => 'assistant',
                 'content' => (string) $response,
             ];
-        } catch (Throwable $e) {
+        } catch (Throwable $throwable) {
             $this->chatHistory[] = [
                 'role' => 'assistant',
                 'content' => __('Sorry, an error occurred. Please try again.'),
@@ -148,7 +150,7 @@ final class CrmAssistantChat extends Page
 
             Notification::make()
                 ->title(__('AI Error'))
-                ->body($e->getMessage())
+                ->body($throwable->getMessage())
                 ->danger()
                 ->send();
         } finally {

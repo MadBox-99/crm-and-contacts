@@ -14,10 +14,8 @@ it('dispatches OpportunityStageMoved event when stage changes', function (): voi
 
     $opportunity->update(['stage' => OpportunityStage::Qualified]);
 
-    Event::assertDispatched(OpportunityStageMoved::class, function (OpportunityStageMoved $event) use ($opportunity): bool {
-        return $event->opportunity->id === $opportunity->id
-            && $event->previousStage === OpportunityStage::Lead->value;
-    });
+    Event::assertDispatched(OpportunityStageMoved::class, fn (OpportunityStageMoved $event): bool => $event->opportunity->id === $opportunity->id
+        && $event->previousStage === OpportunityStage::Lead->value);
 });
 
 it('does not dispatch OpportunityStageMoved when other fields change', function (): void {

@@ -9,6 +9,7 @@ use Database\Factories\ShipmentItemFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Override;
 
 final class ShipmentItem extends Model
 {
@@ -42,6 +43,7 @@ final class ShipmentItem extends Model
         return $this->belongsTo(OrderItem::class);
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

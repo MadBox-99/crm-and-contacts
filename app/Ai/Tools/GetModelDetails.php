@@ -7,16 +7,15 @@ namespace App\Ai\Tools;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
-use Stringable;
 
 final class GetModelDetails implements Tool
 {
-    public function description(): Stringable|string
+    public function description(): string
     {
         return 'Get detailed information about a specific record by its ID, including requested relationships. Use list_models first to see available models and their relationships.';
     }
 
-    public function handle(Request $request): Stringable|string
+    public function handle(Request $request): string
     {
         $modelKey = (string) $request->string('model');
         $id = $request->integer('id');
@@ -25,7 +24,7 @@ final class GetModelDetails implements Tool
         $models = ListModels::AVAILABLE_MODELS;
 
         if (! isset($models[$modelKey])) {
-            return json_encode(['error' => "Unknown model '{$modelKey}'. Use list_models to see available models."], JSON_THROW_ON_ERROR);
+            return json_encode(['error' => sprintf("Unknown model '%s'. Use list_models to see available models.", $modelKey)], JSON_THROW_ON_ERROR);
         }
 
         $config = $models[$modelKey];
@@ -37,7 +36,7 @@ final class GetModelDetails implements Tool
         $record = $modelClass::with($validRelationships)->find($id);
 
         if ($record === null) {
-            return json_encode(['error' => "Record not found: {$modelKey} #{$id}"], JSON_THROW_ON_ERROR);
+            return json_encode(['error' => sprintf('Record not found: %s #%d', $modelKey, $id)], JSON_THROW_ON_ERROR);
         }
 
         return json_encode([

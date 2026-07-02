@@ -61,5 +61,5 @@ it('renders the product category edit page', function (): void {
 
     $page->assertSee('Edit Product Category')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('product-categories/edit'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('product-categories/edit'));
 });

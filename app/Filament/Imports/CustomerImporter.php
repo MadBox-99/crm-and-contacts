@@ -13,6 +13,7 @@ use Filament\Actions\Imports\Models\Import;
 use Filament\Forms\Components\Checkbox;
 use Illuminate\Support\Number;
 use Illuminate\Support\Str;
+use Override;
 
 final class CustomerImporter extends Importer
 {
@@ -58,6 +59,7 @@ final class CustomerImporter extends Importer
         return $body;
     }
 
+    #[Override]
     public static function getOptionsFormComponents(): array
     {
         return [
@@ -66,6 +68,7 @@ final class CustomerImporter extends Importer
         ];
     }
 
+    #[Override]
     public function resolveRecord(): Customer
     {
         if (empty($this->data['unique_identifier'])) {
@@ -94,7 +97,7 @@ final class CustomerImporter extends Importer
                 ->first();
 
             if (! $customer) {
-                throw new RowImportFailedException("Nem talalhato ugyfel: [{$this->data['unique_identifier']}].");
+                throw new RowImportFailedException(sprintf('Nem talalhato ugyfel: [%s].', $this->data['unique_identifier']));
             }
 
             return $customer;

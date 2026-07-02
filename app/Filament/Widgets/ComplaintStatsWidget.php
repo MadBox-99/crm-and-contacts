@@ -7,6 +7,7 @@ namespace App\Filament\Widgets;
 use App\Services\SalesDashboardService;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Override;
 
 final class ComplaintStatsWidget extends StatsOverviewWidget
 {
@@ -14,6 +15,7 @@ final class ComplaintStatsWidget extends StatsOverviewWidget
 
     protected ?string $pollingInterval = '30s';
 
+    #[Override]
     protected function getStats(): array
     {
         $service = resolve(SalesDashboardService::class);

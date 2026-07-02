@@ -115,7 +115,7 @@ final class QuoteForm
                     Step::make(__('Items'))
                         ->icon(Heroicon::ListBullet)
                         ->afterValidation(function (Get $get, Set $set): void {
-                            static::updateQuoteTotals($get, $set);
+                            self::updateQuoteTotals($get, $set);
                         })
                         ->schema([
                             Repeater::make('items')
@@ -134,7 +134,7 @@ final class QuoteForm
                                                 return;
                                             }
 
-                                            $product = Product::find($state);
+                                            $product = Product::query()->find($state);
 
                                             if (! $product) {
                                                 return;
@@ -142,7 +142,7 @@ final class QuoteForm
 
                                             $set('unit_price', $product->unit_price);
                                             $set('tax_rate', $product->tax_rate);
-                                            static::calculateItemTotals($get, $set);
+                                            self::calculateItemTotals($get, $set);
                                         }),
                                     TextInput::make('description')
                                         ->label(__('Description')),

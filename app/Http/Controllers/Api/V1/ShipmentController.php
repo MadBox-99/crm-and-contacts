@@ -10,6 +10,7 @@ use App\Http\Requests\Api\V1\StoreShipmentRequest;
 use App\Models\Order;
 use App\Models\Shipment;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
@@ -22,14 +23,14 @@ final class ShipmentController extends Controller
                 // Find order by order_number if provided
                 $order = null;
                 if ($request->filled('order_number')) {
-                    $order = Order::where('order_number', $request->order_number)->first();
+                    $order = Order::query()->where('order_number', $request->order_number)->first();
                 }
 
                 // Generate unique shipment number
                 $shipmentNumber = Shipment::generateShipmentNumber();
 
                 // Create shipment
-                $shipment = Shipment::create([
+                $shipment = Shipment::query()->create([
                     'customer_id' => $order?->customer_id,
                     'order_id' => $order?->id,
                     'external_customer_id' => $request->external_customer_id,
@@ -59,10 +60,10 @@ final class ShipmentController extends Controller
                 'message' => 'Shipment created successfully',
                 'data' => $shipment,
             ], 201);
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             return response()->json([
                 'message' => 'Failed to create shipment',
-                'error' => $e->getMessage(),
+                'error' => $exception->getMessage(),
             ], 500);
         }
     }
@@ -70,14 +71,14 @@ final class ShipmentController extends Controller
     public function show(string $trackingNumber): JsonResponse
     {
         try {
-            $shipment = Shipment::where('tracking_number', $trackingNumber)
+            $shipment = Shipment::query()->where('tracking_number', $trackingNumber)
                 ->with(['customer', 'order', 'items', 'trackingEvents'])
                 ->firstOrFail();
 
             return response()->json([
                 'data' => $shipment,
             ]);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException) {
             return response()->json([
                 'message' => 'Shipment not found',
             ], 404);

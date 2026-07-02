@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Shipments\Tables;
 
 use App\Enums\ShipmentStatus;
+use App\Filament\Resources\Orders\OrderResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -38,7 +39,7 @@ final class ShipmentsTable
                     ->searchable()
                     ->sortable()
                     ->toggleable()
-                    ->url(fn ($record) => $record->order ? \App\Filament\Resources\Orders\OrderResource::getUrl('edit', ['record' => $record->order]) : null),
+                    ->url(fn ($record): ?string => $record->order ? OrderResource::getUrl('edit', ['record' => $record->order]) : null),
 
                 TextColumn::make('carrier')
                     ->searchable()
@@ -144,7 +145,7 @@ final class ShipmentsTable
                     ->label(__('Order'))
                     ->searchable()
                     ->sortable()
-                    ->url(fn ($record) => $record->order ? \App\Filament\Resources\Orders\OrderResource::getUrl('edit', ['record' => $record->order]) : null),
+                    ->url(fn ($record): ?string => $record->order ? OrderResource::getUrl('edit', ['record' => $record->order]) : null),
                 TextColumn::make('carrier')
                     ->label(__('Carrier'))
                     ->searchable()

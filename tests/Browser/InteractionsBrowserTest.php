@@ -73,7 +73,7 @@ it('renders the interaction view page', function (): void {
 
     $page->assertSee('Interaction Details')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('interactions/view'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('interactions/view'));
 });
 
 it('renders the interaction edit page', function (): void {
@@ -89,5 +89,5 @@ it('renders the interaction edit page', function (): void {
 
     $page->assertSee('Edit Interaction')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('interactions/edit'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('interactions/edit'));
 });

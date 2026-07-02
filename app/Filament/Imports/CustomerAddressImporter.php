@@ -11,6 +11,7 @@ use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
 use Filament\Forms\Components\Checkbox;
 use Illuminate\Support\Number;
+use Override;
 
 final class CustomerAddressImporter extends Importer
 {
@@ -21,14 +22,12 @@ final class CustomerAddressImporter extends Importer
         return [
             ImportColumn::make('customer')
                 ->requiredMapping()
-                ->relationship(resolveUsing: function (string $state): ?Customer {
-                    return Customer::query()
-                        ->where('unique_identifier', $state)
-                        ->orWhere('name', $state)
-                        ->orWhere('email', $state)
-                        ->orWhere('tax_number', $state)
-                        ->first();
-                })
+                ->relationship(resolveUsing: fn (string $state): ?Customer => Customer::query()
+                    ->where('unique_identifier', $state)
+                    ->orWhere('name', $state)
+                    ->orWhere('email', $state)
+                    ->orWhere('tax_number', $state)
+                    ->first())
                 ->rules(['required']),
             ImportColumn::make('type')
                 ->examples(['billing', 'shipping']),
@@ -63,6 +62,7 @@ final class CustomerAddressImporter extends Importer
         return $body;
     }
 
+    #[Override]
     public static function getOptionsFormComponents(): array
     {
         return [
@@ -71,6 +71,7 @@ final class CustomerAddressImporter extends Importer
         ];
     }
 
+    #[Override]
     public function resolveRecord(): CustomerAddress
     {
         if (empty($this->data['type'])) {

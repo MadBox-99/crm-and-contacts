@@ -7,7 +7,7 @@ namespace App\Listeners;
 use App\Contracts\SalesIntegrationInterface;
 use App\Events\InvoiceGenerated;
 
-final class PushInvoiceToFinance
+final readonly class PushInvoiceToFinance
 {
     public function __construct(
         private SalesIntegrationInterface $integration,

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 beforeEach(function (): void {
     $this->team = Team::factory()->create();
-    $this->service = app(SalesDashboardService::class);
+    $this->service = resolve(SalesDashboardService::class);
 });
 
 it('returns KPIs with revenue and conversion data', function (): void {

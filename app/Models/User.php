@@ -16,6 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
+use Override;
 use Spatie\Permission\Traits\HasRoles;
 
 final class User extends Authenticatable implements FilamentUser, HasTenants
@@ -74,7 +75,11 @@ final class User extends Authenticatable implements FilamentUser, HasTenants
 
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->isAdmin() || $this->teams()->whereKey($tenant->getKey())->exists();
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        return $this->teams()->whereKey($tenant->getKey())->exists();
     }
 
     public function isAdmin(): bool
@@ -82,6 +87,7 @@ final class User extends Authenticatable implements FilamentUser, HasTenants
         return $this->hasRole(Role::Admin);
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

@@ -14,12 +14,14 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
+use Override;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 final class ViewQuote extends ViewRecord
 {
     protected static string $resource = QuoteResource::class;
 
+    #[Override]
     protected function getHeaderActions(): array
     {
         return [
@@ -42,10 +44,10 @@ final class ViewQuote extends ViewRecord
                     $record = $this->record;
 
                     $template = isset($data['template_id'])
-                        ? QuoteTemplate::find($data['template_id'])
+                        ? QuoteTemplate::query()->find($data['template_id'])
                         : null;
 
-                    $service = app(QuoteTemplateService::class);
+                    $service = resolve(QuoteTemplateService::class);
                     $path = $service->generatePdf($record, $template);
 
                     return response()->download($path, $record->quote_number.'.pdf');
@@ -76,10 +78,10 @@ final class ViewQuote extends ViewRecord
                     $record = $this->record;
 
                     $template = isset($data['template_id'])
-                        ? QuoteTemplate::find($data['template_id'])
+                        ? QuoteTemplate::query()->find($data['template_id'])
                         : null;
 
-                    $service = app(QuoteTemplateService::class);
+                    $service = resolve(QuoteTemplateService::class);
                     $service->sendQuote(
                         $record,
                         $data['recipient_email'],

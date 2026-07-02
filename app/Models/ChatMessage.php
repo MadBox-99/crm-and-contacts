@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Override;
 
 final class ChatMessage extends Model
 {
@@ -55,6 +56,7 @@ final class ChatMessage extends Model
         return $this->hasMany(self::class, 'parent_message_id');
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

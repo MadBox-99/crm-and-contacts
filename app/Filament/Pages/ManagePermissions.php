@@ -14,6 +14,7 @@ use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Override;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
@@ -34,16 +35,19 @@ final class ManagePermissions extends Page
 
     protected static ?int $navigationSort = 2;
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Permissions');
     }
 
+    #[Override]
     public static function canAccess(): bool
     {
         return Auth::user()?->hasRole(RoleEnum::Admin) ?? false;
     }
 
+    #[Override]
     public function getTitle(): string
     {
         return __('Manage Permissions');
@@ -78,6 +82,7 @@ final class ManagePermissions extends Page
             ->send();
     }
 
+    #[Override]
     protected function getHeaderActions(): array
     {
         return [
@@ -94,7 +99,7 @@ final class ManagePermissions extends Page
 
     private function loadRoles(): void
     {
-        $this->totalPermissions = Permission::count();
+        $this->totalPermissions = Permission::query()->count();
 
         $this->roles = Role::with('permissions')->get()->map(fn (Role $role): array => [
             'name' => $role->name,

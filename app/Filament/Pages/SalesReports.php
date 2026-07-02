@@ -15,6 +15,7 @@ use App\Filament\Widgets\TopCustomersWidget;
 use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
+use Override;
 use UnitEnum;
 
 final class SalesReports extends Page
@@ -27,16 +28,19 @@ final class SalesReports extends Page
 
     protected string $view = 'filament.pages.sales-reports';
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Sales Reports');
     }
 
+    #[Override]
     public function getTitle(): string
     {
         return __('Sales Reports');
     }
 
+    #[Override]
     protected function getHeaderWidgets(): array
     {
         return [
@@ -44,6 +48,7 @@ final class SalesReports extends Page
         ];
     }
 
+    #[Override]
     protected function getFooterWidgets(): array
     {
         return [

@@ -23,7 +23,7 @@ final class GenerateOrderAction
             ->modalDescription('This will create a new order based on this quote data.')
             ->modalSubmitActionLabel('Generate Order')
             ->action(function (Quote $record): void {
-                $documentChainService = app(DocumentChainService::class);
+                $documentChainService = resolve(DocumentChainService::class);
                 $order = $documentChainService->createOrderFromQuote($record);
 
                 $itemCount = $order->orderItems()->count();

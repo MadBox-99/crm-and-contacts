@@ -109,7 +109,7 @@ final class NotificationWorkflowService
         foreach ($inactiveCustomers as $customer) {
             $lastInteraction = Interaction::query()
                 ->where('customer_id', $customer->id)
-                ->orderByDesc('interaction_date')
+                ->latest('interaction_date')
                 ->first();
 
             $inactiveDays = $lastInteraction

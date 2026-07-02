@@ -16,6 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
 use UnitEnum;
 
 final class BugReportResource extends Resource
@@ -28,21 +29,25 @@ final class BugReportResource extends Resource
 
     protected static bool $shouldRegisterNavigation = false;
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Bug Reports');
     }
 
+    #[Override]
     public static function form(Schema $schema): Schema
     {
         return BugReportForm::configure($schema);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return BugReportsTable::configure($table);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -50,6 +55,7 @@ final class BugReportResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [

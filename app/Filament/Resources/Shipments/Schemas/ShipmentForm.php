@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Shipments\Schemas;
 
 use App\Enums\ShipmentStatus;
+use App\Models\Carrier;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
@@ -33,7 +34,7 @@ final class ShipmentForm
                                 Select::make('order_id')
                                     ->label(__('Order'))
                                     ->relationship('order', 'order_number')
-                                    ->getOptionLabelFromRecordUsing(fn ($record): string => "#{$record->order_number} — {$record->customer?->name}")
+                                    ->getOptionLabelFromRecordUsing(fn ($record): string => sprintf('#%s — %s', $record->order_number, $record->customer?->name))
                                     ->searchable()
                                     ->preload(),
 
@@ -50,7 +51,7 @@ final class ShipmentForm
 
                                 Select::make('carrier')
                                     ->label(__('Carrier'))
-                                    ->options(fn (): array => \App\Models\Carrier::query()
+                                    ->options(fn (): array => Carrier::query()
                                         ->where('is_active', true)
                                         ->pluck('name', 'name')
                                         ->toArray())

@@ -27,7 +27,7 @@ it('awards points when order status changes to delivered', function (): void {
     ]);
 
     $event = new OrderStatusChanged($order, OrderStatus::Shipped->value);
-    $listener = app(AwardLoyaltyPointsOnDelivery::class);
+    $listener = resolve(AwardLoyaltyPointsOnDelivery::class);
     $listener->handle($event);
 
     $this->customer->refresh();
@@ -45,7 +45,7 @@ it('does not award points for non-delivered status changes', function (): void {
     ]);
 
     $event = new OrderStatusChanged($order, OrderStatus::Processing->value);
-    $listener = app(AwardLoyaltyPointsOnDelivery::class);
+    $listener = resolve(AwardLoyaltyPointsOnDelivery::class);
     $listener->handle($event);
 
     $this->customer->refresh();
@@ -63,7 +63,7 @@ it('does not award points when order total results in zero points', function ():
     ]);
 
     $event = new OrderStatusChanged($order, OrderStatus::Shipped->value);
-    $listener = app(AwardLoyaltyPointsOnDelivery::class);
+    $listener = resolve(AwardLoyaltyPointsOnDelivery::class);
     $listener->handle($event);
 
     $this->customer->refresh();

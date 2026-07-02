@@ -10,6 +10,7 @@ use App\Services\InvoiceService;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Override;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /** @property Invoice $record */
@@ -17,6 +18,7 @@ final class ViewInvoice extends ViewRecord
 {
     protected static string $resource = InvoiceResource::class;
 
+    #[Override]
     protected function getHeaderActions(): array
     {
         return [

@@ -23,6 +23,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Override;
 use UnitEnum;
 
 final class UserResource extends Resource
@@ -37,26 +38,31 @@ final class UserResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserCircle;
 
+    #[Override]
     public static function canAccess(): bool
     {
         return Auth::user()?->hasRole(Role::Admin) ?? false;
     }
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Users');
     }
 
+    #[Override]
     public static function form(Schema $schema): Schema
     {
         return UserForm::configure($schema);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return UsersTable::configure($table);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -69,6 +75,7 @@ final class UserResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [

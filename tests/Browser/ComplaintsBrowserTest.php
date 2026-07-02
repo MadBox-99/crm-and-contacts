@@ -74,7 +74,7 @@ it('renders the complaint view page', function (): void {
 
     $page->assertSee('Complaint details')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('complaints/view'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('complaints/view'));
 });
 
 it('renders the complaint edit page', function (): void {
@@ -92,5 +92,5 @@ it('renders the complaint edit page', function (): void {
 
     $page->assertSee('Edit Complaint')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('complaints/edit'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('complaints/edit'));
 });

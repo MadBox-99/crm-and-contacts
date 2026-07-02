@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Complaints\Pages;
 use App\Enums\ComplaintStatus;
 use App\Filament\Resources\Complaints\ComplaintResource;
 use App\Models\Complaint;
+use App\Models\User;
 use App\Services\ComplaintService;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
@@ -15,12 +16,14 @@ use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Auth;
+use Override;
 
 /** @property Complaint $record */
 final class EditComplaint extends EditRecord
 {
     protected static string $resource = ComplaintResource::class;
 
+    #[Override]
     protected function getHeaderActions(): array
     {
         return [
@@ -38,7 +41,7 @@ final class EditComplaint extends EditRecord
                         ->required(),
                 ])
                 ->action(function (array $data, Complaint $record, ComplaintService $complaintService): void {
-                    $escalatedTo = \App\Models\User::findOrFail($data['escalated_to']);
+                    $escalatedTo = User::query()->findOrFail($data['escalated_to']);
                     $escalatedBy = Auth::user();
 
                     $complaintService->escalate($record, $escalatedTo, $escalatedBy, $data['reason']);

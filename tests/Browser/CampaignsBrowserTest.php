@@ -64,5 +64,5 @@ it('renders the campaign view page', function (): void {
     $page->assertSee('View Test Campaign')
         ->assertSee('Campaign details')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('campaigns/view'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('campaigns/view'));
 });

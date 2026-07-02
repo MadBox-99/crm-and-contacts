@@ -111,7 +111,7 @@ final class PricingService
         $originalPrice = $unitPrice * $quantity;
 
         $combinableRules = $rules->filter(fn (PriceRule $rule): bool => $rule->combinable);
-        $nonCombinableRules = $rules->filter(fn (PriceRule $rule): bool => ! $rule->combinable);
+        $nonCombinableRules = $rules->reject(fn (PriceRule $rule): bool => (bool) $rule->combinable);
 
         // Calculate the best single non-combinable discount
         $bestSingleDiscount = 0.0;

@@ -10,6 +10,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Storage;
+use Override;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 final class VersionsRelationManager extends RelationManager
@@ -18,11 +19,7 @@ final class VersionsRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'version_number';
 
-    public static function getModelLabel(): string
-    {
-        return __('Version');
-    }
-
+    #[Override]
     public static function getTitle(mixed $ownerRecord, string $pageClass): string
     {
         return __('Versions');
@@ -48,6 +45,7 @@ final class VersionsRelationManager extends RelationManager
                         if (empty($log)) {
                             return '-';
                         }
+
                         if (isset($log['initial'])) {
                             return 'Initial version';
                         }
@@ -56,6 +54,7 @@ final class VersionsRelationManager extends RelationManager
                         if (isset($log['quote'])) {
                             $parts[] = count($log['quote']).' field(s) changed';
                         }
+
                         if (isset($log['items_count'])) {
                             $parts[] = 'items: '.$log['items_count']['old'].' → '.$log['items_count']['new'];
                         }
@@ -74,9 +73,13 @@ final class VersionsRelationManager extends RelationManager
                     ->icon('heroicon-o-arrow-down-tray')
                     ->visible(fn (QuoteVersion $record): bool => $record->pdf_path !== null
                         && Storage::disk('local')->exists(str_replace(Storage::disk('local')->path(''), '', $record->pdf_path)))
-                    ->action(function (QuoteVersion $record): BinaryFileResponse {
-                        return response()->download($record->pdf_path);
-                    }),
+                    ->action(fn (QuoteVersion $record): BinaryFileResponse => response()->download($record->pdf_path)),
             ]);
+    }
+
+    #[Override]
+    protected static function getModelLabel(): string
+    {
+        return __('Version');
     }
 }

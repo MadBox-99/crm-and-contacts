@@ -9,10 +9,10 @@ use App\Enums\OrderStatus;
 use App\Events\OrderStatusChanged;
 use App\Services\LoyaltyService;
 
-final class AwardLoyaltyPointsOnDelivery
+final readonly class AwardLoyaltyPointsOnDelivery
 {
     public function __construct(
-        private readonly LoyaltyService $loyaltyService,
+        private LoyaltyService $loyaltyService,
     ) {}
 
     public function handle(OrderStatusChanged $event): void

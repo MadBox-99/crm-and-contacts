@@ -66,7 +66,7 @@ it('renders the discount view page', function (): void {
     $page->assertSee('View Discount Test')
         ->assertSee('Discount details')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('discounts/view'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('discounts/view'));
 });
 
 it('renders the discount edit page', function (): void {
@@ -81,5 +81,5 @@ it('renders the discount edit page', function (): void {
 
     $page->assertSee('Edit Discount')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('discounts/edit'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('discounts/edit'));
 });

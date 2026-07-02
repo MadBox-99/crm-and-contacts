@@ -22,11 +22,13 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Override;
 
 final class InteractionsRelationManager extends RelationManager
 {
     protected static string $relationship = 'interactions';
 
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema

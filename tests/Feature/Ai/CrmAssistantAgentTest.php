@@ -44,14 +44,14 @@ it('has correct instructions', function (): void {
     $agent = new CrmAssistant();
     $instructions = $agent->instructions();
 
-    expect((string) $instructions)
+    expect($instructions)
         ->toContain('CRM assistant')
         ->toContain('READ-ONLY');
 });
 
 it('provides all required tools', function (): void {
     $agent = new CrmAssistant();
-    $tools = collect($agent->tools())->map(fn ($tool) => $tool::class)->all();
+    $tools = collect($agent->tools())->map(fn ($tool): string => $tool::class)->all();
 
     expect($tools)->toContain(
         ListModels::class,
@@ -66,7 +66,7 @@ it('can be faked and prompted', function (): void {
         'You have 42 customers in total.',
     ]);
 
-    $response = (new CrmAssistant())->prompt('How many customers do I have?');
+    $response = new CrmAssistant()->prompt('How many customers do I have?');
 
     expect((string) $response)->toContain('42 customers');
 

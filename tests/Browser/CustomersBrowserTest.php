@@ -62,7 +62,7 @@ it('renders the customer view page', function (): void {
     $page->assertSee('View Customer Corp')
         ->assertSee('Customer details')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('customers/view'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('customers/view'));
 });
 
 it('renders the customer edit page', function (): void {
@@ -76,5 +76,5 @@ it('renders the customer edit page', function (): void {
 
     $page->assertSee('Edit Customer')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('customers/edit'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('customers/edit'));
 });

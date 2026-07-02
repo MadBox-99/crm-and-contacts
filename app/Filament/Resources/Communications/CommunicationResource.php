@@ -18,6 +18,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
 use UnitEnum;
 
 final class CommunicationResource extends Resource
@@ -30,26 +31,31 @@ final class CommunicationResource extends Resource
 
     protected static bool $shouldRegisterNavigation = false;
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Communications');
     }
 
+    #[Override]
     public static function form(Schema $schema): Schema
     {
         return CommunicationForm::configure($schema);
     }
 
+    #[Override]
     public static function infolist(Schema $schema): Schema
     {
         return CommunicationInfolist::configure($schema);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return CommunicationsTable::configure($table);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -57,6 +63,7 @@ final class CommunicationResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [

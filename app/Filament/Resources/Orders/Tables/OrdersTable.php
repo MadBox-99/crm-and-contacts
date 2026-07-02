@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Orders\Tables;
 
+use App\Filament\Resources\Orders\OrderResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -96,7 +97,7 @@ final class OrdersTable
             ])
             ->recordActions([
                 EditAction::make()
-                    ->url(fn ($record): string => \App\Filament\Resources\Orders\OrderResource::getUrl('edit', ['record' => $record])),
+                    ->url(fn ($record): string => OrderResource::getUrl('edit', ['record' => $record])),
             ])
             ->defaultSort('order_date', 'desc')
             ->paginated([10, 25, 50, 100]);

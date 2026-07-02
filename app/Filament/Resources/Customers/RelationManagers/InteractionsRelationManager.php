@@ -26,16 +26,19 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 final class InteractionsRelationManager extends RelationManager
 {
     protected static string $relationship = 'interactions';
 
+    #[Override]
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('Interactions');
     }
 
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -118,11 +121,9 @@ final class InteractionsRelationManager extends RelationManager
                         DatePicker::make('until')
                             ->label(__('Until')),
                     ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when($data['from'], fn (Builder $query, $date): Builder => $query->where('interaction_date', '>=', $date))
-                            ->when($data['until'], fn (Builder $query, $date): Builder => $query->where('interaction_date', '<=', $date));
-                    }),
+                    ->query(fn (Builder $query, array $data): Builder => $query
+                        ->when($data['from'], fn (Builder $query, $date): Builder => $query->where('interaction_date', '>=', $date))
+                        ->when($data['until'], fn (Builder $query, $date): Builder => $query->where('interaction_date', '<=', $date))),
             ])
             ->headerActions([
                 CreateAction::make(),

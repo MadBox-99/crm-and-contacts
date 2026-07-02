@@ -64,7 +64,7 @@ it('renders the product view page', function (): void {
     $page->assertSee('View Test Product')
         ->assertSee('Product details')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('products/view'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('products/view'));
 });
 
 it('renders the product edit page', function (): void {
@@ -76,5 +76,5 @@ it('renders the product edit page', function (): void {
 
     $page->assertSee('Edit Product')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('products/edit'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('products/edit'));
 });

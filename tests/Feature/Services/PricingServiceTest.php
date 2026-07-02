@@ -14,7 +14,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
-    $this->pricingService = app(PricingService::class);
+    $this->pricingService = resolve(PricingService::class);
     $this->team = Team::factory()->create();
     $this->customer = Customer::factory()->for($this->team)->create();
     $this->product = Product::factory()->for($this->team)->create(['unit_price' => 1000]);

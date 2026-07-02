@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeadOpportunities\Tables;
 
 use App\Enums\OpportunityStage;
+use App\Filament\Resources\LeadOpportunities\LeadOpportunitiesResource;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -82,7 +83,7 @@ final class LeadOpportunitiesTable
             ])
             ->recordActions([
                 EditAction::make()
-                    ->url(fn ($record): string => \App\Filament\Resources\LeadOpportunities\LeadOpportunitiesResource::getUrl('edit', ['record' => $record])),
+                    ->url(fn ($record): string => LeadOpportunitiesResource::getUrl('edit', ['record' => $record])),
             ])
             ->defaultSort('created_at', 'desc')
             ->paginated([10, 25, 50, 100]);

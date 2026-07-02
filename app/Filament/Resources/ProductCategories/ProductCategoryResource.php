@@ -18,6 +18,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
 use UnitEnum;
 
 final class ProductCategoryResource extends Resource
@@ -30,31 +31,37 @@ final class ProductCategoryResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Categories');
     }
 
+    #[Override]
     public static function getModelLabel(): string
     {
         return __('Product Category');
     }
 
+    #[Override]
     public static function getPluralModelLabel(): string
     {
         return __('Product Categories');
     }
 
+    #[Override]
     public static function form(Schema $schema): Schema
     {
         return ProductCategoryForm::configure($schema);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return ProductCategoriesTable::configure($table);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -63,6 +70,7 @@ final class ProductCategoryResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [

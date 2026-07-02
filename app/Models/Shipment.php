@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Override;
 
 final class Shipment extends Model
 {
@@ -43,7 +44,7 @@ final class Shipment extends Model
     public static function generateShipmentNumber(): string
     {
         $year = now()->format('Y');
-        $lastShipment = self::withoutGlobalScopes()->whereYear('created_at', $year)->orderBy('id', 'desc')->first();
+        $lastShipment = self::query()->withoutGlobalScopes()->whereYear('created_at', $year)->orderBy('id', 'desc')->first();
         $nextNumber = $lastShipment ? ((int) mb_substr((string) $lastShipment->shipment_number, -4)) + 1 : 1;
 
         return 'SHP-'.$year.'-'.mb_str_pad((string) $nextNumber, 4, '0', STR_PAD_LEFT);
@@ -66,9 +67,10 @@ final class Shipment extends Model
 
     public function trackingEvents(): HasMany
     {
-        return $this->hasMany(ShipmentTrackingEvent::class)->orderBy('occurred_at');
+        return $this->hasMany(ShipmentTrackingEvent::class)->oldest('occurred_at');
     }
 
+    #[Override]
     protected static function booted(): void
     {
         self::creating(function (Shipment $shipment): void {
@@ -78,6 +80,7 @@ final class Shipment extends Model
         });
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

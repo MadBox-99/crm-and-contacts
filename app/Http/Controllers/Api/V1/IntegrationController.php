@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 final class IntegrationController extends Controller
 {
     public function __construct(
-        private SalesIntegrationInterface $integration,
+        private readonly SalesIntegrationInterface $integration,
     ) {}
 
     public function pushOrder(Order $order): JsonResponse
@@ -43,9 +43,9 @@ final class IntegrationController extends Controller
     public function reserveStock(Order $order, Request $request): JsonResponse
     {
         $items = $request->validate([
-            'items' => 'required|array',
-            'items.*.product_id' => 'required|integer|exists:products,id',
-            'items.*.quantity' => 'required|integer|min:1',
+            'items' => ['required', 'array'],
+            'items.*.product_id' => ['required', 'integer', 'exists:products,id'],
+            'items.*.quantity' => ['required', 'integer', 'min:1'],
         ]);
 
         $result = $this->integration->reserveStock($order, $items['items']);

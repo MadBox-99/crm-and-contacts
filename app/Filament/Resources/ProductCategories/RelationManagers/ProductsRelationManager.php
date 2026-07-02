@@ -24,16 +24,13 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Override;
 
 final class ProductsRelationManager extends RelationManager
 {
     protected static string $relationship = 'products';
 
-    public static function getModelLabel(): string
-    {
-        return __('Product');
-    }
-
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -138,5 +135,11 @@ final class ProductsRelationManager extends RelationManager
                 ->withoutGlobalScopes([
                     SoftDeletingScope::class,
                 ]));
+    }
+
+    #[Override]
+    protected static function getModelLabel(): string
+    {
+        return __('Product');
     }
 }

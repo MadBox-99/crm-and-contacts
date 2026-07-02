@@ -17,6 +17,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Override;
 
 final class TrackingEventsRelationManager extends RelationManager
 {
@@ -24,11 +25,7 @@ final class TrackingEventsRelationManager extends RelationManager
 
     protected static ?string $title = null;
 
-    public static function getModelLabel(): string
-    {
-        return __('Tracking Event');
-    }
-
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -118,5 +115,11 @@ final class TrackingEventsRelationManager extends RelationManager
             ])
             ->defaultSort('occurred_at', 'desc')
             ->poll('30s'); // Auto-refresh every 30 seconds
+    }
+
+    #[Override]
+    protected static function getModelLabel(): string
+    {
+        return __('Tracking Event');
     }
 }

@@ -20,16 +20,19 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Override;
 
 final class RolesRelationManager extends RelationManager
 {
     protected static string $relationship = 'roles';
 
+    #[Override]
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
         return Auth::user()->hasRole(Role::Admin);
     }
 
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema

@@ -23,16 +23,19 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 final class ComplaintsRelationManager extends RelationManager
 {
     protected static string $relationship = 'complaints';
 
+    #[Override]
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('Complaints');
     }
 
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -40,7 +43,7 @@ final class ComplaintsRelationManager extends RelationManager
                 Select::make('order_id')
                     ->label(__('Order'))
                     ->relationship('order', 'order_number')
-                    ->getOptionLabelFromRecordUsing(fn ($record): string => "#{$record->order_number} — {$record->customer?->name}"),
+                    ->getOptionLabelFromRecordUsing(fn ($record): string => sprintf('#%s — %s', $record->order_number, $record->customer?->name)),
                 Select::make('reported_by')
                     ->label(__('Reported By'))
                     ->relationship('reporter', 'name', modifyQueryUsing: fn ($query) => $query->whereRelation('teams', 'teams.id', resolve('current_team')->getKey())),

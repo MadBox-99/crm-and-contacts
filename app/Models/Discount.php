@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Override;
 
 final class Discount extends Model
 {
@@ -48,6 +49,7 @@ final class Discount extends Model
         return $this->belongsTo(Product::class);
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

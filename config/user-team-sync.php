@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Models\Team;
+use App\Models\User;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -19,8 +22,8 @@ return [
     |--------------------------------------------------------------------------
     */
     'models' => [
-        'user' => env('USER_TEAM_SYNC_USER_MODEL', 'App\\Models\\User'),
-        'team' => env('USER_TEAM_SYNC_TEAM_MODEL', 'App\\Models\\Team'),
+        'user' => env('USER_TEAM_SYNC_USER_MODEL', User::class),
+        'team' => env('USER_TEAM_SYNC_TEAM_MODEL', Team::class),
     ],
 
     /*

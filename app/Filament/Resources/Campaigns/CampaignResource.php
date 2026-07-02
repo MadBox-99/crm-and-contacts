@@ -22,6 +22,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Override;
 use UnitEnum;
 
 final class CampaignResource extends Resource
@@ -34,36 +35,43 @@ final class CampaignResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Campaign List');
     }
 
+    #[Override]
     public static function getModelLabel(): string
     {
         return __('Campaign');
     }
 
+    #[Override]
     public static function getPluralModelLabel(): string
     {
         return __('Campaigns');
     }
 
+    #[Override]
     public static function form(Schema $schema): Schema
     {
         return CampaignForm::configure($schema);
     }
 
+    #[Override]
     public static function infolist(Schema $schema): Schema
     {
         return CampaignInfolist::configure($schema);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return CampaignsTable::configure($table);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -72,6 +80,7 @@ final class CampaignResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [
@@ -82,6 +91,7 @@ final class CampaignResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getRecordRouteBindingEloquentQuery(): Builder
     {
         return parent::getRecordRouteBindingEloquentQuery()

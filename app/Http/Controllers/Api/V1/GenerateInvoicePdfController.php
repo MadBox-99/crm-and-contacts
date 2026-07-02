@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 final class GenerateInvoicePdfController extends Controller
 {
     public function __construct(
-        private InvoiceService $invoiceService,
+        private readonly InvoiceService $invoiceService,
     ) {}
 
     public function __invoke(Invoice $invoice): BinaryFileResponse

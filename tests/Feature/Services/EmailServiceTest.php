@@ -15,6 +15,7 @@ use App\Models\Team;
 use App\Models\User;
 use App\Services\EmailService;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Activitylog\Models\Activity;
 
 beforeEach(function (): void {
     $this->team = Team::factory()->create();
@@ -113,7 +114,7 @@ it('logs activity for the sent email', function (): void {
         context: ['customer' => $customer],
     );
 
-    $activity = Spatie\Activitylog\Models\Activity::query()
+    $activity = Activity::query()
         ->where('subject_type', 'interaction')
         ->where('subject_id', $interaction->id)
         ->latest()

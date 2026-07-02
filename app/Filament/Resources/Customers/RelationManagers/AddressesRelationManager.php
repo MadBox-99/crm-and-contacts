@@ -21,21 +21,19 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 final class AddressesRelationManager extends RelationManager
 {
     protected static string $relationship = 'addresses';
 
+    #[Override]
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('Addresses');
     }
 
-    public static function getModelLabel(): string
-    {
-        return __('Address');
-    }
-
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -138,5 +136,11 @@ final class AddressesRelationManager extends RelationManager
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    #[Override]
+    protected static function getModelLabel(): string
+    {
+        return __('Address');
     }
 }

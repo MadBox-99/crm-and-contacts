@@ -30,6 +30,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Override;
 use UnitEnum;
 
 final class CustomerResource extends Resource
@@ -42,31 +43,37 @@ final class CustomerResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Customer List');
     }
 
+    #[Override]
     public static function getModelLabel(): string
     {
         return __('Customer');
     }
 
+    #[Override]
     public static function getPluralModelLabel(): string
     {
         return __('Customers');
     }
 
+    #[Override]
     public static function form(Schema $schema): Schema
     {
         return CustomerForm::configure($schema);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return CustomersTable::configure($table);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -85,6 +92,7 @@ final class CustomerResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [
@@ -94,6 +102,7 @@ final class CustomerResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getRecordRouteBindingEloquentQuery(): Builder
     {
         return parent::getRecordRouteBindingEloquentQuery()

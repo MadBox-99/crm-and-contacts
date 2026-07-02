@@ -19,16 +19,13 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Override;
 
 final class MessagesRelationManager extends RelationManager
 {
     protected static string $relationship = 'messages';
 
-    public static function getModelLabel(): string
-    {
-        return __('Message');
-    }
-
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -147,5 +144,11 @@ final class MessagesRelationManager extends RelationManager
                 ]),
             ])
             ->poll('15s');
+    }
+
+    #[Override]
+    protected static function getModelLabel(): string
+    {
+        return __('Message');
     }
 }

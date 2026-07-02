@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\StoreTrackingEventRequest;
 use App\Models\Shipment;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
 final class StoreShipmentTrackingEventController extends Controller
@@ -15,7 +16,7 @@ final class StoreShipmentTrackingEventController extends Controller
     public function __invoke(StoreTrackingEventRequest $request, string $trackingNumber): JsonResponse
     {
         try {
-            $shipment = Shipment::where('tracking_number', $trackingNumber)->firstOrFail();
+            $shipment = Shipment::query()->where('tracking_number', $trackingNumber)->firstOrFail();
 
             $trackingEvent = $shipment->trackingEvents()->create([
                 'status_code' => $request->status_code,
@@ -29,7 +30,7 @@ final class StoreShipmentTrackingEventController extends Controller
                 'message' => 'Tracking event created successfully',
                 'data' => $trackingEvent,
             ], 201);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException) {
             return response()->json([
                 'message' => 'Shipment not found',
             ], 404);

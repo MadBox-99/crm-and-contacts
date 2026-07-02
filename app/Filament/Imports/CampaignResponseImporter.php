@@ -10,6 +10,7 @@ use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
 use Filament\Forms\Components\Checkbox;
 use Illuminate\Support\Number;
+use Override;
 
 final class CampaignResponseImporter extends Importer
 {
@@ -46,6 +47,7 @@ final class CampaignResponseImporter extends Importer
         return $body;
     }
 
+    #[Override]
     public static function getOptionsFormComponents(): array
     {
         return [
@@ -54,6 +56,7 @@ final class CampaignResponseImporter extends Importer
         ];
     }
 
+    #[Override]
     public function resolveRecord(): CampaignResponse
     {
 

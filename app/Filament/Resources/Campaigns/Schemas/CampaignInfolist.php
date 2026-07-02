@@ -105,7 +105,7 @@ final class CampaignInfolist
                                     ->label('ROI')
                                     ->formatStateUsing(fn (Campaign $record): string => $record->getROI() !== null ? $record->getROI().'%' : '-')
                                     ->badge()
-                                    ->color(fn (Campaign $record): string|array => match (true) {
+                                    ->color(fn (Campaign $record): string => match (true) {
                                         $record->getROI() === null => 'gray',
                                         $record->getROI() >= 100 => 'success',
                                         $record->getROI() >= 0 => 'warning',
@@ -116,7 +116,7 @@ final class CampaignInfolist
                                     ->label('ROAS')
                                     ->formatStateUsing(fn (Campaign $record): string => $record->getROAS() !== null ? number_format($record->getROAS(), 2) : '-')
                                     ->badge()
-                                    ->color(fn (Campaign $record): string|array => match (true) {
+                                    ->color(fn (Campaign $record): string => match (true) {
                                         $record->getROAS() === null => 'gray',
                                         $record->getROAS() >= 3 => 'success',
                                         $record->getROAS() >= 1 => 'warning',

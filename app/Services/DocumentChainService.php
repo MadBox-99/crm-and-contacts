@@ -12,7 +12,7 @@ use App\Models\Shipment;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
-final class DocumentChainService
+final readonly class DocumentChainService
 {
     public function __construct(
         private OrderService $orderService,
@@ -22,9 +22,7 @@ final class DocumentChainService
 
     public function createOrderFromQuote(Quote $quote): Order
     {
-        if ($quote->status !== QuoteStatus::Accepted) {
-            throw new InvalidArgumentException('Only accepted quotes can be converted to orders.');
-        }
+        throw_if($quote->status !== QuoteStatus::Accepted, InvalidArgumentException::class, 'Only accepted quotes can be converted to orders.');
 
         return $this->orderService->createFromQuote($quote);
     }

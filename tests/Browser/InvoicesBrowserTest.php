@@ -72,7 +72,7 @@ it('renders the invoice view page', function (): void {
     $page->assertSee('INV-VIEW-001')
         ->assertSee('Invoice details')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('invoices/view'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('invoices/view'));
 });
 
 it('renders the invoice edit page', function (): void {
@@ -88,5 +88,5 @@ it('renders the invoice edit page', function (): void {
 
     $page->assertSee('Edit Invoice')
         ->assertNoJavaScriptErrors()
-        ->screenshot(filename: screenshotPath('invoices/edit'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('invoices/edit'));
 });

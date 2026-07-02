@@ -14,7 +14,7 @@ use Illuminate\Support\Sleep;
 use function Pest\Laravel\assertDatabaseHas;
 
 beforeEach(function (): void {
-    $this->chatService = app(ChatService::class);
+    $this->chatService = resolve(ChatService::class);
     $this->customer = Customer::factory()->create();
     $this->user = User::factory()->create();
 });

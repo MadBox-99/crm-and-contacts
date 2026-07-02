@@ -4,24 +4,36 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\Models\Team;
+use App\Models\User;
+use App\Models\Customer;
+use App\Models\Product;
+use App\Models\Quote;
+use App\Models\QuoteTemplate;
+use App\Models\Order;
+use App\Services\OrderService;
+use App\Services\InvoiceService;
+use App\Services\ShipmentService;
+use App\Services\ChatService;
+use App\Services\PricingService;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 /**
- * @property \App\Models\Team $team
- * @property \App\Models\User $user
- * @property \App\Models\Customer $customer
- * @property \App\Models\Product $product
- * @property \App\Models\Quote $quote
- * @property \App\Models\QuoteTemplate $template
- * @property \App\Models\Order $order
+ * @property Team $team
+ * @property User $user
+ * @property Customer $customer
+ * @property Product $product
+ * @property Quote $quote
+ * @property QuoteTemplate $template
+ * @property Order $order
  * @property string $token
  * @property string $pdfPath
  * @property object $service
- * @property \App\Services\OrderService $orderService
- * @property \App\Services\InvoiceService $invoiceService
- * @property \App\Services\ShipmentService $shipmentService
- * @property \App\Services\ChatService $chatService
- * @property \App\Services\PricingService $pricingService
+ * @property OrderService $orderService
+ * @property InvoiceService $invoiceService
+ * @property ShipmentService $shipmentService
+ * @property ChatService $chatService
+ * @property PricingService $pricingService
  */
 abstract class TestCase extends BaseTestCase
 {

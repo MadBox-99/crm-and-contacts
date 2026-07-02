@@ -6,6 +6,7 @@ namespace App\Filament\Widgets;
 
 use App\Services\SalesDashboardService;
 use Filament\Widgets\ChartWidget;
+use Override;
 
 final class ComplaintChartWidget extends ChartWidget
 {
@@ -15,11 +16,13 @@ final class ComplaintChartWidget extends ChartWidget
 
     protected ?string $pollingInterval = '30s';
 
+    #[Override]
     public function getHeading(): string
     {
         return __('Complaint Statistics');
     }
 
+    #[Override]
     protected function getData(): array
     {
         $service = resolve(SalesDashboardService::class);
@@ -27,7 +30,7 @@ final class ComplaintChartWidget extends ChartWidget
         $byType = $stats['by_type'] ?? [];
 
         $labels = array_map(
-            fn (string $type): string => ucfirst($type),
+            ucfirst(...),
             array_keys($byType),
         );
 
@@ -54,6 +57,7 @@ final class ComplaintChartWidget extends ChartWidget
         return 'doughnut';
     }
 
+    #[Override]
     protected function getOptions(): array
     {
         return [

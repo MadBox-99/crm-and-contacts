@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Override;
 
 #[Fillable(['campaign_id', 'customer_id', 'added_at', 'added_by', 'notes'])]
 final class CampaignCustomer extends Pivot
 {
+    use HasFactory;
+    use HasFactory;
+
     protected $table = 'campaign_customer';
 
     public function campaign(): BelongsTo
@@ -28,6 +33,7 @@ final class CampaignCustomer extends Pivot
         return $this->belongsTo(User::class, 'added_by');
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

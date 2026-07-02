@@ -4,20 +4,30 @@ declare(strict_types=1);
 
 namespace App\Ai\Tools;
 
+use App\Models\Campaign;
+use App\Models\Complaint;
+use App\Models\Customer;
+use App\Models\Interaction;
+use App\Models\Invoice;
+use App\Models\Opportunity;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Quote;
+use App\Models\Task;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
-use Stringable;
 
 final class QueryModel implements Tool
 {
-    public function description(): Stringable|string
+    public function description(): string
     {
         return 'Query a database model with optional filters, sorting, and relationship loading. Returns a paginated list of records. Use list_models first to see available models.';
     }
 
-    public function handle(Request $request): Stringable|string
+    public function handle(Request $request): string
     {
         $modelKey = (string) $request->string('model');
         $filters = $request['filters'] ?? [];
@@ -30,14 +40,14 @@ final class QueryModel implements Tool
         $models = ListModels::AVAILABLE_MODELS;
 
         if (! isset($models[$modelKey])) {
-            return json_encode(['error' => "Unknown model '{$modelKey}'. Use list_models to see available models."], JSON_THROW_ON_ERROR);
+            return json_encode(['error' => sprintf("Unknown model '%s'. Use list_models to see available models.", $modelKey)], JSON_THROW_ON_ERROR);
         }
 
         $config = $models[$modelKey];
         $modelClass = $config['model'];
         $allowedRelationships = $config['relationships'];
 
-        /** @var Builder<\Illuminate\Database\Eloquent\Model> $query */
+        /** @var Builder<Model> $query */
         $query = $modelClass::query();
 
         $validRelationships = array_intersect((array) $relationships, $allowedRelationships);
@@ -55,7 +65,7 @@ final class QueryModel implements Tool
             $query->where(function (Builder $q) use ($search, $modelClass): void {
                 $searchable = $this->getSearchableColumns($modelClass);
                 foreach ($searchable as $column) {
-                    $q->orWhere($column, 'like', "%{$search}%");
+                    $q->orWhere($column, 'like', sprintf('%%%s%%', $search));
                 }
             });
         }
@@ -92,16 +102,16 @@ final class QueryModel implements Tool
     private function getSearchableColumns(string $modelClass): array
     {
         return match ($modelClass) {
-            \App\Models\Customer::class => ['name', 'email', 'phone', 'tax_number'],
-            \App\Models\Order::class => ['order_number'],
-            \App\Models\Invoice::class => ['invoice_number'],
-            \App\Models\Product::class => ['name', 'sku', 'description'],
-            \App\Models\Opportunity::class => ['title', 'description'],
-            \App\Models\Complaint::class => ['subject', 'description'],
-            \App\Models\Campaign::class => ['name'],
-            \App\Models\Quote::class => ['quote_number'],
-            \App\Models\Task::class => ['title', 'description'],
-            \App\Models\Interaction::class => ['subject', 'notes'],
+            Customer::class => ['name', 'email', 'phone', 'tax_number'],
+            Order::class => ['order_number'],
+            Invoice::class => ['invoice_number'],
+            Product::class => ['name', 'sku', 'description'],
+            Opportunity::class => ['title', 'description'],
+            Complaint::class => ['subject', 'description'],
+            Campaign::class => ['name'],
+            Quote::class => ['quote_number'],
+            Task::class => ['title', 'description'],
+            Interaction::class => ['subject', 'notes'],
             default => ['name'],
         };
     }

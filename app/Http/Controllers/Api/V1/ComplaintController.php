@@ -18,7 +18,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 final class ComplaintController extends Controller
 {
     public function __construct(
-        private ComplaintService $complaintService,
+        private readonly ComplaintService $complaintService,
     ) {}
 
     public function index(Request $request): AnonymousResourceCollection

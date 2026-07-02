@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\OrderItem;
+use App\Models\Shipment;
+use App\Models\ShipmentItem;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ShipmentItem>
+ * @extends Factory<ShipmentItem>
  */
 final class ShipmentItemFactory extends Factory
 {
@@ -19,8 +22,8 @@ final class ShipmentItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'shipment_id' => \App\Models\Shipment::factory(),
-            'order_item_id' => \App\Models\OrderItem::factory(),
+            'shipment_id' => Shipment::factory(),
+            'order_item_id' => OrderItem::factory(),
             'external_product_id' => $this->faker->optional()->bothify('EXT-PROD-####'),
             'product_name' => $this->faker->optional()->words(3, true),
             'product_sku' => $this->faker->optional()->bothify('SKU-####'),

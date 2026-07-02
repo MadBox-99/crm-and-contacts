@@ -9,6 +9,7 @@ use App\Models\Shipment;
 use App\Models\ShipmentItem;
 use App\Models\ShipmentTrackingEvent;
 use App\Models\User;
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -56,8 +57,8 @@ it('can create a shipment via API', function (): void {
             ],
         ]);
 
-    expect(Shipment::count())->toBe(1);
-    expect(Shipment::first()->items()->count())->toBe(1);
+    expect(Shipment::query()->count())->toBe(1);
+    expect(Shipment::query()->first()->items()->count())->toBe(1);
 });
 
 it('can create a shipment with external IDs only', function (): void {
@@ -78,7 +79,7 @@ it('can create a shipment with external IDs only', function (): void {
 
     $response->assertCreated();
 
-    $shipment = Shipment::first();
+    $shipment = Shipment::query()->first();
     expect($shipment->customer_id)->toBeNull();
     expect($shipment->order_id)->toBeNull();
     expect($shipment->external_customer_id)->toBe('EXT-CUST-999');
@@ -100,7 +101,7 @@ it('can update shipment status via API', function (): void {
         'status' => ShipmentStatus::Pending,
     ]);
 
-    $response = $this->putJson("/api/v1/shipments/{$shipment->tracking_number}/status", [
+    $response = $this->putJson(sprintf('/api/v1/shipments/%s/status', $shipment->tracking_number), [
         'status' => ShipmentStatus::Shipped->value,
         'shipped_at' => now()->toDateTimeString(),
         'estimated_delivery_at' => now()->addDays(2)->toDateTimeString(),
@@ -126,7 +127,7 @@ it('returns 404 when updating non-existent shipment status', function (): void {
 it('can add tracking event to shipment', function (): void {
     $shipment = Shipment::factory()->create(['tracking_number' => 'GLS123456789']);
 
-    $response = $this->postJson("/api/v1/shipments/{$shipment->tracking_number}/tracking", [
+    $response = $this->postJson(sprintf('/api/v1/shipments/%s/tracking', $shipment->tracking_number), [
         'status_code' => 'IN_TRANSIT',
         'location' => 'Budapest, Hungary',
         'description' => 'Package is in transit',
@@ -149,7 +150,7 @@ it('can add tracking event to shipment', function (): void {
 it('validates tracking event data', function (): void {
     $shipment = Shipment::factory()->create(['tracking_number' => 'GLS123456789']);
 
-    $response = $this->postJson("/api/v1/shipments/{$shipment->tracking_number}/tracking", [
+    $response = $this->postJson(sprintf('/api/v1/shipments/%s/tracking', $shipment->tracking_number), [
         // Missing required fields
     ]);
 
@@ -167,7 +168,7 @@ it('can retrieve shipment with all relations', function (): void {
         ->has(ShipmentTrackingEvent::factory()->count(3), 'trackingEvents')
         ->create(['tracking_number' => 'GLS123456789']);
 
-    $response = $this->getJson("/api/v1/shipments/{$shipment->tracking_number}");
+    $response = $this->getJson('/api/v1/shipments/'.$shipment->tracking_number);
 
     $response->assertSuccessful()
         ->assertJsonStructure([
@@ -194,7 +195,7 @@ it('generates unique shipment numbers', function (): void {
 });
 
 it('requires authentication for API endpoints', function (): void {
-    $this->withoutMiddleware(Illuminate\Auth\Middleware\Authenticate::class);
+    $this->withoutMiddleware(Authenticate::class);
 
     $response = $this->postJson('/api/v1/shipments', [
         'carrier' => 'GLS',

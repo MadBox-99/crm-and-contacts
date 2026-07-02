@@ -25,7 +25,7 @@ final class InvoiceForm
                 Select::make('order_id')
                     ->label(__('Order'))
                     ->relationship('order', 'order_number')
-                    ->getOptionLabelFromRecordUsing(fn ($record): string => "#{$record->order_number} — {$record->customer?->name}")
+                    ->getOptionLabelFromRecordUsing(fn ($record): string => sprintf('#%s — %s', $record->order_number, $record->customer?->name))
                     ->searchable()
                     ->preload(),
                 TextInput::make('invoice_number')

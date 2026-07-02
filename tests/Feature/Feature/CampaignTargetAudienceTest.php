@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Enums\CustomerType;
 use App\Models\Campaign;
 use App\Models\Customer;
 use App\Models\User;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\Auth;
 
 use function Pest\Laravel\assertDatabaseCount;
@@ -77,7 +79,7 @@ it('prevents duplicate customers in target audience', function (): void {
     $campaign->targetAudience()->attach($customer->id);
 
     expect(fn () => $campaign->targetAudience()->attach($customer->id))
-        ->toThrow(\Illuminate\Database\UniqueConstraintViolationException::class);
+        ->toThrow(UniqueConstraintViolationException::class);
 });
 
 it('can sync target audience', function (): void {
@@ -113,15 +115,15 @@ it('can count target audience members', function (): void {
 
 it('can filter target audience by customer type', function (): void {
     $campaign = Campaign::factory()->create();
-    $individualCustomers = Customer::factory()->count(3)->create(['type' => \App\Enums\CustomerType::Individual]);
-    $companyCustomers = Customer::factory()->count(2)->create(['type' => \App\Enums\CustomerType::Company]);
+    $individualCustomers = Customer::factory()->count(3)->create(['type' => CustomerType::Individual]);
+    $companyCustomers = Customer::factory()->count(2)->create(['type' => CustomerType::Company]);
 
     $campaign->targetAudience()->attach(
         $individualCustomers->merge($companyCustomers)->pluck('id')
     );
 
     $filteredAudience = $campaign->targetAudience()
-        ->where('type', \App\Enums\CustomerType::Individual)
+        ->where('type', CustomerType::Individual)
         ->get();
 
     expect($filteredAudience)->toHaveCount(3);

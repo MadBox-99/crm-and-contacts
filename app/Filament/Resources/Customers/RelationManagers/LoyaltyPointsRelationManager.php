@@ -11,11 +11,13 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 final class LoyaltyPointsRelationManager extends RelationManager
 {
     protected static string $relationship = 'loyaltyPointTransactions';
 
+    #[Override]
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('Point History');

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\CampaignConversion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CampaignConversion>
+ * @extends Factory<CampaignConversion>
  */
 final class CampaignConversionFactory extends Factory
 {

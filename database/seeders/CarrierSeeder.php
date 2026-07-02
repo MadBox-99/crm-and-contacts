@@ -27,10 +27,7 @@ final class CarrierSeeder extends Seeder
 
         Team::all()->each(function (Team $team) use ($carriers): void {
             foreach ($carriers as $name) {
-                Carrier::firstOrCreate(
-                    ['team_id' => $team->id, 'name' => $name],
-                    ['is_active' => true],
-                );
+                Carrier::query()->firstOrCreate(['team_id' => $team->id, 'name' => $name], ['is_active' => true]);
             }
         });
     }

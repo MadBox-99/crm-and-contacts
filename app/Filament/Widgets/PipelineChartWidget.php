@@ -6,6 +6,7 @@ namespace App\Filament\Widgets;
 
 use App\Services\SalesDashboardService;
 use Filament\Widgets\ChartWidget;
+use Override;
 
 final class PipelineChartWidget extends ChartWidget
 {
@@ -15,11 +16,13 @@ final class PipelineChartWidget extends ChartWidget
 
     protected ?string $pollingInterval = '30s';
 
+    #[Override]
     public function getHeading(): string
     {
         return __('Pipeline Overview');
     }
 
+    #[Override]
     protected function getData(): array
     {
         $service = resolve(SalesDashboardService::class);

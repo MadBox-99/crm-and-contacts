@@ -65,5 +65,5 @@ it('redirects guest to login page', function (): void {
 
     $page->assertPathIs('/app/login')
         ->assertSee('Sign in')
-        ->screenshot(filename: screenshotPath('navigation/guest-redirect'), fullPage: true);
+        ->screenshot(fullPage: true, filename: screenshotPath('navigation/guest-redirect'));
 });

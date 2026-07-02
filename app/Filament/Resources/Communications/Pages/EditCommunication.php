@@ -8,11 +8,13 @@ use App\Filament\Resources\Communications\CommunicationResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
+use Override;
 
 final class EditCommunication extends EditRecord
 {
     protected static string $resource = CommunicationResource::class;
 
+    #[Override]
     protected function getHeaderActions(): array
     {
         return [

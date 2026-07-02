@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Models\Team;
+use App\Models\User;
+use Madbox99\FilamentChatWidget\Http\Middleware\HandleChatWidgetCors;
+
 return [
 
     /*
@@ -16,7 +20,7 @@ return [
     | (single-tenant installation).
     |
     */
-    'tenant_model' => \App\Models\Team::class,
+    'tenant_model' => Team::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -63,7 +67,7 @@ return [
     | Defaults to the app's User model.
     |
     */
-    'agent_model' => \App\Models\User::class,
+    'agent_model' => User::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -84,7 +88,7 @@ return [
         | APIs consumed cross-origin, so session/CSRF middleware would
         | break them. Override only if you know what you're doing.
         */
-        'middleware' => [\Madbox99\FilamentChatWidget\Http\Middleware\HandleChatWidgetCors::class],
+        'middleware' => [HandleChatWidgetCors::class],
 
         'throttle' => [
             'config' => '60,1',

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d2eaee21533c4c680118abb8f4d01d51",
+    "content-hash": "37c6b9f51534786bcf3a4fadb8a83fa1",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -4366,16 +4366,16 @@
         },
         {
             "name": "madbox-99/filament-woocommerce",
-            "version": "v0.2.2",
+            "version": "v0.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MadBox-99/filament-woocommerce.git",
-                "reference": "9a1a6add95f602b825a7839755fe8e80ac5287bd"
+                "reference": "1e3476fa495853945a8c8737b950186c5df50c40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MadBox-99/filament-woocommerce/zipball/9a1a6add95f602b825a7839755fe8e80ac5287bd",
-                "reference": "9a1a6add95f602b825a7839755fe8e80ac5287bd",
+                "url": "https://api.github.com/repos/MadBox-99/filament-woocommerce/zipball/1e3476fa495853945a8c8737b950186c5df50c40",
+                "reference": "1e3476fa495853945a8c8737b950186c5df50c40",
                 "shasum": ""
             },
             "require": {
@@ -4427,9 +4427,9 @@
             ],
             "support": {
                 "issues": "https://github.com/MadBox-99/filament-woocommerce/issues",
-                "source": "https://github.com/MadBox-99/filament-woocommerce/tree/v0.2.2"
+                "source": "https://github.com/MadBox-99/filament-woocommerce/tree/v0.2.4"
             },
-            "time": "2026-04-23T12:21:10+00:00"
+            "time": "2026-07-02T13:58:24+00:00"
         },
         {
             "name": "madbox-99/laravel-locale-switcher",

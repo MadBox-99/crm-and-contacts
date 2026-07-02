@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Actions\CanSelectWooStoreTenant;
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductCategory;
+use App\Models\Team;
 use Madbox99\FilamentWooCommerce\Sync\CategorySyncer;
 use Madbox99\FilamentWooCommerce\Sync\CustomerSyncer;
 use Madbox99\FilamentWooCommerce\Sync\OrderSyncer;
@@ -24,7 +30,7 @@ return [
     'mappings' => [
         'products' => [
             'enabled' => true,
-            'model' => App\Models\Product::class,
+            'model' => Product::class,
             'syncer' => ProductSyncer::class,
             'field_map' => [
                 'name' => 'name',
@@ -36,7 +42,7 @@ return [
 
         'product_categories' => [
             'enabled' => true,
-            'model' => App\Models\ProductCategory::class,
+            'model' => ProductCategory::class,
             'syncer' => CategorySyncer::class,
             'field_map' => [
                 'name' => 'name',
@@ -46,7 +52,7 @@ return [
 
         'customers' => [
             'enabled' => true,
-            'model' => App\Models\Customer::class,
+            'model' => Customer::class,
             'syncer' => CustomerSyncer::class,
             'field_map' => [
                 'full_name' => 'name',
@@ -57,7 +63,7 @@ return [
 
         'orders' => [
             'enabled' => true,
-            'model' => App\Models\Order::class,
+            'model' => Order::class,
             'syncer' => OrderSyncer::class,
             'field_map' => [
                 'number' => 'order_number',
@@ -94,9 +100,10 @@ return [
 
     'tenant' => [
         'column' => env('WOO_TENANT_COLUMN', 'team_id'),
-        'model' => App\Models\Team::class,
+        'model' => Team::class,
         'label_column' => 'name',
         'bypass_global_scopes' => true,
+        'allow_selection' => CanSelectWooStoreTenant::class,
     ],
 
     /*

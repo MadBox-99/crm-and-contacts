@@ -13,6 +13,7 @@ enum InteractionType: string implements HasLabel
     case Email = 'email';
     case Meeting = 'meeting';
     case Note = 'note';
+    case FormSubmission = 'form_submission';
 
     public function getLabel(): string|Htmlable|null
     {
@@ -21,6 +22,7 @@ enum InteractionType: string implements HasLabel
             self::Email => __('Email'),
             self::Meeting => __('Meeting'),
             self::Note => __('Note'),
+            self::FormSubmission => __('Form submission'),
         };
     }
 }

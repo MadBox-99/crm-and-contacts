@@ -8,6 +8,9 @@ use App\Enums\NavigationGroup;
 use App\Filament\Widgets\CampaignRoiWidget;
 use App\Filament\Widgets\ComplaintChartWidget;
 use App\Filament\Widgets\ComplaintStatsWidget;
+use App\Filament\Widgets\FormSubmissionsByFormWidget;
+use App\Filament\Widgets\FormSubmissionStatsWidget;
+use App\Filament\Widgets\FormSubmissionTrendWidget;
 use App\Filament\Widgets\PipelineChartWidget;
 use App\Filament\Widgets\SalesKpiWidget;
 use App\Filament\Widgets\SalesTrendWidget;
@@ -58,6 +61,9 @@ final class SalesReports extends Page
             ComplaintStatsWidget::class,
             ComplaintChartWidget::class,
             TopCustomersWidget::class,
+            FormSubmissionStatsWidget::class,
+            FormSubmissionTrendWidget::class,
+            FormSubmissionsByFormWidget::class,
         ];
     }
 }

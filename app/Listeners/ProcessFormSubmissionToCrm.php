@@ -90,7 +90,7 @@ final class ProcessFormSubmissionToCrm implements ShouldQueue
     private function createOpportunity(int $teamId, Customer $customer, RegistrationForm $form, FormSubmission $submission, SubmissionData $data, ?FormCrmSetting $settings): void
     {
         $stage = $settings?->opportunity_stage !== null
-            ? OpportunityStage::from($settings->opportunity_stage)
+            ? (OpportunityStage::tryFrom($settings->opportunity_stage) ?? OpportunityStage::Lead)
             : OpportunityStage::Lead;
 
         Opportunity::query()->create([

@@ -75,6 +75,7 @@ return [
         'role_driver' => 'spatie',
         'default_role' => 'subscriber',
         'default_active' => false,
+        'inactive_redirect_url' => null, // in-app 403+logout instead of cross-domain redirect
     ],
 
     /*

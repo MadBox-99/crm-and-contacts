@@ -29,7 +29,7 @@ beforeEach(function (): void {
     $this->team = Team::factory()->create();
     $this->user = User::factory()->create();
     $this->user->teams()->attach($this->team);
-    $this->customer = Customer::factory()->for($this->team)->create();
+    $this->customer = Customer::factory()->for($this->team)->create(['is_active' => true]);
 });
 
 it('notifies about expiring quotes', function (): void {

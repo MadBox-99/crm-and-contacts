@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Enums\InteractionType;
 use App\Enums\OpportunityStage;
 use App\Listeners\ProcessFormSubmissionToCrm;
+use App\Mail\NewFormSubmissionMail;
 use App\Models\Campaign;
 use App\Models\Customer;
 use App\Models\FormCrmSetting;
@@ -12,6 +13,7 @@ use App\Models\Interaction;
 use App\Models\LeadScore;
 use App\Models\Opportunity;
 use App\Models\Team;
+use Illuminate\Support\Facades\Mail;
 use Madbox99\FilamentFormBuilder\Events\FormSubmissionProcessed;
 use Madbox99\FilamentFormBuilder\Models\FormSubmission;
 use Madbox99\FilamentFormBuilder\Models\RegistrationForm;
@@ -148,4 +150,34 @@ it('recalculates the lead score for the customer', function (): void {
 
     $customer = Customer::query()->where('email', 'anna@example.com')->first();
     expect(LeadScore::query()->where('team_id', $team->id)->where('customer_id', $customer->id)->exists())->toBeTrue();
+});
+
+it('sends a notification to the configured emails', function (): void {
+    Mail::fake();
+    $team = Team::factory()->create();
+    $form = leadForm($team);
+
+    fireSubmission($form, $team, ['name' => 'Anna', 'email' => 'anna@example.com'], new SubmissionActions(notifyEmails: ['sales@acme.hu']));
+
+    Mail::assertQueued(NewFormSubmissionMail::class, fn (NewFormSubmissionMail $mail): bool => $mail->hasTo('sales@acme.hu'));
+});
+
+it('does not send a notification when no emails are configured', function (): void {
+    Mail::fake();
+    $team = Team::factory()->create();
+    $form = leadForm($team);
+
+    fireSubmission($form, $team, ['name' => 'Anna', 'email' => 'anna@example.com']);
+
+    Mail::assertNothingSent();
+});
+
+it('still notifies when there is no email but notifyEmails are set', function (): void {
+    Mail::fake();
+    $team = Team::factory()->create();
+    $form = leadForm($team);
+
+    fireSubmission($form, $team, ['name' => 'No Email'], new SubmissionActions(notifyEmails: ['sales@acme.hu']));
+
+    Mail::assertQueued(NewFormSubmissionMail::class);
 });

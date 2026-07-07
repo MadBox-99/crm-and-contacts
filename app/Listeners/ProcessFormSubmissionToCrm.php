@@ -6,6 +6,7 @@ namespace App\Listeners;
 
 use App\Enums\InteractionType;
 use App\Enums\OpportunityStage;
+use App\Mail\NewFormSubmissionMail;
 use App\Models\Campaign;
 use App\Models\Customer;
 use App\Models\FormCrmSetting;
@@ -17,9 +18,11 @@ use App\Services\SubmissionData;
 use App\Services\SubmissionFieldMapper;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Madbox99\FilamentFormBuilder\Events\FormSubmissionProcessed;
 use Madbox99\FilamentFormBuilder\Models\FormSubmission;
 use Madbox99\FilamentFormBuilder\Models\RegistrationForm;
+use Madbox99\FilamentFormBuilder\ValueObjects\SubmissionActions;
 
 final class ProcessFormSubmissionToCrm implements ShouldQueue
 {
@@ -41,6 +44,8 @@ final class ProcessFormSubmissionToCrm implements ShouldQueue
         $mapped = app(SubmissionFieldMapper::class)->map($form, $event->formData, $settings);
 
         if ($submission === null || $teamId === null || ! $mapped->hasEmail() || ! $actions->createLeadIfHasEmail) {
+            $this->notify($actions, $form, $submission, $mapped, null);
+
             return;
         }
 
@@ -61,6 +66,8 @@ final class ProcessFormSubmissionToCrm implements ShouldQueue
         if (($settings?->enable_scoring ?? true) && ($team = Team::query()->find($teamId)) instanceof Team) {
             app(LeadScoringService::class)->calculateForCustomer($customer, $team);
         }
+
+        $this->notify($actions, $form, $submission, $mapped, $customer);
     }
 
     private function resolveCustomer(int $teamId, SubmissionData $data): Customer
@@ -151,5 +158,14 @@ final class ProcessFormSubmissionToCrm implements ShouldQueue
         }
 
         return $description;
+    }
+
+    private function notify(SubmissionActions $actions, RegistrationForm $form, ?FormSubmission $submission, SubmissionData $data, ?Customer $customer): void
+    {
+        if ($actions->notifyEmails === [] || $submission === null) {
+            return;
+        }
+
+        Mail::to($actions->notifyEmails)->send(new NewFormSubmissionMail($form, $submission, $data, $customer));
     }
 }

@@ -6,27 +6,27 @@ namespace App\Models;
 
 use App\Models\Concerns\BelongsToTeam;
 use Database\Factories\QuoteTemplateFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Override;
 
+#[Fillable([
+    'team_id',
+    'name',
+    'body',
+    'is_default',
+    'is_active',
+    'created_by',
+])]
 final class QuoteTemplate extends Model
 {
     use BelongsToTeam;
 
     /** @use HasFactory<QuoteTemplateFactory> */
     use HasFactory;
-
-    protected $fillable = [
-        'team_id',
-        'name',
-        'body',
-        'is_default',
-        'is_active',
-        'created_by',
-    ];
 
     public function createdBy(): BelongsTo
     {

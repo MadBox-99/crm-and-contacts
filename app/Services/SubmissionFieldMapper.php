@@ -76,13 +76,23 @@ final class SubmissionFieldMapper
         $lines = [];
 
         foreach ($blueprints as $blueprint) {
-            if (in_array($blueprint->key, self::UTM_KEYS, true) || $blueprint->key === 'referrer') {
+            if (in_array($blueprint->key, self::UTM_KEYS, true)) {
                 continue;
             }
+
+            if ($blueprint->key === 'referrer') {
+                continue;
+            }
+
             $value = $this->stringValue($data[$blueprint->key] ?? null);
-            if ($value === null || $value === '') {
+            if ($value === null) {
                 continue;
             }
+
+            if ($value === '') {
+                continue;
+            }
+
             $lines[] = $blueprint->label.': '.$value;
         }
 
@@ -110,6 +120,7 @@ final class SubmissionFieldMapper
         if (is_array($value)) {
             return implode(', ', array_map(static fn (mixed $v): string => is_scalar($v) ? (string) $v : '', $value));
         }
+
         if (is_scalar($value)) {
             $trimmed = mb_trim((string) $value);
 
@@ -124,6 +135,7 @@ final class SubmissionFieldMapper
         if ($email === null) {
             return null;
         }
+
         $normalised = mb_strtolower(mb_trim($email));
 
         return $normalised === '' ? null : $normalised;

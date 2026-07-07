@@ -16,7 +16,7 @@ it('aggregates submission stats scoped to the team', function (): void {
     FormSubmission::factory()->create(['registration_form_id' => $form->id, 'team_id' => $team->id, 'lead_id' => 999]);
     FormSubmission::factory()->create(['registration_form_id' => $form->id, 'team_id' => $other->id]);
 
-    $stats = (new FormSubmissionMetricsService())->stats($team->id);
+    $stats = new FormSubmissionMetricsService()->stats($team->id);
 
     expect($stats['total'])->toBe(4)
         ->and($stats['converted'])->toBe(1)
@@ -30,7 +30,7 @@ it('builds a per-form breakdown', function (): void {
     FormSubmission::factory()->count(2)->create(['registration_form_id' => $formA->id, 'team_id' => $team->id]);
     FormSubmission::factory()->create(['registration_form_id' => $formB->id, 'team_id' => $team->id]);
 
-    $byForm = (new FormSubmissionMetricsService())->byForm($team->id);
+    $byForm = new FormSubmissionMetricsService()->byForm($team->id);
 
     expect($byForm['labels'])->toContain('Alpha', 'Beta')
         ->and(array_sum($byForm['values']))->toBe(3);

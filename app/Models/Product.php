@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToTeam;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,23 +14,22 @@ use Illuminate\Support\Str;
 use Madbox99\FilamentWooCommerce\Concerns\HasWooMapping;
 use Override;
 
+#[Fillable([
+    'team_id',
+    'name',
+    'sku',
+    'description',
+    'category_id',
+    'unit_price',
+    'tax_rate',
+    'is_active',
+])]
 final class Product extends Model
 {
     use BelongsToTeam;
     use HasFactory;
     use HasWooMapping;
     use SoftDeletes;
-
-    protected $fillable = [
-        'team_id',
-        'name',
-        'sku',
-        'description',
-        'category_id',
-        'unit_price',
-        'tax_rate',
-        'is_active',
-    ];
 
     public function category(): BelongsTo
     {

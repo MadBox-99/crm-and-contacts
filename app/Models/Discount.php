@@ -8,12 +8,28 @@ use App\Enums\DiscountType;
 use App\Enums\DiscountValueType;
 use App\Models\Concerns\BelongsToTeam;
 use Database\Factories\DiscountFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Override;
 
+#[Fillable([
+    'team_id',
+    'name',
+    'type',
+    'value_type',
+    'value',
+    'min_quantity',
+    'min_value',
+    'valid_from',
+    'valid_until',
+    'customer_id',
+    'product_id',
+    'is_active',
+    'description',
+])]
 final class Discount extends Model
 {
     use BelongsToTeam;
@@ -22,22 +38,6 @@ final class Discount extends Model
     use HasFactory;
 
     use SoftDeletes;
-
-    protected $fillable = [
-        'team_id',
-        'name',
-        'type',
-        'value_type',
-        'value',
-        'min_quantity',
-        'min_value',
-        'valid_from',
-        'valid_until',
-        'customer_id',
-        'product_id',
-        'is_active',
-        'description',
-    ];
 
     public function customer(): BelongsTo
     {

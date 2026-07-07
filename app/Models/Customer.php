@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\CustomerType;
 use App\Models\Concerns\BelongsToTeam;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,6 +18,24 @@ use Override;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+#[Fillable([
+    'team_id',
+    'unique_identifier',
+    'name',
+    'type',
+    'tax_number',
+    'eu_tax_number',
+    'industry',
+    'website',
+    'registration_number',
+    'email',
+    'phone',
+    'notes',
+    'custom_fields',
+    'is_active',
+    'loyalty_points',
+    'loyalty_level_id',
+])]
 final class Customer extends Model
 {
     use BelongsToTeam;
@@ -24,25 +43,6 @@ final class Customer extends Model
     use HasWooMapping;
     use LogsActivity;
     use SoftDeletes;
-
-    protected $fillable = [
-        'team_id',
-        'unique_identifier',
-        'name',
-        'type',
-        'tax_number',
-        'eu_tax_number',
-        'industry',
-        'website',
-        'registration_number',
-        'email',
-        'phone',
-        'notes',
-        'custom_fields',
-        'is_active',
-        'loyalty_points',
-        'loyalty_level_id',
-    ];
 
     public function contacts(): HasMany
     {

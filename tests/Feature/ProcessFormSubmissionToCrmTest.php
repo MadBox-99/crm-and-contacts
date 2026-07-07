@@ -43,7 +43,7 @@ function fireSubmission(RegistrationForm $form, Team $team, array $data, ?Submis
         'data' => $data,
     ]);
 
-    app(ProcessFormSubmissionToCrm::class)->handle(new FormSubmissionProcessed(
+    resolve(ProcessFormSubmissionToCrm::class)->handle(new FormSubmissionProcessed(
         $form,
         $submission,
         $data,
@@ -187,14 +187,14 @@ it('still notifies when the event has no persisted submission at all', function 
     $team = Team::factory()->create();
     $form = leadForm($team);
 
-    app(ProcessFormSubmissionToCrm::class)->handle(new FormSubmissionProcessed(
+    resolve(ProcessFormSubmissionToCrm::class)->handle(new FormSubmissionProcessed(
         $form,
         null,
         ['name' => 'Anna', 'email' => 'anna@example.com'],
         new SubmissionActions(createSubmission: false, notifyEmails: ['x@y.hu']),
     ));
 
-    Mail::assertQueued(NewFormSubmissionMail::class, fn (NewFormSubmissionMail $mail): bool => $mail->hasTo('x@y.hu') && $mail->submission === null);
+    Mail::assertQueued(NewFormSubmissionMail::class, fn (NewFormSubmissionMail $mail): bool => $mail->hasTo('x@y.hu') && ! $mail->submission instanceof FormSubmission);
 });
 
 it('dedupes the customer even when it already exists before the submission arrives', function (): void {
@@ -216,12 +216,7 @@ it('creates the customer via the real dispatched event, proving auto-discovery w
         'data' => ['name' => 'Anna', 'email' => 'anna@example.com'],
     ]);
 
-    FormSubmissionProcessed::dispatch(
-        $form,
-        $submission,
-        ['name' => 'Anna', 'email' => 'anna@example.com'],
-        new SubmissionActions(),
-    );
+    event(new FormSubmissionProcessed($form, $submission, ['name' => 'Anna', 'email' => 'anna@example.com'], new SubmissionActions()));
 
     expect(Customer::query()->where('team_id', $team->id)->where('email', 'anna@example.com')->count())->toBe(1);
 });

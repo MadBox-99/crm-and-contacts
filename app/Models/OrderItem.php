@@ -5,27 +5,27 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToTeam;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Override;
 
+#[Fillable([
+    'team_id',
+    'order_id',
+    'product_id',
+    'description',
+    'quantity',
+    'unit_price',
+    'discount_amount',
+    'tax_rate',
+    'total',
+])]
 final class OrderItem extends Model
 {
     use BelongsToTeam;
     use HasFactory;
-
-    protected $fillable = [
-        'team_id',
-        'order_id',
-        'product_id',
-        'description',
-        'quantity',
-        'unit_price',
-        'discount_amount',
-        'tax_rate',
-        'total',
-    ];
 
     public function order(): BelongsTo
     {

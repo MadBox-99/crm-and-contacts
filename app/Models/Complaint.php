@@ -9,38 +9,38 @@ use App\Enums\ComplaintStatus;
 use App\Enums\ComplaintType;
 use App\Models\Concerns\BelongsToTeam;
 use Database\Factories\ComplaintFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Override;
 
+#[Fillable([
+    'team_id',
+    'customer_id',
+    'order_id',
+    'reported_by',
+    'assigned_to',
+    'complaint_number',
+    'type',
+    'subject',
+    'title',
+    'description',
+    'severity',
+    'status',
+    'resolution',
+    'reported_at',
+    'resolved_at',
+    'sla_deadline_at',
+    'escalation_level',
+])]
 final class Complaint extends Model
 {
     use BelongsToTeam;
 
     /** @use HasFactory<ComplaintFactory> */
     use HasFactory;
-
-    protected $fillable = [
-        'team_id',
-        'customer_id',
-        'order_id',
-        'reported_by',
-        'assigned_to',
-        'complaint_number',
-        'type',
-        'subject',
-        'title',
-        'description',
-        'severity',
-        'status',
-        'resolution',
-        'reported_at',
-        'resolved_at',
-        'sla_deadline_at',
-        'escalation_level',
-    ];
 
     public static function generateComplaintNumber(): string
     {

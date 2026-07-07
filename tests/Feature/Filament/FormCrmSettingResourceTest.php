@@ -55,7 +55,7 @@ it('creates a crm setting through the panel', function (): void {
     expect(FormCrmSetting::query()->where('registration_form_id', $this->form->id)->exists())->toBeTrue();
 });
 
-it('does not allow selecting another team\'s registration form', function (): void {
+it("does not allow selecting another team's registration form", function (): void {
     $otherTeam = Team::factory()->create();
     $otherTeamForm = RegistrationForm::factory()->create(['team_id' => $otherTeam->id]);
 

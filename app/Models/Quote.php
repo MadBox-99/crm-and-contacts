@@ -8,6 +8,7 @@ use App\Enums\QuoteStatus;
 use App\Models\Concerns\BelongsToTeam;
 use App\Observers\QuoteObserver;
 use Database\Factories\QuoteFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Override;
 
 #[ObservedBy(QuoteObserver::class)]
+#[Fillable([
+    'team_id',
+    'customer_id',
+    'opportunity_id',
+    'quote_number',
+    'issue_date',
+    'valid_until',
+    'status',
+    'subtotal',
+    'discount_amount',
+    'tax_amount',
+    'total',
+    'notes',
+    'view_token',
+    'sent_at',
+    'viewed_at',
+])]
 final class Quote extends Model
 {
     use BelongsToTeam;
@@ -25,24 +43,6 @@ final class Quote extends Model
     use HasFactory;
 
     use SoftDeletes;
-
-    protected $fillable = [
-        'team_id',
-        'customer_id',
-        'opportunity_id',
-        'quote_number',
-        'issue_date',
-        'valid_until',
-        'status',
-        'subtotal',
-        'discount_amount',
-        'tax_amount',
-        'total',
-        'notes',
-        'view_token',
-        'sent_at',
-        'viewed_at',
-    ];
 
     public function customer(): BelongsTo
     {

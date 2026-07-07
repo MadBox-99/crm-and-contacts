@@ -8,6 +8,7 @@ use App\Enums\DiscountValueType;
 use App\Enums\PriceRuleType;
 use App\Models\Concerns\BelongsToTeam;
 use Database\Factories\PriceRuleFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Date;
 use Override;
 
+#[Fillable([
+    'team_id',
+    'name',
+    'rule_type',
+    'conditions',
+    'discount_type',
+    'discount_value',
+    'priority',
+    'combinable',
+    'is_active',
+    'customer_id',
+    'product_id',
+    'description',
+])]
 final class PriceRule extends Model
 {
     use BelongsToTeam;
@@ -23,21 +38,6 @@ final class PriceRule extends Model
     use HasFactory;
 
     use SoftDeletes;
-
-    protected $fillable = [
-        'team_id',
-        'name',
-        'rule_type',
-        'conditions',
-        'discount_type',
-        'discount_value',
-        'priority',
-        'combinable',
-        'is_active',
-        'customer_id',
-        'product_id',
-        'description',
-    ];
 
     public function customer(): BelongsTo
     {

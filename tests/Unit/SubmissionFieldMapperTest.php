@@ -27,7 +27,7 @@ it('maps by field type heuristically', function (): void {
 
     $data = ['full_name' => 'Kiss Anna', 'email' => 'ANNA@Example.com', 'tel' => '+36 30 111 2222', 'msg' => 'Hello'];
 
-    $mapped = (new SubmissionFieldMapper())->map($form, $data);
+    $mapped = new SubmissionFieldMapper()->map($form, $data);
 
     expect($mapped->email)->toBe('anna@example.com')
         ->and($mapped->name)->toBe('Kiss Anna')
@@ -42,7 +42,7 @@ it('falls back to key patterns when no typed field exists', function (): void {
         field(FormFieldBlueprint::TYPE_TEXT, 'telefon', 'Telefon'),
     ]);
 
-    $mapped = (new SubmissionFieldMapper())->map($form, ['e_mail' => 'x@y.hu', 'telefon' => '123']);
+    $mapped = new SubmissionFieldMapper()->map($form, ['e_mail' => 'x@y.hu', 'telefon' => '123']);
 
     expect($mapped->email)->toBe('x@y.hu')
         ->and($mapped->phone)->toBe('123');
@@ -55,7 +55,7 @@ it('honours explicit field_map overrides', function (): void {
     ]);
     $settings = new FormCrmSetting(['field_map' => ['name' => 'contact']]);
 
-    $mapped = (new SubmissionFieldMapper())->map($form, ['email' => 'a@b.hu', 'contact' => 'Nagy Béla'], $settings);
+    $mapped = new SubmissionFieldMapper()->map($form, ['email' => 'a@b.hu', 'contact' => 'Nagy Béla'], $settings);
 
     expect($mapped->name)->toBe('Nagy Béla');
 });
@@ -63,7 +63,7 @@ it('honours explicit field_map overrides', function (): void {
 it('extracts utm and returns null email when absent', function (): void {
     $form = formWithFields([field(FormFieldBlueprint::TYPE_TEXT, 'name', 'Name')]);
 
-    $mapped = (new SubmissionFieldMapper())->map($form, [
+    $mapped = new SubmissionFieldMapper()->map($form, [
         'name' => 'X', 'utm_source' => 'google', 'utm_campaign' => 'summer', 'referrer' => 'https://g.com',
     ]);
 

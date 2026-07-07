@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\ShipmentStatus;
 use App\Models\Concerns\BelongsToTeam;
 use Database\Factories\ShipmentFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Override;
 
+#[Fillable([
+    'team_id',
+    'customer_id',
+    'order_id',
+    'external_customer_id',
+    'external_order_id',
+    'shipment_number',
+    'carrier',
+    'tracking_number',
+    'status',
+    'shipping_address',
+    'shipped_at',
+    'estimated_delivery_at',
+    'delivered_at',
+    'notes',
+    'documents',
+])]
 final class Shipment extends Model
 {
     use BelongsToTeam;
@@ -22,24 +40,6 @@ final class Shipment extends Model
     use HasFactory;
 
     use SoftDeletes;
-
-    protected $fillable = [
-        'team_id',
-        'customer_id',
-        'order_id',
-        'external_customer_id',
-        'external_order_id',
-        'shipment_number',
-        'carrier',
-        'tracking_number',
-        'status',
-        'shipping_address',
-        'shipped_at',
-        'estimated_delivery_at',
-        'delivered_at',
-        'notes',
-        'documents',
-    ];
 
     public static function generateShipmentNumber(): string
     {

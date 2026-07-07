@@ -7,32 +7,32 @@ namespace App\Models;
 use App\Enums\ChatSessionStatus;
 use App\Models\Concerns\BelongsToTeam;
 use Database\Factories\ChatSessionFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Override;
 
+#[Fillable([
+    'team_id',
+    'customer_id',
+    'user_id',
+    'started_at',
+    'ended_at',
+    'status',
+    'last_message_at',
+    'unread_count',
+    'priority',
+    'rating',
+    'notes',
+])]
 final class ChatSession extends Model
 {
     use BelongsToTeam;
 
     /** @use HasFactory<ChatSessionFactory> */
     use HasFactory;
-
-    protected $fillable = [
-        'team_id',
-        'customer_id',
-        'user_id',
-        'started_at',
-        'ended_at',
-        'status',
-        'last_message_at',
-        'unread_count',
-        'priority',
-        'rating',
-        'notes',
-    ];
 
     public function customer(): BelongsTo
     {

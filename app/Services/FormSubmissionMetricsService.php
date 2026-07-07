@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use Madbox99\FilamentFormBuilder\Models\FormSubmission;
 
 final class FormSubmissionMetricsService
@@ -17,8 +17,8 @@ final class FormSubmissionMetricsService
         $base = FormSubmission::query()->where('team_id', $teamId);
 
         $total = (clone $base)->count();
-        $today = (clone $base)->whereDate('created_at', Carbon::today())->count();
-        $week = (clone $base)->where('created_at', '>=', Carbon::now()->subDays(7))->count();
+        $today = (clone $base)->whereDate('created_at', Date::today())->count();
+        $week = (clone $base)->where('created_at', '>=', Date::now()->subDays(7))->count();
         $converted = (clone $base)->whereNotNull('lead_id')->count();
 
         return [
@@ -35,7 +35,7 @@ final class FormSubmissionMetricsService
      */
     public function dailyTrend(int $teamId, int $days = 30): array
     {
-        $start = Carbon::today()->subDays($days - 1);
+        $start = Date::today()->subDays($days - 1);
 
         $counts = FormSubmission::query()
             ->where('team_id', $teamId)

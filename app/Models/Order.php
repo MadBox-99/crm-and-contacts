@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\OrderStatus;
 use App\Models\Concerns\BelongsToTeam;
 use App\Observers\OrderObserver;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,28 +18,27 @@ use Madbox99\FilamentWooCommerce\Concerns\HasWooMapping;
 use Override;
 
 #[ObservedBy(OrderObserver::class)]
+#[Fillable([
+    'team_id',
+    'customer_id',
+    'quote_id',
+    'order_number',
+    'order_date',
+    'status',
+    'subtotal',
+    'discount_amount',
+    'tax_amount',
+    'total',
+    'notes',
+    'shipping_address_id',
+    'billing_address_id',
+])]
 final class Order extends Model
 {
     use BelongsToTeam;
     use HasFactory;
     use HasWooMapping;
     use SoftDeletes;
-
-    protected $fillable = [
-        'team_id',
-        'customer_id',
-        'quote_id',
-        'order_number',
-        'order_date',
-        'status',
-        'subtotal',
-        'discount_amount',
-        'tax_amount',
-        'total',
-        'notes',
-        'shipping_address_id',
-        'billing_address_id',
-    ];
 
     public function customer(): BelongsTo
     {

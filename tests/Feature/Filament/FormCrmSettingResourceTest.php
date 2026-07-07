@@ -55,6 +55,23 @@ it('creates a crm setting through the panel', function (): void {
     expect(FormCrmSetting::query()->where('registration_form_id', $this->form->id)->exists())->toBeTrue();
 });
 
+it('does not allow selecting another team\'s registration form', function (): void {
+    $otherTeam = Team::factory()->create();
+    $otherTeamForm = RegistrationForm::factory()->create(['team_id' => $otherTeam->id]);
+
+    livewire(CreateFormCrmSetting::class)
+        ->fillForm([
+            'registration_form_id' => $otherTeamForm->id,
+            'create_opportunity' => true,
+            'opportunity_stage' => 'lead',
+            'enable_scoring' => true,
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['registration_form_id']);
+
+    expect(FormCrmSetting::query()->where('registration_form_id', $otherTeamForm->id)->doesntExist())->toBeTrue();
+});
+
 it('validates required fields on create', function (): void {
     livewire(CreateFormCrmSetting::class)
         ->fillForm([

@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Filament\Resources\FormCrmSettings\Schemas;
 
 use App\Enums\OpportunityStage;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 
 final class FormCrmSettingForm
 {
@@ -17,7 +19,11 @@ final class FormCrmSettingForm
         return $schema->components([
             Select::make('registration_form_id')
                 ->label(__('Form'))
-                ->relationship('registrationForm', 'name')
+                ->relationship(
+                    'registrationForm',
+                    'name',
+                    modifyQueryUsing: fn (Builder $query): Builder => $query->where('team_id', Filament::getTenant()?->getKey()),
+                )
                 ->required()
                 ->unique(ignoreRecord: true)
                 ->searchable(),

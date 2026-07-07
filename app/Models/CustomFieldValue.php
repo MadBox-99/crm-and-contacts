@@ -6,23 +6,23 @@ namespace App\Models;
 
 use App\Enums\CustomFieldType;
 use Database\Factories\CustomFieldValueFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Date;
 
+#[Fillable([
+    'custom_field_id',
+    'model_type',
+    'model_id',
+    'value',
+])]
 final class CustomFieldValue extends Model
 {
     /** @use HasFactory<CustomFieldValueFactory> */
     use HasFactory;
-
-    protected $fillable = [
-        'custom_field_id',
-        'model_type',
-        'model_id',
-        'value',
-    ];
 
     /**
      * @return BelongsTo<CustomField, $this>

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\EmailTemplateCategory;
 use App\Models\Concerns\BelongsToTeam;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,22 +15,21 @@ use Override;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+#[Fillable([
+    'team_id',
+    'name',
+    'subject',
+    'body',
+    'category',
+    'variables',
+    'is_active',
+    'created_by',
+])]
 final class EmailTemplate extends Model
 {
     use BelongsToTeam;
     use HasFactory;
     use LogsActivity;
-
-    protected $fillable = [
-        'team_id',
-        'name',
-        'subject',
-        'body',
-        'category',
-        'variables',
-        'is_active',
-        'created_by',
-    ];
 
     public function createdBy(): BelongsTo
     {

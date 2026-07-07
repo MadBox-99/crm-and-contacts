@@ -6,30 +6,30 @@ namespace App\Models;
 
 use App\Models\Concerns\BelongsToTeam;
 use Database\Factories\LeadScoreFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Override;
 
+#[Fillable([
+    'team_id',
+    'customer_id',
+    'score',
+    'interaction_score',
+    'recency_score',
+    'opportunity_score',
+    'engagement_score',
+    'assigned_to',
+    'assigned_at',
+    'last_calculated_at',
+])]
 final class LeadScore extends Model
 {
     use BelongsToTeam;
 
     /** @use HasFactory<LeadScoreFactory> */
     use HasFactory;
-
-    protected $fillable = [
-        'team_id',
-        'customer_id',
-        'score',
-        'interaction_score',
-        'recency_score',
-        'opportunity_score',
-        'engagement_score',
-        'assigned_to',
-        'assigned_at',
-        'last_calculated_at',
-    ];
 
     public function customer(): BelongsTo
     {

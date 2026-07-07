@@ -17,6 +17,7 @@ use App\Services\LeadScoringService;
 use App\Services\SubmissionData;
 use App\Services\SubmissionFieldMapper;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Madbox99\FilamentFormBuilder\Events\FormSubmissionProcessed;
@@ -24,11 +25,11 @@ use Madbox99\FilamentFormBuilder\Models\FormSubmission;
 use Madbox99\FilamentFormBuilder\Models\RegistrationForm;
 use Madbox99\FilamentFormBuilder\ValueObjects\SubmissionActions;
 
-final class ProcessFormSubmissionToCrm implements ShouldQueue
+final readonly class ProcessFormSubmissionToCrm implements ShouldQueue
 {
     public function __construct(
-        private readonly SubmissionFieldMapper $mapper,
-        private readonly LeadScoringService $scoring,
+        private SubmissionFieldMapper $mapper,
+        private LeadScoringService $scoring,
     ) {}
 
     public function handle(FormSubmissionProcessed $event): void
@@ -48,7 +49,7 @@ final class ProcessFormSubmissionToCrm implements ShouldQueue
 
         $mapped = $this->mapper->map($form, $event->formData, $settings);
 
-        if ($submission === null || $teamId === null || ! $mapped->hasEmail() || ! $actions->createLeadIfHasEmail) {
+        if (! $submission instanceof FormSubmission || $teamId === null || ! $mapped->hasEmail() || ! $actions->createLeadIfHasEmail) {
             $this->notify($actions, $form, $submission, $mapped, null);
 
             return;
@@ -91,7 +92,7 @@ final class ProcessFormSubmissionToCrm implements ShouldQueue
                     'phone' => $data->phone,
                     'is_active' => true,
                 ]);
-            } catch (\Illuminate\Database\QueryException $e) {
+            } catch (QueryException $e) {
                 $existing = Customer::query()->where('team_id', $teamId)->where('email', $data->email)->first();
                 if ($existing instanceof Customer) {
                     return $existing;

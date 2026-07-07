@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[Fillable([
+    'name',
+    'slug',
+    'is_active',
+])]
 final class Team extends Model
 {
     use HasFactory;
 
     public const string CONTAINER_BINDING = 'current_team';
-
-    protected $fillable = [
-        'name',
-        'slug',
-        'is_active',
-    ];
 
     public function users(): BelongsToMany
     {

@@ -5,26 +5,26 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToTeam;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Madbox99\FilamentFormBuilder\Models\RegistrationForm;
 use Override;
 
+#[Fillable([
+    'registration_form_id',
+    'team_id',
+    'field_map',
+    'create_opportunity',
+    'opportunity_stage',
+    'campaign_id',
+    'enable_scoring',
+])]
 final class FormCrmSetting extends Model
 {
     use BelongsToTeam;
     use HasFactory;
-
-    protected $fillable = [
-        'registration_form_id',
-        'team_id',
-        'field_map',
-        'create_opportunity',
-        'opportunity_stage',
-        'campaign_id',
-        'enable_scoring',
-    ];
 
     /**
      * @return BelongsTo<RegistrationForm, $this>

@@ -6,12 +6,24 @@ namespace App\Models;
 
 use App\Models\Concerns\BelongsToTeam;
 use Database\Factories\GoogleAdsReportFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Override;
 
+#[Fillable([
+    'team_id',
+    'campaign_id',
+    'report_date',
+    'metadata',
+    'keyword_data',
+    'historical_metrics',
+    'bulk_results',
+    'statistics',
+    'raw_data',
+])]
 final class GoogleAdsReport extends Model
 {
     use BelongsToTeam;
@@ -20,18 +32,6 @@ final class GoogleAdsReport extends Model
     use HasFactory;
 
     use SoftDeletes;
-
-    protected $fillable = [
-        'team_id',
-        'campaign_id',
-        'report_date',
-        'metadata',
-        'keyword_data',
-        'historical_metrics',
-        'bulk_results',
-        'statistics',
-        'raw_data',
-    ];
 
     public function campaign(): BelongsTo
     {

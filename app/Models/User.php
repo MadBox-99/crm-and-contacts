@@ -8,6 +8,8 @@ use App\Enums\Role;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -19,25 +21,23 @@ use Laravel\Sanctum\HasApiTokens;
 use Override;
 use Spatie\Permission\Traits\HasRoles;
 
+#[Fillable([
+    'name',
+    'email',
+    'password',
+    'is_online',
+    'last_seen_at',
+])]
+#[Hidden([
+    'password',
+    'remember_token',
+])]
 final class User extends Authenticatable implements FilamentUser, HasTenants
 {
     use HasApiTokens;
     use HasFactory;
     use HasRoles;
     use Notifiable;
-
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'is_online',
-        'last_seen_at',
-    ];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 
     public function teams(): BelongsToMany
     {

@@ -5,25 +5,25 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToTeam;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Override;
 
+#[Fillable([
+    'team_id',
+    'name',
+    'minimum_points',
+    'discount_percentage',
+    'color',
+    'sort_order',
+    'is_active',
+])]
 final class LoyaltyLevel extends Model
 {
     use BelongsToTeam;
     use HasFactory;
-
-    protected $fillable = [
-        'team_id',
-        'name',
-        'minimum_points',
-        'discount_percentage',
-        'color',
-        'sort_order',
-        'is_active',
-    ];
 
     public function customers(): HasMany
     {

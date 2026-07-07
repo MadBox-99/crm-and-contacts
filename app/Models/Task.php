@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Models\Concerns\BelongsToTeam;
 use App\Observers\TaskNotificationObserver;
 use Database\Factories\TaskFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,25 +15,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Override;
 
 #[ObservedBy(TaskNotificationObserver::class)]
+#[Fillable([
+    'team_id',
+    'customer_id',
+    'assigned_to',
+    'assigned_by',
+    'title',
+    'description',
+    'priority',
+    'status',
+    'due_date',
+    'completed_at',
+])]
 final class Task extends Model
 {
     use BelongsToTeam;
 
     /** @use HasFactory<TaskFactory> */
     use HasFactory;
-
-    protected $fillable = [
-        'team_id',
-        'customer_id',
-        'assigned_to',
-        'assigned_by',
-        'title',
-        'description',
-        'priority',
-        'status',
-        'due_date',
-        'completed_at',
-    ];
 
     public function customer(): BelongsTo
     {

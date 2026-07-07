@@ -8,6 +8,7 @@ use App\Enums\OpportunityStage;
 use App\Models\Concerns\BelongsToTeam;
 use App\Observers\OpportunityObserver;
 use Database\Factories\OpportunityFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,18 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 #[ObservedBy(OpportunityObserver::class)]
+#[Fillable([
+    'team_id',
+    'customer_id',
+    'campaign_id',
+    'title',
+    'description',
+    'value',
+    'probability',
+    'stage',
+    'expected_close_date',
+    'assigned_to',
+])]
 final class Opportunity extends Model
 {
     use BelongsToTeam;
@@ -28,19 +41,6 @@ final class Opportunity extends Model
 
     use LogsActivity;
     use SoftDeletes;
-
-    protected $fillable = [
-        'team_id',
-        'customer_id',
-        'campaign_id',
-        'title',
-        'description',
-        'value',
-        'probability',
-        'stage',
-        'expected_close_date',
-        'assigned_to',
-    ];
 
     public function customer(): BelongsTo
     {

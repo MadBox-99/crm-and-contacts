@@ -7,26 +7,26 @@ namespace App\Models;
 use App\Enums\CampaignResponseType;
 use App\Models\Concerns\BelongsToTeam;
 use Database\Factories\CampaignResponseFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Override;
 
+#[Fillable([
+    'team_id',
+    'campaign_id',
+    'customer_id',
+    'response_type',
+    'notes',
+    'responded_at',
+])]
 final class CampaignResponse extends Model
 {
     use BelongsToTeam;
 
     /** @use HasFactory<CampaignResponseFactory> */
     use HasFactory;
-
-    protected $fillable = [
-        'team_id',
-        'campaign_id',
-        'customer_id',
-        'response_type',
-        'notes',
-        'responded_at',
-    ];
 
     public function campaign(): BelongsTo
     {

@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\InvoiceStatus;
 use App\Models\Concerns\BelongsToTeam;
 use Database\Factories\InvoiceFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Override;
 
+#[Fillable([
+    'team_id',
+    'customer_id',
+    'order_id',
+    'invoice_number',
+    'issue_date',
+    'due_date',
+    'status',
+    'subtotal',
+    'discount_amount',
+    'tax_amount',
+    'total',
+    'notes',
+    'paid_at',
+    'files',
+])]
 final class Invoice extends Model
 {
     use BelongsToTeam;
@@ -22,23 +39,6 @@ final class Invoice extends Model
     use HasFactory;
 
     use SoftDeletes;
-
-    protected $fillable = [
-        'team_id',
-        'customer_id',
-        'order_id',
-        'invoice_number',
-        'issue_date',
-        'due_date',
-        'status',
-        'subtotal',
-        'discount_amount',
-        'tax_amount',
-        'total',
-        'notes',
-        'paid_at',
-        'files',
-    ];
 
     public function customer(): BelongsTo
     {

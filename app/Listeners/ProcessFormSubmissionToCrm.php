@@ -26,6 +26,11 @@ use Madbox99\FilamentFormBuilder\ValueObjects\SubmissionActions;
 
 final class ProcessFormSubmissionToCrm implements ShouldQueue
 {
+    public function __construct(
+        private readonly SubmissionFieldMapper $mapper,
+        private readonly LeadScoringService $scoring,
+    ) {}
+
     public function handle(FormSubmissionProcessed $event): void
     {
         $form = $event->form;
@@ -41,7 +46,7 @@ final class ProcessFormSubmissionToCrm implements ShouldQueue
                 ->first()
             : null;
 
-        $mapped = app(SubmissionFieldMapper::class)->map($form, $event->formData, $settings);
+        $mapped = $this->mapper->map($form, $event->formData, $settings);
 
         if ($submission === null || $teamId === null || ! $mapped->hasEmail() || ! $actions->createLeadIfHasEmail) {
             $this->notify($actions, $form, $submission, $mapped, null);
@@ -64,7 +69,7 @@ final class ProcessFormSubmissionToCrm implements ShouldQueue
         });
 
         if (($settings?->enable_scoring ?? true) && ($team = Team::query()->find($teamId)) instanceof Team) {
-            app(LeadScoringService::class)->calculateForCustomer($customer, $team);
+            $this->scoring->calculateForCustomer($customer, $team);
         }
 
         $this->notify($actions, $form, $submission, $mapped, $customer);

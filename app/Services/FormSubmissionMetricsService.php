@@ -35,16 +35,21 @@ final class FormSubmissionMetricsService
      */
     public function dailyTrend(int $teamId, int $days = 30): array
     {
+        $start = Carbon::today()->subDays($days - 1);
+
+        $counts = FormSubmission::query()
+            ->where('team_id', $teamId)
+            ->where('created_at', '>=', $start->copy()->startOfDay())
+            ->get(['created_at'])
+            ->groupBy(fn ($submission): string => $submission->created_at->format('Y-m-d'))
+            ->map->count();
+
         $labels = [];
         $values = [];
-
-        for ($i = $days - 1; $i >= 0; $i--) {
-            $date = Carbon::today()->subDays($i);
+        for ($i = 0; $i < $days; $i++) {
+            $date = $start->copy()->addDays($i);
             $labels[] = $date->format('m-d');
-            $values[] = FormSubmission::query()
-                ->where('team_id', $teamId)
-                ->whereDate('created_at', $date)
-                ->count();
+            $values[] = (int) ($counts[$date->format('Y-m-d')] ?? 0);
         }
 
         return ['labels' => $labels, 'values' => $values];

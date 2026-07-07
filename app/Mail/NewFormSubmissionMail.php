@@ -22,7 +22,7 @@ final class NewFormSubmissionMail extends Mailable implements ShouldQueue
 
     public function __construct(
         public RegistrationForm $form,
-        public FormSubmission $submission,
+        public ?FormSubmission $submission,
         public SubmissionData $data,
         public ?Customer $customer,
     ) {}

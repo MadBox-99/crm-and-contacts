@@ -83,17 +83,36 @@ final class ProcessFormSubmissionToCrm implements ShouldQueue
             ->first();
 
         if (! $customer instanceof Customer) {
-            return Customer::query()->create([
-                'team_id' => $teamId,
-                'email' => $data->email,
-                'name' => $data->companyName ?? $data->name ?? $data->email,
-                'phone' => $data->phone,
-                'is_active' => true,
-            ]);
+            try {
+                return Customer::query()->create([
+                    'team_id' => $teamId,
+                    'email' => $data->email,
+                    'name' => $data->companyName ?? $data->name ?? $data->email,
+                    'phone' => $data->phone,
+                    'is_active' => true,
+                ]);
+            } catch (\Illuminate\Database\QueryException $e) {
+                $existing = Customer::query()->where('team_id', $teamId)->where('email', $data->email)->first();
+                if ($existing instanceof Customer) {
+                    return $existing;
+                }
+
+                throw $e;
+            }
         }
 
+        $fill = [];
         if (($customer->phone === null || $customer->phone === '') && $data->phone !== null) {
-            $customer->update(['phone' => $data->phone]);
+            $fill['phone'] = $data->phone;
+        }
+
+        $mappedName = $data->companyName ?? $data->name;
+        if (($customer->name === null || $customer->name === '') && $mappedName !== null) {
+            $fill['name'] = $mappedName;
+        }
+
+        if ($fill !== []) {
+            $customer->update($fill);
         }
 
         return $customer;
@@ -167,7 +186,7 @@ final class ProcessFormSubmissionToCrm implements ShouldQueue
 
     private function notify(SubmissionActions $actions, RegistrationForm $form, ?FormSubmission $submission, SubmissionData $data, ?Customer $customer): void
     {
-        if ($actions->notifyEmails === [] || $submission === null) {
+        if ($actions->notifyEmails === []) {
             return;
         }
 

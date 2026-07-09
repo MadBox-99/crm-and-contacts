@@ -102,26 +102,45 @@ final class CustomerDeduplicator
     }
 
     /**
-     * Delete duplicate rows whose reassignment would violate a unique index
-     * because the survivor already owns a row with the same sibling key.
+     * Keep a single row per sibling-key across the merge group so the later
+     * reassignment cannot violate a unique index. The survivor's own rows are
+     * always preferred; any further row (from another duplicate) that repeats
+     * an already-seen key is deleted.
+     *
+     * Keys are materialised in PHP rather than via a correlated subquery
+     * because MySQL forbids referencing the delete target table in a subquery
+     * (error 1093), and this also catches duplicate-vs-duplicate collisions.
      *
      * @param  list<string>  $siblingColumns
      * @param  list<int>  $loserIds
      */
     private function removeConflictingRows(string $table, array $siblingColumns, int $survivorId, array $loserIds): void
     {
-        DB::table($table)
-            ->whereIn('customer_id', $loserIds)
-            ->whereExists(function ($query) use ($table, $siblingColumns, $survivorId): void {
-                $query->select(DB::raw(1))
-                    ->from($table.' as survivor')
-                    ->where('survivor.customer_id', $survivorId);
+        $rows = DB::table($table)
+            ->whereIn('customer_id', array_merge([$survivorId], $loserIds))
+            ->get(array_merge(['customer_id'], $siblingColumns))
+            ->sortByDesc(fn (object $row): int => (int) $row->customer_id === $survivorId ? 1 : 0)
+            ->values();
 
-                foreach ($siblingColumns as $column) {
-                    $query->whereColumn('survivor.'.$column, $table.'.'.$column);
-                }
-            })
-            ->delete();
+        $seen = [];
+
+        foreach ($rows as $row) {
+            $key = implode('|', array_map(static fn (string $column): string => (string) $row->{$column}, $siblingColumns));
+
+            if (! isset($seen[$key])) {
+                $seen[$key] = true;
+
+                continue;
+            }
+
+            $query = DB::table($table)->where('customer_id', $row->customer_id);
+
+            foreach ($siblingColumns as $column) {
+                $query->where($column, $row->{$column});
+            }
+
+            $query->delete();
+        }
     }
 
     /**

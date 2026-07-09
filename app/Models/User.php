@@ -27,6 +27,8 @@ use Spatie\Permission\Traits\HasRoles;
     'password',
     'is_online',
     'last_seen_at',
+    'is_active',
+    'email_verified_at',
 ])]
 #[Hidden([
     'password',

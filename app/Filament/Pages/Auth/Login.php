@@ -16,20 +16,6 @@ final class Login extends BasePage
     protected static string $layout = 'filament.layouts.auth';
 
     #[Override]
-    public function mount(): void
-    {
-        parent::mount();
-
-        if (app()->environment('local')) {
-            $this->form->fill([
-                'email' => 'admin@admin.com',
-                'password' => 'password',
-                'remember' => true,
-            ]);
-        }
-    }
-
-    #[Override]
     protected function getEmailFormComponent(): TextInput
     {
         return TextInput::make('email')

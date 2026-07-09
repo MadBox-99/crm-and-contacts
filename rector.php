@@ -9,6 +9,7 @@ use RectorLaravel\Set\LaravelSetProvider;
 
 return RectorConfig::configure()
     ->withSetProviders(LaravelSetProvider::class)
+    ->withPhpSets(php84: true)
     ->withSets([
         LaravelSetList::LARAVEL_130,
         LaravelSetList::LARAVEL_ARRAYACCESS_TO_METHOD_CALL,
@@ -43,5 +44,4 @@ return RectorConfig::configure()
         typeDeclarations: true,
         privatization: true,
         earlyReturn: true,
-    )
-    ->withPhpSets();
+    );

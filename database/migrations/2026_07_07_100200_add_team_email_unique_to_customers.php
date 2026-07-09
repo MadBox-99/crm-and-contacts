@@ -16,7 +16,7 @@ return new class extends Migration
     {
         // Merge pre-existing duplicate (team_id, email) customers so the
         // unique index below can be applied without a constraint violation.
-        app(CustomerDeduplicator::class)->deduplicate();
+        resolve(CustomerDeduplicator::class)->deduplicate();
 
         Schema::table('customers', function (Blueprint $table): void {
             $table->unique(['team_id', 'email'], 'customers_team_id_email_unique');

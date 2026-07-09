@@ -37,7 +37,7 @@ it('merges duplicate customers, keeping the oldest and reassigning children', fu
         ->for($user)
         ->create();
 
-    $merged = app(CustomerDeduplicator::class)->deduplicate();
+    $merged = resolve(CustomerDeduplicator::class)->deduplicate();
 
     expect($merged)->toBe(1)
         ->and(Customer::query()->where('email', 'dup@example.com')->count())->toBe(1)
@@ -58,7 +58,7 @@ it('resolves child unique-constraint collisions when merging', function (): void
     LeadScore::factory()->for($team)->for($survivor)->create();
     LeadScore::factory()->for($team)->for($duplicate)->create();
 
-    $merged = app(CustomerDeduplicator::class)->deduplicate();
+    $merged = resolve(CustomerDeduplicator::class)->deduplicate();
 
     expect($merged)->toBe(1)
         ->and(LeadScore::query()->where('customer_id', $survivor->id)->count())->toBe(1)
@@ -75,7 +75,7 @@ it('does not touch customers with distinct emails or null emails', function (): 
     Customer::factory()->for($team)->create(['email' => null]);
     Customer::factory()->for($team)->create(['email' => null]);
 
-    $merged = app(CustomerDeduplicator::class)->deduplicate();
+    $merged = resolve(CustomerDeduplicator::class)->deduplicate();
 
     expect($merged)->toBe(0)
         ->and(Customer::query()->count())->toBe(4);

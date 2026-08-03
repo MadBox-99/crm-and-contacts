@@ -18,5 +18,6 @@ test('to array', function (): void {
             'updated_at',
             'is_online',
             'last_seen_at',
+            'uuid',
         ]);
 });

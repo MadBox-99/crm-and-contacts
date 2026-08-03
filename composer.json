@@ -24,7 +24,7 @@
         "madbox-99/filament-spatie-permissions": "^2.1",
         "madbox-99/filament-woocommerce": "^0.2.4",
         "madbox-99/laravel-locale-switcher": "dev-main",
-        "madbox-99/laravel-user-team-sync": "dev-main",
+        "madbox-99/laravel-user-team-sync": "^1.12",
         "nunomaduro/essentials": "@dev",
         "spatie/laravel-activitylog": "^4.12.3",
         "spatie/laravel-permission": "^6.25.0",

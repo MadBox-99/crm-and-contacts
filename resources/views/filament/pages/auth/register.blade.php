@@ -19,9 +19,9 @@
 
         <p class="text-center text-xs text-gray-500">
             {{ __('By continuing, you agree to our') }}
-            <a href="#" class="underline" style="color: #EF4444 !important;">{{ __('Terms of Service') }}</a>
+            <a href="https://cegem360.eu/szolgaltatasi-feltetelek" target="_blank" rel="noopener noreferrer" class="underline" style="color: #EF4444 !important;">{{ __('Terms of Service') }}</a>
             {{ __('and') }}
-            <a href="#" class="underline" style="color: #EF4444 !important;">{{ __('Privacy Policy') }}</a>.
+            <a href="https://cegem360.eu/adatvedelmi-tajekoztato" target="_blank" rel="noopener noreferrer" class="underline" style="color: #EF4444 !important;">{{ __('Privacy Policy') }}</a>.
         </p>
 
         <p class="text-center text-sm text-gray-500 pt-2">

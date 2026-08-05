@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "63e78cc2744af263e9d92dde26936704",
+    "content-hash": "66c485ab3e460ca824b18a59e05e14ff",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -4487,16 +4487,16 @@
         },
         {
             "name": "madbox-99/laravel-user-team-sync",
-            "version": "v1.12.0",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MadBox-99/laravel-user-team-sync.git",
-                "reference": "da95828199b41010b296bc95bb699038045daddb"
+                "reference": "60c9add909dc76ad652966bf16cafa983e7e6f9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MadBox-99/laravel-user-team-sync/zipball/da95828199b41010b296bc95bb699038045daddb",
-                "reference": "da95828199b41010b296bc95bb699038045daddb",
+                "url": "https://api.github.com/repos/MadBox-99/laravel-user-team-sync/zipball/60c9add909dc76ad652966bf16cafa983e7e6f9a",
+                "reference": "60c9add909dc76ad652966bf16cafa983e7e6f9a",
                 "shasum": ""
             },
             "require": {
@@ -4545,9 +4545,9 @@
             ],
             "support": {
                 "issues": "https://github.com/MadBox-99/laravel-user-team-sync/issues",
-                "source": "https://github.com/MadBox-99/laravel-user-team-sync/tree/v1.12.0"
+                "source": "https://github.com/MadBox-99/laravel-user-team-sync/tree/v1.15.0"
             },
-            "time": "2026-08-03T10:30:41+00:00"
+            "time": "2026-08-05T09:47:22+00:00"
         },
         {
             "name": "masterminds/html5",
